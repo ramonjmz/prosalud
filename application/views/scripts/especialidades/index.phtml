@@ -1,0 +1,48 @@
+
+<div class="page-header">
+<h2>Listado de especialidades</h2>
+</div>
+<div class="subnav subnav-fixed">
+<ul class="nav nav-pills">
+	<li class=""><a href="/especialidades/add/">Agregar </a></li>
+</ul>
+</div>
+<table class="table table-striped">
+	<tr>
+		<td>Id</td>
+		<td>Descripcion</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+
+	<?php if( count( $this->paginator )) :?>
+
+	<?php foreach( $this->paginator as $dato) :?>
+
+	<tr>
+		<td><?php echo $dato->id;?></td>
+		<td><a href="/tests/list/id/<?php echo $dato->id; ?>"><?php echo $dato->name; ?></a></td>
+
+		<td align="center"><a class="btn btn-success"
+			href="/especialidades/update/id/<?php echo $dato->id ?>"><i
+			class="icon-pencil icon-white"></i></a></td>
+		<td align="center"><a class="btn btn-danger"
+			href="/especialidades/delete/id/<?php echo $dato->id ?>"><i
+			class="icon-trash icon-white"></i></a></td>
+	</tr>
+
+
+	<?php endforeach;?>
+	<?php else : ?>
+	<tr>
+		<td colspan="3">No hay datos</td>
+	</tr>
+
+	<?php endif;?>
+
+
+	<?php if( count( $this->paginator )):?>
+	<?php echo $this->paginator;?>
+	<?php endif;?>
+</table>
+
