@@ -81,11 +81,14 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
     {
     	$query = $this->select();
 
-    	if(count($where)){
-    		$query->where($wheres);
+    	if(count($wheres)){
+    		foreach ($wheres as $key => $value) {
+    			$query->where($key, $value);
+    		}
+    		
     	}
-    	
-    	return $this->fetchAll();
+
+    	return $this->fetchAll($query);
     }
  
 }

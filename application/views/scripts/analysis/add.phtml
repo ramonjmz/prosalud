@@ -21,7 +21,7 @@
           <div class="control-group">
             <label class="control-label" for="selectError">Seleccione el especialidad</label>
             <div class="controls">
-              <select id="selectError">
+              <select id="especialidad">
                 <option></option>
                 <?php foreach($this->especialidades as $especialidad){ ?>
                   <option value="<?php echo $especialidad->id; ?>"><?php echo $especialidad->name; ?></option>          
@@ -32,7 +32,54 @@
             <div class="control-group">
             <label class="control-label" for="selectError">Seleccione el estudio</label>
        		<div class="controls">
-            <input class="input-xlarge"  id="focusedInput" value="" type="text" >
+            <input class="input-xlarge"  id="estudio_name" value="" type="text" >
+            <script type="text/javascript">
+              window.customInitFunctions = window.customInitFunctions || [];
+              window.customInitFunctions.push(
+                function(){
+
+                  var cache = {},
+                  lastXhr;
+
+                  $('#estudio_name').autocomplete({
+                    minLength: 2,
+                    source: function( request, response ) {
+                      var term = request.term;
+                      if ( term in cache ) {
+                        response( cache[ term ] );
+                        return;
+                      }
+                      console.log(request);
+                      lastXhr = $.getJSON( "/tests/list-json", {
+                        specialty_id: $("#especialidad").val(),
+                        name__like : "%"+term + "%"
+                      }, function( data, status, xhr ) {
+                        cache[ term ] = data;
+                        if ( xhr === lastXhr ) {
+                          response( data.result );
+                        }
+                      });
+                    },
+                    focus: function( event, ui ) {
+                      $( "#estudio_name" ).val( ui.item.name );
+                      return false;
+                    },
+                    select: function( event, ui ) {
+                      $( "#estudio_name" ).val( ui.item.name );
+                      console.log(ui.item.id);
+                      return false;
+                    }
+                  })
+                  .data( "autocomplete" )._renderItem = function( ul, item ) {
+                    return $( "<li></li>" )
+                      .data( "item.autocomplete", item )
+                      .append( "<a>" + item.name +"</a>" )
+                      .appendTo( ul );
+                  };
+
+                }
+              );
+            </script>
             </div>
           </div>
           <div class="form-actions">
@@ -113,3 +160,4 @@
 </div>
 </div>
 </div>
+
