@@ -132,30 +132,17 @@ class TestsController extends Zend_Controller_Action {
     {
         $this->_helper->viewRenderer->setNoRender();
         $this->_helper->layout->disableLayout();
-        $json = array(
-            "results" => array(
-                array(
-                    "id" => "1",
-                    "name" => "x"
 
-                ),
-                array(
-                    "id" => "2",
-                    "name" => "y"
-
-                ),
-                array(
-                    "id" => "3",
-                    "name" => "z"
-
-                ),
-                array(
-                    "id" => "4",
-                    "name" => "yo"
-
-                )
-            )
-        );
+        $testsModel = new Application_Model_Tests();
+        $wheres = array();
+        foreach ($_GET as $key => $value) {
+            $campoComparacion = explode("__", $key);
+            $comparacion = count($campoComparacion) == 2 ? $campoComparacion[1] : "=";
+            $wheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
+        }
+        
+        $tests = $testsModel->getBy($wheres);
+        $json = array("result" => $tests->toArray());
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
             ->setBody(json_encode($json));
