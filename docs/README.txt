@@ -1,3 +1,23 @@
+
+Updates
+=========
+
+Como propuesta se agrego una  nueva tabla para almacenar el resultado de las pruebas realzadas en un analisis
+
+ CREATE TABLE `results` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `analysis_id` int(11) NOT NULL,
+  `test_id` int(11) NOT NULL,
+  `ref_val_id` int(11) NOT NULL,
+  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` datetime DEFAULT NULL,
+  `modified_user_id` int(11) DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 
+
+
 README
 ======
 
@@ -29,21 +49,3 @@ The following is a sample VHOST you might want to consider for your project.
 
 </VirtualHost>
 
-
-Updates
-=========
-
-Como propuesta se agrego una  nueva tabla para almacenar el resultado de las pruebas realzadas en un analisis
-
- CREATE TABLE `results` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `analysis_id` int(11) NOT NULL,
-  `test_id` int(11) NOT NULL,
-  `ref_val_id` int(11) NOT NULL,
-  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_modified` datetime DEFAULT NULL,
-  `modified_user_id` int(11) DEFAULT NULL,
-  `created_by` int(11) DEFAULT NULL,
-  `deleted` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 
