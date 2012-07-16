@@ -30,6 +30,10 @@ class AnalysisController extends Zend_Controller_Action
         
     }
     
+    public function testsbyanalysis(){
+    	
+    }
+    
     public function addAction(){
     	$form =new Application_Form_Analysis();
         $especialidad = new Application_Model_Specialties();
