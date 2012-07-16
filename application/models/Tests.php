@@ -64,7 +64,7 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
 	    return $row;
 	}
 	
-	 public function getAllNewsBySpecialtyId( $id )
+	public function getAllNewsBySpecialtyId( $id )
     {
         $query = $this->select()
                 ->from( array( 'p'=>'tests' ), array('*'))
@@ -75,6 +75,17 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
         
         
         return $this->fetchAll( $query );
+    }
+
+    public function getBy($wheres = array())
+    {
+    	$query = $this->select();
+
+    	if(count($where)){
+    		$query->where($wheres);
+    	}
+    	
+    	return $this->fetchAll();
     }
  
 }

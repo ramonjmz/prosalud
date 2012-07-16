@@ -128,4 +128,37 @@ class TestsController extends Zend_Controller_Action {
 
     }
 
+    public function listJsonAction()
+    {
+        $this->_helper->viewRenderer->setNoRender();
+        $this->_helper->layout->disableLayout();
+        $json = array(
+            "results" => array(
+                array(
+                    "id" => "1",
+                    "name" => "x"
+
+                ),
+                array(
+                    "id" => "2",
+                    "name" => "y"
+
+                ),
+                array(
+                    "id" => "3",
+                    "name" => "z"
+
+                ),
+                array(
+                    "id" => "4",
+                    "name" => "yo"
+
+                )
+            )
+        );
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($json));
+    }
+
 }

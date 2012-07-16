@@ -23,15 +23,9 @@
             <div class="controls">
               <select id="selectError">
                 <option></option>
-                <option>Toxicología</option>
-                <option>Microbiología</option>
-                <option>Inmunología</option>
-                <option>Histopatología</option>
-                <option>Hematología</option>
-                <option>Citología</option>
-                <option>Bioquímica</option>
-                <option>Biología Molecular</option>
-                <option>Urianálisis</option>
+                <?php foreach($this->especialidades as $especialidad){ ?>
+                  <option value="<?php echo $especialidad->id; ?>"><?php echo $especialidad->name; ?></option>          
+                <?php } ?>
               </select>
             </div>
           </div>
