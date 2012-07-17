@@ -2,21 +2,38 @@
 Updates
 =========
 
+mysql> select title,concat(first_name,' ',last_name) as name, first_name,last_na
+me id from contacts where title ='paciente' having concat(first_name,' ',last_na
+me) like '%naye%';
+
+
 Como propuesta se agrego una  nueva tabla para almacenar el resultado de las pruebas realzadas en un analisis
 
- CREATE TABLE `results` (
+CREATE TABLE `results` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `analysis_id` int(11) NOT NULL,
-  `item_id` int(11) not NULL, 
+  `item_id` int(11) NOT NULL,
   `ref_val_id` int(11) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` datetime DEFAULT NULL,
   `modified_user_id` int(11) DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
+  `result` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8
 
+mysql> insert into results (analysis_id,item_id,ref_val_id,date_modified,result)
+ values(23,'26','6',now(),'105');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into results (analysis_id,item_id,ref_val_id,date_modified,result)
+ values(23,'25','8',now(),'105');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into results (analysis_id,item_id,ref_val_id,date_modified,result)
+ values(23,'27','9',now(),'105');
+Query OK, 1 row affected (0.00 sec)
 
 README
 ======

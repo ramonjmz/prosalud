@@ -4,6 +4,40 @@
 
 </div>
 <div class="span6 well"><legend>Estudios</legend>
+
+<table class="table table-striped">
+		<tr>
+			<th>Id</th>
+			<th>Estudio</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+		</tr>
+		
+		<?php if( count( $this->paginator )) :?>
+		
+		<?php foreach( $this->paginator as $estudio) :?>
+		
+		<tr>
+			<td><?php echo $estudio->id;?></td>
+			<td><?php echo $estudio->name;?></td>
+			<td><a class="btn btn-info" href="#"><i class="icon-align-justify icon-white"></i> Desplegar</a></td></tr>
+		
+	
+		<?php endforeach;?>
+		<?php else : ?>
+		<tr>
+			<td colspan="5">No hay datos</td>
+		</tr>
+		
+		<?php endif;?>
+		
+		
+		<?php if( count( $this->paginator )):?>
+		    <?php echo $this->paginator;?>
+		<?php endif;?>
+	</table> 
+
+
 <table class="table table-striped">
 	<thead>
 		<tr>
