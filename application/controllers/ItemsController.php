@@ -2,14 +2,14 @@
 
 class ItemsController extends Zend_Controller_Action {
 
-	public function init(){
-	
-		$options = array( 'layout'   => 'interno');
-		Zend_Layout::startMvc($options);
-		 
-	}
-	
- 	public function listAction()
+public function init(){
+
+$options = array( 'layout' => 'interno');
+Zend_Layout::startMvc($options);
+
+}
+
+  public function listAction()
     {
         
         if( !$this->_hasParam('id')){
@@ -30,7 +30,7 @@ class ItemsController extends Zend_Controller_Action {
         $this->view->paginator = $paginator;
 
     }
-	
+
     public function deleteAction() {
 
         if (!$this->_hasParam('id')) {

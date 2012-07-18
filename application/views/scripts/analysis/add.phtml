@@ -1,4 +1,17 @@
-
+    <div class="modal hide" id="myModal">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Nuevo Paciente</h3>
+    </div>
+    <div class="modal-body">
+     <?php echo $this->cform ?>
+    </div>
+    <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    <a href="#" class="btn btn-primary">Save changes</a>
+    </div>
+    </div>
+    
 <div class="container-fluid">
 <div class="row">
 <div class="span6 well">
@@ -7,15 +20,15 @@
           <div class="control-group">
             <label class="control-label" for="focusedInput">Nombre de Solicitante</label>
             <div class="controls">
-              <input class="input-xlarge" id="applicant_id" value="" type="text">
-              <button type="submit" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> Agregar</button>
+              <input class="input-xlarge focused" id="focusedInput" value="" type="text">
+              <a class="btn btn-success" data-toggle="modal" href="#myModal" ><i class="icon-plus-sign icon-white"></i> Agregar</a>
             </div>
           </div>
  
           <div class="control-group">
             <label class="control-label" for="inputWarning">Nombre de medico</label>
             <div class="controls">
-              <input class="input-xlarge" id="medic_id" type="text">
+              <input class="input-xlarge" id="" type="text">
             </div>
           </div>
           <div class="control-group">
@@ -24,7 +37,7 @@
               <select id="especialidad">
                 <option></option>
                 <?php foreach($this->especialidades as $especialidad){ ?>
-                  <option value="<?php echo $especialidad->id; ?>"><?php echo $especialidad->name; ?></option>          
+                  <option value="<?php echo $especialidad->id; ?>"><?php echo $especialidad->name; ?></option>
                 <?php } ?>
               </select>
             </div>
@@ -32,7 +45,7 @@
             <div class="control-group">
             <label class="control-label" for="selectError">Seleccione el estudio</label>
           <div class="controls">
-            <input class="input-xlarge"  id="estudio_name" value="" type="text" >
+            <input class="input-xlarge" id="estudio_name" value="" type="text" >
             <script type="text/javascript">
               window.customInitFunctions = window.customInitFunctions || [];
               window.customInitFunctions.push(
@@ -41,7 +54,6 @@
                   var cache = {},
                   lastXhr;
 
-                 
                   $('#estudio_name').autocomplete({
                     minLength: 2,
                     source: function( request, response ) {
@@ -79,11 +91,9 @@
                       .appendTo( ul );
                   };
 
- 
                 }
               );
             </script>
-            
             </div>
           </div>
           <div class="form-actions">
@@ -167,4 +177,5 @@ window.customInitFunctions.push(
 
 
 </script>
+
 

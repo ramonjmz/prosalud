@@ -1,20 +1,12 @@
 $(function() {
 
-	$('.dropdown-toggle').dropdown()
+$('.dropdown-toggle').dropdown()
 
-	$('.carousel').carousel()
+$('.carousel').carousel()
 
-	$('.typeahead').typeahead()
+$('.typeahead').typeahead()
 
-	$('.collapse').collapse( {
-		toggle : false
-	})
-
-	window.customInitFunctions
-			&& $.map(window.customInitFunctions, function(item, index) {
-				item();
-			});
-	
-	
-
+window.customInitFunctions && $.map(window.customInitFunctions, function(item, index){
+item();
+});
 });

@@ -22,16 +22,16 @@ AppPrueba.pruebasController = Ember.ArrayProxy.create({
 AppPrueba.PruebaListView = Ember.View.extend({
     tagName: 'tr'//,
     /*removeItem: function() {
-        var prueba = this.get('prueba');
-        AppPrueba.pruebasController.removeObject(prueba);
-    }*/
+var prueba = this.get('prueba');
+AppPrueba.pruebasController.removeObject(prueba);
+}*/
 });
 
 /*AppPrueba.PruebaListView = Ember.View.extend({
-    tagName: 'tr',
-    removeItem: function() {
-        var prueba = this.get('prueba');
-        AppPrueba.pruebasController.removeObject(person);
-    }
+tagName: 'tr',
+removeItem: function() {
+var prueba = this.get('prueba');
+AppPrueba.pruebasController.removeObject(person);
+}
 });*/
 
