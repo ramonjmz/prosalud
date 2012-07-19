@@ -20,11 +20,22 @@ AppPrueba.pruebasController = Ember.ArrayProxy.create({
 });
 
 AppPrueba.PruebaListView = Ember.View.extend({
-    tagName: 'tr'//,
-    /*removeItem: function() {
+    tagName: 'tr',
+    SelectedItem: function() {
         var prueba = this.get('prueba');
-        AppPrueba.pruebasController.removeObject(prueba);
-    }*/
+        console.log(prueba);
+    }
+});
+
+AppPrueba.pruebasSelectedControllerEmber.ArrayProxy.create({
+    content: []
+});
+AppPrueba.PruebaSelectedListView = Ember.View.extend({
+    tagName: 'tr',
+    RemoveItem: function() {
+        var prueba = this.get('prueba');
+        console.log(prueba);
+    }
 });
 
 /*AppPrueba.PruebaListView = Ember.View.extend({

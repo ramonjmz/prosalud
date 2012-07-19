@@ -1,0 +1,9 @@
+/* line 2, ../sass/style.sass */
+.solicitud-analisis .content-catalogo-prueba {
+  min-height: 425px;
+}
+/* line 4, ../sass/style.sass */
+.solicitud-analisis .content-catalogo-prueba .ember-view {
+  max-height: 304px;
+  overflow: auto;
+}

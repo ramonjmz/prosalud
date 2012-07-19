@@ -1,5 +1,4 @@
-
-<div class="container-fluid">
+<div class="container-fluid solicitud-analisis">
 <div class="row">
 <div class="span6 well">
 <form class=" form-search">
@@ -89,7 +88,7 @@
           </div>
          </form>
 </div>
-<div class="span6 well"><legend>Catalogo de pruebas</legend>
+<div class="span6 well content-catalogo-prueba"><legend>Catalogo de pruebas</legend>
 <script type="text/x-handlebars">
 <table class="table table-striped">
   <thead>
@@ -104,21 +103,41 @@
         {{#view AppPrueba.PruebaListView pruebaBinding="this"}}
             <td>{{prueba.name}}</td>
             <td >{{prueba.description}}
-            <td><input type="checkbox" /> </td>
+            <td><button class="btn btn-success" {{action SelectedItem}} ><i class="icon-plus-sign icon-white"></i></button></td>
         {{/view}}
     {{/each}}
   </tbody>
 </table>
 </script>​
-      <div class="form-actions">
-              <button type="submit" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> Agregar</button>
-            <button class="btn">Limpiar</button>
-          </div>
 </div>
 </div>
 <div class="row">
 <div class="span12 well"><legend>Pruebas a realizar</legend>
+
+<script type="text/x-handlebars">
 <table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Nombre</th>
+    <th>Val. Referencia</th>
+    <th>Unidad</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+    {{#each AppPrueba.pruebasSelectedController}}
+        {{#view AppPrueba.PruebaSelectedListView pruebaBinding="this"}}
+            <td>{{prueba.name}}</td>
+            <td >{{prueba.description}}</td>
+            <td >{{prueba.description}}</td>
+            <td><button class="btn btn-danger" {{action RemoveItem}} ><i class="icon-trash icon-white"></i></button></td>
+        {{/view}}
+    {{/each}}
+  </tbody>
+</table>
+</script>​
+
+<!--<table class="table table-striped">
   <tbody>
     <tr>
       <td>Id</td>
@@ -148,7 +167,7 @@
         
      
   </tbody>
-</table>
+</table>-->
 
 </div>
 </div>
