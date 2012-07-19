@@ -59,5 +59,19 @@ class Application_Model_Items extends Zend_Db_Table_Abstract
          
         return $this->fetchAll( $query );
 	}
+
+	public function getBy($wheres = array())
+    {
+    	$query = $this->select();
+
+    	if(count($wheres)){
+    		foreach ($wheres as $key => $value) {
+    			$query->where($key, $value);
+    		}
+    		
+    	}
+
+    	return $this->fetchAll($query);
+    }
 	
 }

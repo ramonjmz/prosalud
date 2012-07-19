@@ -129,4 +129,23 @@ class ItemsController extends Zend_Controller_Action {
         $this->view->form = $form;
     }
 
+    public function listJsonAction()
+    {
+        $this->_helper->viewRenderer->setNoRender();
+        $this->_helper->layout->disableLayout();
+
+        $itemModel = new Application_Model_Items();
+        $wheres = array();
+        foreach ($_GET as $key => $value) {
+            $campoComparacion = explode("__", $key);
+            $comparacion = count($campoComparacion) == 2 ? $campoComparacion[1] : "=";
+            $wheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
+        }
+        
+        $items = $itemModel->getBy($wheres);
+        $json = array("result" => $items->toArray());
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($json));
+    }
 }
