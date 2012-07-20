@@ -1,12 +1,13 @@
 
 <div class="page-header">
-<h2>Listado de especialidades</h2>
+<h3>Listado de Especialidades</h3>
 </div>
-<div class="subnav subnav-fixed">
-<ul class="nav nav-pills">
-	<li class=""><a href="/especialidades/add/">Agregar </a></li>
-</ul>
-</div>
+<form class="well form-search"><input type="text"
+	class="input-medium search-query" placeholder="Nombre">
+<button type="submit" class="btn btn-info"><i
+	class="icon-search icon-white"></i> Buscar</button>
+<a class="btn btn-success" href="/especialidades/add"><i
+	class="icon-plus-sign icon-white"></i> Agregar</a></form>
 <table class="table table-striped">
 	<tr>
 		<td>Id</td>
@@ -41,8 +42,9 @@
 	<?php endif;?>
 
 
+</table>
+
 	<?php if( count( $this->paginator )):?>
 	<?php echo $this->paginator;?>
 	<?php endif;?>
-</table>
 

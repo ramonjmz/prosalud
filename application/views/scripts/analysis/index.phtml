@@ -1,50 +1,61 @@
-      		  <div class="page-header">
-    <h2>Analisis</h2>
-    
-  </div>
-  
-    <form class="well form-search">
-	      <input class="input-medium search-query" type="text">
-	      <button type="submit" class="btn">Search</button>
-	    </form>
-	<table class="table table-striped">
-		<tr>
-			<th>No</th>
-			<th>Fecha de solicitud</th>
-			<th>Solicitante</th>
-			<th>Medico</th>
-			<th>Status</th>
-			<th>Fecha de Modificacion</th>
- 			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-		</tr>
-		
-		<?php if( count( $this->paginator )) :?>
-		
-		<?php foreach( $this->paginator as $data) :?>
-		
-		<tr>
-			<td><?php echo $data->id;?></td>
-			<td><?php echo $data->date_entered;?></td>
-			<td><?php echo $data->applicant_id;?></td>
-			<td><?php echo $data->medic_id;?></td>
-			<td><?php echo $data->status;?></td>
-			<td><?php echo $data->date_modified;?></td>
- 			<td align="center"><a class="btn btn-success" href="/analysis/update/id/<?php echo $data->id ?>"><i class="icon-pencil icon-white"></i></a></td>
-			<td align="center"><a class="btn btn-danger" href="/analysis/delete/id/<?php echo $data->id ?>"><i class="icon-trash icon-white"></i></a></td>
-		</tr>
-		
-	
-		<?php endforeach;?>
-		<?php else : ?>
-		<tr>
-			<td colspan="8">No hay datos</td>
-		</tr>
-		
-		<?php endif;?>
-		
-		
-		<?php if( count( $this->paginator )):?>
-		    <?php echo $this->paginator;?>
-		<?php endif;?>
-	</table> 
+
+<div class="page-header">
+<h3>Listado de Analisis</h3>
+
+</div>
+<form class="well form-search">
+<input type="text" 	class="input-medium search-query" placeholder="Nombre Solicitante"> 
+
+<input type="text" 	class="input-medium search-query" placeholder="Nombre de medico"> 
+	<select	id="select01">
+	<option>Seleccione</option>
+	<option>Pendiente</option>
+	<option>Procesado</option>
+</select>
+<button type="submit" class="btn btn-info"><i
+	class="icon-search icon-white"></i> Buscar</button>
+<a class="btn btn-success" href="/analysis/add/"><i
+	class="icon-plus-sign icon-white"></i> Agregar</a></form>
+<table class="table table-striped">
+	<tr>
+		<th>No</th>
+		<th>Fecha de solicitud</th>
+		<th>Solicitante</th>
+		<th>Medico</th>
+		<th>Status</th>
+		<th>Fecha de Modificacion</th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+	</tr>
+
+	<?php if( count( $this->paginator )) :?>
+
+	<?php foreach( $this->paginator as $data) :?>
+
+	<tr>
+		<td><?php echo $data->id;?></td>
+		<td><?php echo $data->date_entered;?></td>
+		<td><?php echo $data->applicant_id;?></td>
+		<td><?php echo $data->medic_id;?></td>
+		<td><?php echo $data->status;?></td>
+		<td><?php echo $data->date_modified;?></td>
+		<td align="center"><a class="btn btn-success"
+			href="/analysis/update/id/<?php echo $data->id ?>"><i
+			class="icon-pencil icon-white"></i></a></td>
+		<td align="center"><a class="btn btn-danger"
+			href="/analysis/delete/id/<?php echo $data->id ?>"><i
+			class="icon-trash icon-white"></i></a></td>
+	</tr>
+
+
+	<?php endforeach;?>
+	<?php else : ?>
+	<tr>
+		<td colspan="8">No hay datos</td>
+	</tr>
+
+	<?php endif;?>
+</table>
+<?php if( count( $this->paginator )):?>
+	<?php echo $this->paginator;?>
+	<?php endif;?>

@@ -1,48 +1,62 @@
- 
-<a href="/items/agregar/">Agregar</a>
-	   		  <div class="page-header">
-    <h2>Listado de pruebas </h2>
-  </div>
-	
-	<table  class="table table-striped">
-		<tr>
-			<td>Id</td>
-			<td>nombre</td>
-			<td>Estudio</td>
-			<td>descipcions</td>
-			<td>Fecha de creacion</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-		</tr>
-		
-		<?php if( count( $this->paginator )) :?>
-		
-		<?php foreach( $this->paginator as $item) :?>
-		
-		<tr>
-			<td><?php echo $item->id;?></td>
-			<td><?php echo $item->name;?></td>
-			<td><?php echo $item->cname;?></td>
-			<td><?php echo $item->description;?></td>
-			<td><a href="/references/list/id/<?php echo $item->id;?>">Valores de referencia</a></td>
-			
-			<td align="center"><a  class="btn btn-success" href="/items/update/id/<?php echo $item->id ?>"><i class="icon-pencil icon-white"></i></a></td>
-			<td align="center"><a  class="btn btn-danger"  href="/items/delete/id/<?php echo $item->id ?>"><i class="icon-trash icon-white"></i></a></td>
-		</tr>
-		
-	
-		<?php endforeach;?>
-		<?php else : ?>
-		<tr>
-			<td colspan="7">No hay datos</td>
-		</tr>
-		
-		<?php endif;?>
-		
-		
-		<?php if( count( $this->paginator )):?>
-		    <?php echo $this->paginator;?>
-		<?php endif;?>
-	</table>
+<div class="page-header">
+<h3>Listado de Pruebas</h3>
+</div>
+<form class="well form-search"><input type="text"
+	class="input-medium search-query" placeholder="Nombre"> <select
+	id="select01">
+	<option>Seleccione</option>
+	<option></option>
+	<option></option>
+	<option></option>
+</select>
+<button type="submit" class="btn btn-info"><i
+	class="icon-search icon-white"></i> Buscar</button>
+<a class="btn btn-success" href="/items/agregar/"><i
+	class="icon-plus-sign icon-white"></i> Agregar</a></form>
 
- 
+<table class="table table-striped">
+	<tr>
+		<td>Id</td>
+		<td>nombre</td>
+		<td>Estudio</td>
+		<td>descipcions</td>
+		<td>Fecha de creacion</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+
+	<?php if( count( $this->paginator )) :?>
+
+	<?php foreach( $this->paginator as $item) :?>
+
+	<tr>
+		<td><?php echo $item->id;?></td>
+		<td><?php echo $item->name;?></td>
+		<td><?php echo $item->cname;?></td>
+		<td><?php echo $item->description;?></td>
+		<td><a href="/references/list/id/<?php echo $item->id;?>">Valores de
+		referencia</a></td>
+
+		<td align="center"><a class="btn btn-success"
+			href="/items/update/id/<?php echo $item->id ?>"><i
+			class="icon-pencil icon-white"></i></a></td>
+		<td align="center"><a class="btn btn-danger"
+			href="/items/delete/id/<?php echo $item->id ?>"><i
+			class="icon-trash icon-white"></i></a></td>
+	</tr>
+
+
+	<?php endforeach;?>
+	<?php else : ?>
+	<tr>
+		<td colspan="7">No hay datos</td>
+	</tr>
+
+	<?php endif;?>
+
+
+	
+</table>
+<?php if( count( $this->paginator )):?>
+	<?php echo $this->paginator;?>
+	<?php endif;?>
