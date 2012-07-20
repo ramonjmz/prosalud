@@ -20,15 +20,18 @@
           <div class="control-group">
             <label class="control-label" for="focusedInput">Nombre de Solicitante</label>
             <div class="controls">
-              <input class="input-xlarge focused" id="focusedInput" value="" type="text">
+              <input class="input-xlarge focused" id="applicant_name" name="applicant_name" value="" type="text">
+              <input class="input-xlarge focused" id="applicant_id" value="" type="hidden">
+              
               <a class="btn btn-success" data-toggle="modal" href="#myModal" ><i class="icon-plus-sign icon-white"></i> Agregar</a>
+              
             </div>
           </div>
  
           <div class="control-group">
             <label class="control-label" for="inputWarning">Nombre de medico</label>
             <div class="controls">
-              <input class="input-xlarge" id="" type="text">
+              <input class="input-xlarge" id="medic_id" type="text">
             </div>
           </div>
           <div class="control-group">
@@ -50,6 +53,32 @@
               window.customInitFunctions = window.customInitFunctions || [];
               window.customInitFunctions.push(
                 function(){
+
+                	$("#applicant_name").autocomplete({
+                        source: function( request, response ) {
+                        $.ajax({
+                            url: "/contact/search/",
+                            dataType: "json",
+                            data: {term: request.term},
+                            success: function(data) {
+                                        response($.map(data, function(item) {
+                                        return {
+                                        	 id: item.id,
+                                             value: item.value
+                                             
+                                            };
+                                    }));
+                                }
+                            });
+                        },
+                        minLength: 2,
+                        select: function(event, ui) {
+                            $('#applicant_name').val(ui.item.value);
+                            $('#applicant_id').val(ui.item.id);
+                            
+                        }
+                    });
+                                 
 
                   var cache = {},
                   lastXhr;

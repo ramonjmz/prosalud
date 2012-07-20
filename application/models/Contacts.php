@@ -48,23 +48,18 @@ class Application_Model_Contacts extends Zend_Db_Table_Abstract
 		 * having concat(first_name,' ',last_name) like '%naye%';
 		 */
 		 
-		/*
+		
 		 $query = $this->select()
 		 ->from('contacts',
-		 array('title', 'concat(first_name," ",last_name) as name ', 'first_name','last_name','id'))
-		 ->where('title = ?' , 'paciente' )
-		 ->having('concat(first_name," ",last_name) like ?', $data.'%');
-		 error_log("query-> ".$query);
+		 array('id','concat(first_name," ",last_name) as value'))
+		 ->where('title = ?','paciente')
+		 ->where('first_name like ?','%'.$data.'%')
+		 ->orwhere('last_name like ?','%'.$data.'%');
+		 
+		 error_log("model query-> ".$query);
 
 		 return $this->fetchAll($query);
-		 */
-
-		error_log($data);
-
-		return $this->fetchAll($this->select()
-		->order('first_name ASC')
-		);
-		
+				
         
 	}
 

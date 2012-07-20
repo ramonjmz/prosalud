@@ -116,16 +116,17 @@ class ContactController extends Zend_Controller_Action
 
 	public function searchAction()
 	{
+		error_log("Entro al controler");
 		$this->_helper->viewRenderer->setNoRender();
-        $this->_helper->layout->disableLayout();
-        
-	 	$model = new Application_Model_Contacts();
- 		
-		$json = array("result" => $model->getBy($this->_getParam('term')));
-        $this->getResponse()
-            ->setHeader('Content-Type', 'application/json')
-            ->setBody(json_encode($json));
-	       
+		$this->_helper->layout->disableLayout();
+
+		$model = new Application_Model_Contacts();
+
+		$data = $model->getBy($this->_getParam('term'));
+		$jsonData = array("result" => $data->toArray());
+		 
+	    echo $jsonData = Zend_Json::encode($jsonData['result']);
+		error_log($jsonData);
 	}
 
 }
