@@ -6,8 +6,53 @@
           <div class="control-group">
             <label class="control-label" for="focusedInput">Nombre de Solicitante</label>
             <div class="controls">
-              <input class="input-xlarge focused" id="focusedInput" value="" type="text">
-              <button type="submit" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> Agregar</button>
+              <input class="input-xlarge focused" id="contact_name" value="" type="text">
+              <!--<button type="submit" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> Agregar</button>-->
+              <script type="text/javascript">
+              window.customInitFunctions = window.customInitFunctions || [];
+              window.customInitFunctions.push(function(){
+                var cache = {},
+                  lastXhr,
+                  $contactName = $('#contact_name');
+
+                  $contactName.autocomplete({
+                    minLength: 2,
+                    source: function( request, response ) {
+                      var term = request.term;
+                      if ( term in cache ) {
+                        response( cache[ term ] );
+                        return;
+                      }
+                      console.log(request);
+                      lastXhr = $.getJSON( "/contact/list-json", {                        
+                        first_name__like : "%"+term + "%",
+                        last_name__like__or : "%"+term + "%"
+                      }, function( data, status, xhr ) {
+                        cache[ term ] = data;
+                        if ( xhr === lastXhr ) {
+                          response( data.result );
+                        }
+                      });
+                    },
+                    focus: function( event, ui ) {
+                      $contactName.val( ui.item.first_name + " " + ui.item.last_name);
+                      return false;
+                    },
+                    select: function( event, ui ) {
+                      $contactName.val( ui.item.first_name + " " + ui.item.last_name);
+                      $contactName.data("contact", ui.item);
+                      
+                      return false;
+                    }
+                  })
+                  .data( "autocomplete" )._renderItem = function( ul, item ) {
+                    return $( "<li></li>" )
+                      .data( "item.autocomplete", item )
+                      .append( "<a>" + item.first_name + " " + item.last_name +"</a>" )
+                      .appendTo( ul );
+                  };
+              });
+              </script>
             </div>
           </div>
  

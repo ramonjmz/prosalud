@@ -113,6 +113,33 @@ class ContactController extends Zend_Controller_Action
         
  
     }
+
+    public function listJsonAction()
+    {
+        $this->_helper->viewRenderer->setNoRender();
+        $this->_helper->layout->disableLayout();
+
+        $contacsModel = new Application_Model_Contacts();
+        $wheres = array();
+        $orWheres = array();
+        foreach ($_GET as $key => $value) {
+            $campoComparacion = explode("__", $key);
+
+            $comparacion = count($campoComparacion) > 1 ? $campoComparacion[1] : "=";
+            if(count($campoComparacion) === 3){
+                if($campoComparacion[2] === "or")
+                    $orWheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
+            }else{ 
+                $wheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
+            }  
+        }
+        //echo print_r($wheres, true);
+        $contacts = $contacsModel->getBy($wheres, $orWheres);
+        $json = array("result" => $contacts->toArray());
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($json));
+    }
 	
 }
 
