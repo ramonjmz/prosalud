@@ -1,17 +1,58 @@
-<div class="page-header">
-<h3>Solicitud de Analisis</h3>
-
-</div>
 <div class="container-fluid solicitud-analisis">
 <div class="row">
 <div class="span6 well">
 <form class=" form-search">
- <legend>Datos de registro</legend>
+ <legend>Solicitud de analisis</legend>
           <div class="control-group">
             <label class="control-label" for="focusedInput">Nombre de Solicitante</label>
             <div class="controls">
-              <input class="input-xlarge focused" id="applicant_name" value="" type="text">
-              <button type="submit" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> Agregar</button>
+              <input class="input-xlarge focused" id="contact_name" value="" type="text">
+              <!--<button type="submit" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> Agregar</button>-->
+              <script type="text/javascript">
+              window.customInitFunctions = window.customInitFunctions || [];
+              window.customInitFunctions.push(function(){
+                var cache = {},
+                  lastXhr,
+                  $contactName = $('#contact_name');
+
+                  $contactName.autocomplete({
+                    minLength: 2,
+                    source: function( request, response ) {
+                      var term = request.term;
+                      if ( term in cache ) {
+                        response( cache[ term ] );
+                        return;
+                      }
+                      console.log(request);
+                      lastXhr = $.getJSON( "/contact/list-json", {
+                        first_name__like : "%"+term + "%",
+                        last_name__like__or : "%"+term + "%"
+                      }, function( data, status, xhr ) {
+                        cache[ term ] = data;
+                        if ( xhr === lastXhr ) {
+                          response( data.result );
+                        }
+                      });
+                    },
+                    focus: function( event, ui ) {
+                      $contactName.val( ui.item.first_name + " " + ui.item.last_name);
+                      return false;
+                    },
+                    select: function( event, ui ) {
+                      $contactName.val( ui.item.first_name + " " + ui.item.last_name);
+                      $contactName.data("contact", ui.item);
+                      
+                      return false;
+                    }
+                  })
+                  .data( "autocomplete" )._renderItem = function( ul, item ) {
+                    return $( "<li></li>" )
+                      .data( "item.autocomplete", item )
+                      .append( "<a>" + item.first_name + " " + item.last_name +"</a>" )
+                      .appendTo( ul );
+                  };
+              });
+              </script>
             </div>
           </div>
  
@@ -40,28 +81,7 @@
               window.customInitFunctions = window.customInitFunctions || [];
               window.customInitFunctions.push(
                 function(){
-                	$("#applicant_name").autocomplete({
-                        source: function( request, response ) {
-                        $.ajax({
-                            url: "/contact/search/",
-                            dataType: "json",
-                            data: {term: request.term},
-                            success: function(data) {
-                                        response($.map(data, function(item) {
-                                        return {
-                                        	 id: item.id,
-                                             value: item.value
-                                             
-                                            };
-                                    }));
-                                }
-                            });
-                        },
-                        minLength: 2,
-                        select: function(event, ui) {
-                            $('#applicant_name').val(ui.item.id);                            
-                        }
-                    });
+
                   var cache = {},
                   lastXhr;
 
@@ -203,3 +223,4 @@ window.customInitFunctions.push(
 
 
 </script>
+

@@ -27,9 +27,17 @@ AppPrueba.PruebaListView = Ember.View.extend({
     }
 });
 
-AppPrueba.pruebasSelectedControllerEmber.ArrayProxy.create({
+
+AppPrueba.PruebaSelected = Ember.Object.extend({
+    id: false,
+    name: "",
+    reference_value: "",
+});
+
+AppPrueba.pruebasSelectedController = Ember.ArrayProxy.create({
     content: []
 });
+
 AppPrueba.PruebaSelectedListView = Ember.View.extend({
     tagName: 'tr',
     RemoveItem: function() {
@@ -45,4 +53,3 @@ var prueba = this.get('prueba');
 AppPrueba.pruebasController.removeObject(person);
 }
 });*/
-
