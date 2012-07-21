@@ -92,6 +92,11 @@ class AnalysisController extends Zend_Controller_Action
 			}
 		}
 
+		$estudio = new Application_Model_Tests();
+		$estudios = $estudio->getAll();
+
+		$this->view->estudios = $estudios;
+ 		
 		$this->view->form = $form;
 	}
 }

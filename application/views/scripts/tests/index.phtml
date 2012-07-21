@@ -2,18 +2,19 @@
 <div class="page-header">
 <h3>Listado de Estudios</h3>
 </div>
-<form class="well form-search"><input type="text"
-	class="input-medium search-query" placeholder="Nombre"> <select
-	id="select01">
-	<option></option>
-	<option>..</option>
-	<option>..</option>
-	<option>..</option>
-</select>
-<button type="submit" class="btn btn-info"><i
+<form class="well form-search" enctype="application/x-www-form-urlencoded" action="/tests/index/" method="post">
+<input type="text"class="input-medium search-query" id="name" placeholder="Nombre"> 
+      <select id="specialty_id">
+                <option></option>
+                <?php foreach($this->especialidades as $especialidad){ ?>
+                  <option value="<?php echo $especialidad->id; ?>"><?php echo $especialidad->name; ?></option>
+                <?php } ?>
+              </select>
+<button type="submit" class="btn btn-info" id="buscar" name="buscar" ><i
 	class="icon-search icon-white"></i> Buscar</button>
 <a class="btn btn-success" href="/tests/agregar/"><i
-	class="icon-plus-sign icon-white"></i> Agregar</a></form>
+	class="icon-plus-sign icon-white"></i> Agregar</a>
+</form>
 
 <table class="table table-striped">
 	<tr>
