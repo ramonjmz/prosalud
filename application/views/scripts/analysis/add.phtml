@@ -1,137 +1,60 @@
 <div class="container-fluid solicitud-analisis">
 <div class="row">
 <div class="span6 well">
-<form class=" form-search">
- <legend>Solicitud de analisis</legend>
-          <div class="control-group">
-            <label class="control-label" for="focusedInput">Nombre de Solicitante</label>
-            <div class="controls">
-              <input class="input-xlarge focused" id="contact_name" value="" type="text">
-              <button type="submit" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> Agregar</button>
-              <script type="text/javascript">
-              window.customInitFunctions = window.customInitFunctions || [];
-              window.customInitFunctions.push(function(){
-                var cache = {},
-                  lastXhr,
-                  $contactName = $('#contact_name');
-
-                  $contactName.autocomplete({
-                    minLength: 2,
-                    source: function( request, response ) {
-                      var term = request.term;
-                      if ( term in cache ) {
-                        response( cache[ term ] );
-                        return;
-                      }
-                      console.log(request);
-                      lastXhr = $.getJSON( "/contact/list-json", {
-                        first_name__like : "%"+term + "%",
-                        last_name__like__or : "%"+term + "%"
-                      }, function( data, status, xhr ) {
-                        cache[ term ] = data;
-                        if ( xhr === lastXhr ) {
-                          response( data.result );
-                        }
-                      });
-                    },
-                    focus: function( event, ui ) {
-                      $contactName.val( ui.item.first_name + " " + ui.item.last_name);
-                      return false;
-                    },
-                    select: function( event, ui ) {
-                      $contactName.val( ui.item.first_name + " " + ui.item.last_name);
-                      $contactName.data("contact", ui.item);
-                      
-                      return false;
-                    }
-                  })
-                  .data( "autocomplete" )._renderItem = function( ul, item ) {
-                    return $( "<li></li>" )
-                      .data( "item.autocomplete", item )
-                      .append( "<a>" + item.first_name + " " + item.last_name +"</a>" )
-                      .appendTo( ul );
-                  };
-              });
-              </script>
-            </div>
-          </div>
  
-          <div class="control-group">
-            <label class="control-label" for="inputWarning">Nombre de medico</label>
-            <div class="controls">
-              <input class="input-xlarge" id="" type="text">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="selectError">Seleccione el especialidad</label>
-            <div class="controls">
-              <select id="especialidad">
-                <option></option>
-                <?php foreach($this->especialidades as $especialidad){ ?>
-                  <option value="<?php echo $especialidad->id; ?>"><?php echo $especialidad->name; ?></option>
-                <?php } ?>
-              </select>
-            </div>
-          </div>
-            <div class="control-group">
-            <label class="control-label" for="selectError">Seleccione el estudio</label>
-          <div class="controls">
-            <input class="input-xlarge" id="estudio_name" value="" type="text" >
-            <script type="text/javascript">
-              window.customInitFunctions = window.customInitFunctions || [];
-              window.customInitFunctions.push(
-                function(){
-
-                  var cache = {},
-                  lastXhr;
-
-                  $('#estudio_name').autocomplete({
-                    minLength: 2,
-                    source: function( request, response ) {
-                      var term = request.term;
-                      if ( term in cache ) {
-                        response( cache[ term ] );
-                        return;
-                      }
-                      console.log(request);
-                      lastXhr = $.getJSON( "/tests/list-json", {
-                        specialty_id: $("#especialidad").val(),
-                        name__like : "%"+term + "%"
-                      }, function( data, status, xhr ) {
-                        cache[ term ] = data;
-                        if ( xhr === lastXhr ) {
-                          response( data.result );
-                        }
-                      });
-                    },
-                    focus: function( event, ui ) {
-                      $( "#estudio_name" ).val( ui.item.name );
-                      return false;
-                    },
-                    select: function( event, ui ) {
-                      $( "#estudio_name" ).val( ui.item.name );
-                      console.log(ui.item.id);
-                      AppPrueba.pruebasController.getBy({"test_id": ui.item.id});
-                      return false;
-                    }
-                  })
-                  .data( "autocomplete" )._renderItem = function( ul, item ) {
-                    return $( "<li></li>" )
-                      .data( "item.autocomplete", item )
-                      .append( "<a>" + item.name +"</a>" )
-                      .appendTo( ul );
-                  };
-
-                }
-              );
-            </script>
-            </div>
-          </div>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Guardar</button>
-            <button class="btn">Cancel</button>
-          </div>
-         </form>
+<legend>Solicitud de analisis</legend>
+<script type="text/x-handlebars">
+{{#if AnalysisSelectedController.selectedItem}}
+  {{#view AnalysisCreatedView}}
+    <div class="control-group">
+      <label class="control-label" >Nombre de Solicitante:</label>
+      <label class="control-label" >{{content.applicant_name}}}</label>
+    </div>
+    <div class="control-group">
+      <label class="control-label" >Nombre de medico</label>
+      <label class="control-label" >{{content.medic_name}}}</label>
+    </div>
+    <div class="control-group ">
+      <label class="control-label" for="selectError">Seleccione el especialidad</label>
+      <div class="controls">
+        <select id="especialidad">
+          <option></option>
+          <?php foreach($this->especialidades as $especialidad){ ?>
+            <option value="<?php echo $especialidad->id; ?>"><?php echo $especialidad->name; ?></option>         
+          <?php } ?>
+        </select>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="selectError">Seleccione el estudio</label>
+      <div class="controls">
+        <input class="input-xlarge"  id="estudio_name" value="" type="text" >
+      </div>
+    </div>  
+    <div class="form-actions">
+      <button type="submit" class="btn btn-danger" {{action Delete}} ><i class="icon-trash icon-white"></i>Eliminar</button>      
+    </div>
+  {{/view}}
+{{else}}
+  {{#view AnalysisNewView}}
+    <div class="control-group">
+      <label class="control-label" for="contact_name">Nombre de Solicitante</label>
+      <div class="controls">
+        <input class="input-xlarge focused" id="contact_name" value="" type="text">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="medico_name">Nombre de medico</label>
+      <div class="controls">
+        <input class="input-xlarge" id="medico_name" type="text">
+      </div>
+    </div>  
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" {{action CreateNew}} >Guardar</button>      
+    </div>
+  {{/view}}
+{{/if}}
+</script>​
 </div>
 <div class="span6 well content-catalogo-prueba"><legend>Catalogo de pruebas</legend>
 <script type="text/x-handlebars">
@@ -144,8 +67,8 @@
   </tr>
   </thead>
   <tbody>
-    {{#each AppPrueba.pruebasController}}
-        {{#view AppPrueba.PruebaListView pruebaBinding="this"}}
+    {{#each AppAnalysis.pruebasController}}
+        {{#view AppAnalysis.PruebaListView pruebaBinding="this"}}
             <td>{{prueba.name}}</td>
             <td >{{prueba.description}}
             <td><button class="btn btn-success" {{action SelectedItem}} ><i class="icon-plus-sign icon-white"></i></button></td>
@@ -170,57 +93,19 @@
   </tr>
   </thead>
   <tbody>
-    {{#each AppPrueba.pruebasSelectedController}}
-        {{#view AppPrueba.PruebaSelectedListView pruebaBinding="this"}}
-            <td>{{prueba.name}}</td>
-            <td >{{prueba.description}}</td>
-            <td >{{prueba.description}}</td>
-            <td><button class="btn btn-danger" {{action RemoveItem}} ><i class="icon-trash icon-white"></i></button></td>
+    {{#each ResultsController}}
+        {{#view ResultsListView resultBinding="this"}}
+            <td>{{result.item_name}}</td>
+            <td >{{result.ref_val_value}}</td>
+            <td >{{result.ref_val_unit}}</td>
+            <td><button class="btn btn-danger" {{action Remove}} ><i class="icon-trash icon-white"></i></button></td>
         {{/view}}
     {{/each}}
   </tbody>
 </table>
 </script>​
 
-<!--<table class="table table-striped">
-<tbody>
-<tr>
-<td>Id</td>
-<td>Descripcion</td>
-<td>Val. Referencia</td>
-<td>Unidad</td>
-<td></td>
-
-</tr>
-<tr>
-<td>17</td>
-<td>COLOR</td>
-<td>Obscuro</td>
-<td>COLOR</td>
-<td align="center"><a class="btn btn-danger" href="/register/delete/id/23"><i class="icon-trash icon-white"></i></a></td>
-</tr>
-<tr>
-<td>16</td>
-<td>VOLUMEN</td>
-<td>10.75</td>
-<td>mg/dL</td>
-<td align="center"><a class="btn btn-danger" href="/register/delete/id/23"><i class="icon-trash icon-white"></i></a></td>
-</tr>
-</tbody>
-</table>-->
 
 </div>
 </div>
 </div>
-<script type="text/javascript">
-window.customInitFunctions = window.customInitFunctions || [];
-window.customInitFunctions.push(
-  function(){
-    yepnope.injectJs("/js/libs/ember-0.9.5.min.js");
-    yepnope.injectJs("/js/models/Prueba.js");
-  }
-);
-
-
-</script>
-

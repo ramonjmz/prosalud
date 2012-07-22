@@ -35,17 +35,15 @@ class AnalysisController extends Zend_Controller_Action
 	}
 
 	public function addAction(){
-		$form =new Application_Form_Analysis();
-		$cform =new Application_Form_Person();
-
-
-		$especialidad = new Application_Model_Specialties();
-		$especialidades = $especialidad->getAll();
-
-		$this->view->form =$form;
-		$this->view->especialidades = $especialidades;
-
-		$this->view->cform =$cform;
+        $form =new Application_Form_Analysis();
+        $especialidad = new Application_Model_Specialties();
+        $especialidades = $especialidad->getAll();
+        $this->view->form =$form;
+        $this->view->headScript()->appendFile("/js/libs/ember-0.9.5.min.js");
+        $this->view->headScript()->appendFile("/js/libs/ember-rest.js");
+        $this->view->headScript()->appendFile("/js/models/Prueba.js");
+        $this->view->especialidades = $especialidades;
+		
 	}
 
 	public function save(){
@@ -172,4 +170,19 @@ class AnalysisController extends Zend_Controller_Action
 
 		echo $pdf->render();
 	}
+
+    public function restAction(){
+        $this->_helper->viewRenderer->setNoRender();
+        $this->_helper->layout->disableLayout();
+        $responseJson = array();
+        $resultsModel = new Application_Model_Analysis();
+        if($this->getRequest()->isPost()){
+            $responseJson["analysis"] =  $resultsModel->save($_POST["analysis"], $_POST["analysis"]["id"]);           
+        }
+        
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($responseJson));
+    }
+
 }
