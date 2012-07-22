@@ -49,11 +49,11 @@
         }
     });
 
-    /*var miAnalisis = Analysis.create({
+    var miAnalisis = Analysis.create({
         id: 1,
         applicant_name: "tu",
         medic_name: "yo",        
-    });*/
+    });
 
     
 
