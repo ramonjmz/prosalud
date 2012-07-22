@@ -92,4 +92,18 @@ class AnalysisController extends Zend_Controller_Action
 
         $this->view->form = $form;
     }
+
+    public function restAction(){
+        $this->_helper->viewRenderer->setNoRender();
+        $this->_helper->layout->disableLayout();
+        $responseJson = array();
+        $resultsModel = new Application_Model_Analysis();
+        if($this->getRequest()->isPost()){
+            $responseJson["analysis"] =  $resultsModel->save($_POST["analysis"], $_POST["analysis"]["id"]);           
+        }
+        
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($responseJson));
+    }
 }

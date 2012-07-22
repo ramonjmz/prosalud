@@ -51,4 +51,24 @@ class  Application_Model_References extends Zend_Db_Table_Abstract
          
         return $this->fetchAll( $query );
 	}
+
+	public function getBy($wheres = array(), $orWheres = array())
+    {
+    	$query = $this->select();
+
+    	if(count($wheres)){
+    		foreach ($wheres as $key => $value) {
+    			$query->where($key, $value);
+    		}
+    		
+    	}
+    	if(count($orWheres)){
+    		foreach ($orWheres as $key => $value) {
+    			$query->orWhere($key, $value);
+    		}
+    		
+    	}
+    	//echo print_r($query->__toString(), true);
+    	return $this->fetchAll($query);
+    }
 }

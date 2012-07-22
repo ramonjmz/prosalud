@@ -1,3 +1,249 @@
+    Store = function(options){
+        this.name = options.name || "";
+        this.data = {};
+        this.url = options.url || "";
+        this.save = function( model ){
+            var self = this,
+                jxhr = null;
+            jxhr = $.ajax(self.url, {                
+                type: "POST",
+                data: model.serialize()
+            });
+            return jxhr;
+        };
+
+        this.delete = function(model){
+            var jxhr = null,
+                self = this;
+
+            jxhr = $.ajax(self.url, {                
+                type: "POST",
+                data: model.serialize()
+            });
+            return jxhr;
+        };
+
+        this.search = function(query){
+            var jxhr = null,
+                self = this;
+            jxhr = $.ajax(self.url, {
+                type: "POST",
+                data: query
+            });
+            return jxhr;
+        }
+    };
+
+    Analysis = Ember.Resource.extend({
+        resourceUrl:        '/analysis',
+        resourceName:       'analysis',
+        resourceProperties: ['id', 'applicant_id', 'applicant_name', 'medic_id', 'medic_name', 'deleted'],
+
+
+    });
+
+    AnalysisSelectedController = Em.Object.create({
+        selectedItem : null,
+        select: function(analysis){
+            this.set('selectedItem', analysis);
+        }
+    });
+
+    /*var miAnalisis = Analysis.create({
+        id: 1,
+        applicant_name: "tu",
+        medic_name: "yo",        
+    });*/
+
+    
+
+    AnalysisController = Ember.ArrayProxy.create({
+        content: [],
+        store : new Store({
+            name: "analysis_store",
+            url: "/analysis/rest"
+        }),
+        CreateNew: function(value, callback){
+            var analysis = Analysis.create(value),
+                self = this;
+            this.get( "store" ).save(analysis)
+                .done(function(){                    
+                    self.get("content").addObject(analysis);
+                    callback && callback(analysis);                    
+                })
+                .fail(function(){
+                    console.log("fail", "ups tenemos problemas huston");
+                });
+        },
+    });
+
+    AnalysisCreatedView = Ember.View.extend({
+        tagName: 'div',
+        contentBinding: 'AnalysisSelectedController.selectedItem',        
+        didInsertElement: function(){
+            var cache = {},
+            lastXhr;
+            $('#especialidad').on('change', function(){
+              cache = {};
+            });
+            $('#estudio_name').autocomplete({
+              minLength: 2,
+              source: function( request, response ) {
+                var term = request.term;
+                if ( term in cache ) {
+                  response( cache[ term ] );
+                  return;
+                }
+                console.log(request);
+                lastXhr = $.getJSON( "/tests/list-json", {
+                  specialty_id: $("#especialidad").val(),
+                  name__like : "%"+term + "%"
+                }, function( data, status, xhr ) {
+                  cache[ term ] = data;
+                  if ( xhr === lastXhr ) {
+                    response( data.result );
+                  }
+                });
+              },
+              focus: function( event, ui ) {
+                $( "#estudio_name" ).val( ui.item.name );
+                return false;
+              },
+              select: function( event, ui ) {
+                $( "#estudio_name" ).val( ui.item.name );
+                console.log(ui.item.id);
+                AppAnalysis.pruebasController.getBy({"test_id": ui.item.id});
+                return false;
+              }
+            })
+            .data( "autocomplete" )._renderItem = function( ul, item ) {
+              return $( "<li></li>" )
+                .data( "item.autocomplete", item )
+                .append( "<a>" + item.name +"</a>" )
+                .appendTo( ul );
+            };
+        }
+        /*printCustomJavascript: function(){
+            return this.customJavascript;
+        }*/
+    });
+
+    AnalysisNewView = Ember.View.extend({
+        tagName: 'div',
+        CreateNew: function(){
+            var pacientes = PacientesController.get( "content" ),
+                paciente = null,
+                medicos = MedicosController.get( "content"),
+                medico = null;
+            if(!pacientes.length){
+                alert("Seleccione un paciente.");
+                return;
+            }
+
+            if(!medicos.length){
+                alert("Seleccione un medico.");
+                return;
+            }
+
+            paciente = pacientes[0];
+            medico = medicos[0];
+            
+            AnalysisController.CreateNew({
+                applicant_id: paciente.get( "id" ),
+                medic_id: medico.get( "id" )
+            }, function(analysis){
+                AnalysisSelectedController.set( "selectedItem", analysis );
+            });            
+        },
+        didInsertElement: function(){
+            var cacheApplicant = {},
+            lastXhr,
+            $contactName = $('#contact_name');
+
+            $contactName.autocomplete({
+              minLength: 2,
+              source: function( request, response ) {
+                var term = request.term;
+                if ( term in cacheApplicant ) {
+                  response( cacheApplicant[ term ] );
+                  return;
+                }
+                console.log(request);
+                lastXhr = $.getJSON( "/contact/list-json", {    
+                  title: "Paciente",
+                  first_name__like : "%"+term + "%",
+                  last_name__like__or : "%"+term + "%"
+                }, function( data, status, xhr ) {
+                  cacheApplicant[ term ] = data;
+                  if ( xhr === lastXhr ) {
+                    response( data.result );
+                  }
+                });
+              },
+              focus: function( event, ui ) {
+                $contactName.val( ui.item.first_name + " " + ui.item.last_name);
+                return false;
+              },
+              select: function( event, ui ) {
+                $contactName.val( ui.item.first_name + " " + ui.item.last_name);
+                PacientesController.set( "content", [] );
+                PacientesController.addObject(Contact.create(ui.item));
+                return false;
+              }
+            })
+            .data( "autocomplete" )._renderItem = function( ul, item ) {
+              return $( "<li></li>" )
+                .data( "item.autocomplete", item )
+                .append( "<a>" + item.first_name + " " + item.last_name +"</a>" )
+                .appendTo( ul );
+            };
+  
+
+            var cacheMedico = {},
+              lastXhr,
+              $medicoName = $('#medico_name');
+
+              $medicoName.autocomplete({
+                minLength: 2,
+                source: function( request, response ) {
+                  var term = request.term;
+                  if ( term in cacheMedico ) {
+                    response( cacheMedico[ term ] );
+                    return;
+                  }                      
+                  lastXhr = $.getJSON( "/contact/list-json", {    
+                    title: "Medico",
+                    first_name__like : "%"+term + "%",
+                    last_name__like__or : "%"+term + "%"
+                  }, function( data, status, xhr ) {
+                    cacheMedico[ term ] = data;
+                    if ( xhr === lastXhr ) {
+                      response( data.result );
+                    }
+                  });
+                },
+                focus: function( event, ui ) {
+                  $medicoName.val( ui.item.first_name + " " + ui.item.last_name);
+                  return false;
+                },
+                select: function( event, ui ) {
+                  $medicoName.val( ui.item.first_name + " " + ui.item.last_name);
+                  MedicosController.set( "content", [] );
+                  MedicosController.addObject(Contact.create(ui.item));
+                  return false;
+                }
+              })
+              .data( "autocomplete" )._renderItem = function( ul, item ) {
+                return $( "<li></li>" )
+                  .data( "item.autocomplete", item )
+                  .append( "<a>" + item.first_name + " " + item.last_name +"</a>" )
+                  .appendTo( ul );
+              };
+        }
+    })
+
+    //AnalysisSelectedController.select(miAnalisis);
+
     AppAnalysis = Ember.Application.create();
 
     AppAnalysis.Prueba = Ember.Object.extend({
@@ -21,8 +267,39 @@
     AppAnalysis.PruebaListView = Ember.View.extend({
         tagName: 'tr',
         SelectedItem: function() {
-            var prueba = this.get('prueba');
-            console.log(prueba);
+            var prueba = this.get('prueba'),
+                pacientes = PacientesController.get( "content" ),
+                paciente = null,
+                reference = null;
+            if(pacientes.length){
+                paciente = pacientes[0];
+                // Busqueda de los valores de referencia para la prueba
+                // con el genero del paciente
+                ReferencesController.Search({
+                    item_id: prueba.get( "id" ),
+                    gender: paciente.get( "gender" )
+                }, function(references){
+                    if(references.length === 1){
+                        reference = references[0];
+                        //Registro de prueba
+                        ResultsController.CreateNew({
+                            analysis_id: null ,
+                            item_id: prueba.get( "id"),
+                            item_name: prueba.get( "name") ,
+                            ref_val_id: reference.get( "id" ),
+                            ref_val_value: reference.get( "value" ),
+                            ref_val_unit: reference.get( "unit" )
+                        });
+                    }else if(!references.length){
+                        alert("No existe parámetros de referencia para la prueba");
+                    }        
+                });
+            }
+            else{
+                alert("Seleccione un paciente");
+                console.log("Seleccione un paciente");
+            }
+            
         }
     });
 
@@ -43,33 +320,14 @@
         store : null
 
     });*/
-    StoreResult = function(name){
-        this.name = name;
-        this.data = {};
-
-        this.save = function( model ){
-            var jxhr = null;
-            jxhr = $.ajax("/results/rest", {                
-                type: "POST",
-                data: model.serialize()
-            });
-            return jxhr;
-        };
-
-        this.delete = function(model){
-            var jxhr = null;
-
-            jxhr = $.ajax("/results/rest", {                
-                type: "POST",
-                data: model.serialize()
-            });
-            return jxhr;
-        };
-    };
+    
 
     ResultsController = Ember.ArrayProxy.create({
         content: [],
-        store: new StoreResult() ,
+        store: new Store({
+            name: "result_store",
+            url: "/results/rest"
+        }) ,
         CreateNew: function(value){
             var result = Result.create(value),
                 self = this;
@@ -106,7 +364,10 @@
         }
     });
 
-    ResultsController.CreateNew(        
+
+
+
+    /*ResultsController.CreateNew(        
         {
             item_name: "prueba 1",
             ref_val_value: "value 1",
@@ -115,7 +376,7 @@
             item_id: 27,
             ref_val_id: 6            
         }
-    );
+    );*/
 
     /*ResultsController.addObject(Result.create({
         item_name: "prueba 2",
@@ -128,5 +389,59 @@
         ref_val_value: "value 3",
         ref_val_unit: "lt/x"
     }));*/
-    console.log("hola mundo");
+    Reference = Ember.Resource.extend({
+        resourceUrl:        '/contacts',
+        resourceName:       'reference',
+        resourceProperties: ['id', 'value', 'unit', 'item_id', 'description', 'gender', 'type']
+    });
+
+    ReferencesController = Ember.ArrayProxy.create({
+        content: [],
+        store: new Store({
+            name: "reference_store",
+            url: "/references/list-json"
+        }) ,
+        Search: function(query, callback){    
+            var self = this;        
+            this.get( "store" ).search(query)
+                .done(function(data){
+                    var reference = null;
+                    self.set( "content", [] );
+                    if(data.references && data.references.length > 0){
+                        $.map(data.references, function(item, index){
+                            reference = Reference.create(item);
+                            self.get("content").addObject(reference);    
+                        });                                                
+                    }
+                    callback && callback(self.get("content"));                    
+                })
+                .fail(function(){
+                    console.log("fail", "ups tenemos problemas huston");
+                });
+        }
+        
+    });
+
+    
+    Contact = Ember.Resource.extend({
+        resourceUrl:        '/contacts',
+        resourceName:       'contact',
+        resourceProperties: ['id', 'first_name', 'last_name', 'gender', 'title']
+    });
+
+    PacientesController = Ember.ArrayProxy.create({
+        content: [],
+        store: new Store({
+            name: "contacts_store",
+            url: "/contacts/list-json"
+        })
+    });
+
+    MedicosController = Ember.ArrayProxy.create({
+        content: [],
+        store: new Store({
+            name: "contacts_store",
+            url: "/contacts/list-json"
+        })
+    });
 

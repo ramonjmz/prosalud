@@ -16,7 +16,6 @@ class ResultsController extends Zend_Controller_Action
 			$responseJson["result"] =  $resultsModel->save($_POST["result"], $_POST["result"]["id"]);			
 		}
 		
-		//$json = array("result" => $contacts->toArray());
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
             ->setBody(json_encode($responseJson));
