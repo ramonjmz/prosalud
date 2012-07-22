@@ -111,7 +111,7 @@
                     select: function( event, ui ) {
                       $( "#estudio_name" ).val( ui.item.name );
                       console.log(ui.item.id);
-                      AppPrueba.pruebasController.getBy({"test_id": ui.item.id});
+                      AppAnalysis.pruebasController.getBy({"test_id": ui.item.id});
                       return false;
                     }
                   })
@@ -144,8 +144,8 @@
   </tr>
   </thead>
   <tbody>
-    {{#each AppPrueba.pruebasController}}
-        {{#view AppPrueba.PruebaListView pruebaBinding="this"}}
+    {{#each AppAnalysis.pruebasController}}
+        {{#view AppAnalysis.PruebaListView pruebaBinding="this"}}
             <td>{{prueba.name}}</td>
             <td >{{prueba.description}}
             <td><button class="btn btn-success" {{action SelectedItem}} ><i class="icon-plus-sign icon-white"></i></button></td>
@@ -170,62 +170,18 @@
   </tr>
   </thead>
   <tbody>
-    {{#each AppPrueba.pruebasSelectedController}}
-        {{#view AppPrueba.PruebaSelectedListView pruebaBinding="this"}}
-            <td>{{prueba.name}}</td>
-            <td >{{prueba.description}}</td>
-            <td >{{prueba.description}}</td>
-            <td><button class="btn btn-danger" {{action RemoveItem}} ><i class="icon-trash icon-white"></i></button></td>
+    {{#each ResultsController}}
+        {{#view ResultsListView resultBinding="this"}}
+            <td>{{result.item_name}}</td>
+            <td >{{result.ref_val_value}}</td>
+            <td >{{result.ref_val_unit}}</td>
+            <td><button class="btn btn-danger" {{action Remove}} ><i class="icon-trash icon-white"></i></button></td>
         {{/view}}
     {{/each}}
   </tbody>
 </table>
 </script>​
 
-<!--<table class="table table-striped">
-  <tbody>
-    <tr>
-      <td>Id</td>
-      <td>Descripcion</td>
-      <td>Val. Referencia</td>
-      <td>Unidad</td>
-      <td></td>
-
-    </tr>
-    <tr>
-      <td>17</td>
-      <td>COLOR</td>
-      <td>Obscuro</td>
-      <td>COLOR</td>
-                  <td align="center"><a class="btn btn-danger" href="/register/delete/id/23"><i class="icon-trash icon-white"></i></a></td>
-      
-    </tr>
-    <tr>
-      <td>16</td>
-      <td>VOLUMEN</td>
-      <td>10.75</td>
-      <td>mg/dL</td>
-                  <td align="center"><a class="btn btn-danger" href="/register/delete/id/23"><i class="icon-trash icon-white"></i></a></td>
-      
-    
-    </tr>
-        
-     
-  </tbody>
-</table>-->
-
 </div>
 </div>
 </div>
-<script type="text/javascript">
-window.customInitFunctions = window.customInitFunctions || [];
-window.customInitFunctions.push(
-  function(){
-    yepnope.injectJs("/js/libs/ember-0.9.5.min.js");
-    yepnope.injectJs("/js/models/Prueba.js");
-  }
-);
-
-
-</script>
-

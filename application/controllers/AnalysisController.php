@@ -39,6 +39,9 @@ class AnalysisController extends Zend_Controller_Action
         $especialidad = new Application_Model_Specialties();
         $especialidades = $especialidad->getAll();
     	$this->view->form =$form;
+        $this->view->headScript()->appendFile("/js/libs/ember-0.9.5.min.js");
+        $this->view->headScript()->appendFile("/js/libs/ember-rest.js");
+        $this->view->headScript()->appendFile("/js/models/Prueba.js");
         $this->view->especialidades = $especialidades;
     	
     }
