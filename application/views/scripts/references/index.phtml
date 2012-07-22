@@ -1,48 +1,55 @@
-<a href="/references/add/"> Agregar </a>
- <div class="page-header">
-    <h2>Listado de valores de refrencias </h2>
-  </div>
-	<table class="table table-striped">
-		<tr>
-			<th>Id</th>
-			<th>Valor de referencia</th>
-			<th>Unidad</th>
-			<th>Genero</th>
-			<th>Prueba</th>
-			<th>Tipo de Prueba</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-		</tr>
-		
-		<?php if( count( $this->paginator )) :?>
-		
-		<?php foreach( $this->paginator as $reference) :?>
-		
-		<tr>
-			<td><?php echo $reference->id;?></td>
-			<td><?php echo $reference->value;?></td>
-			<td><?php echo $reference->unit;?></td>
-			<td><?php echo $reference->gender;?></td>
-			<td><?php echo $reference->cname;?></td>
-	 			<td><?php echo $reference->type;?></td>
-	 
-			<td align="center"><a class="btn btn-success" href="/references/update/id/<?php echo $reference->id ?>"><i class="icon-pencil icon-white"></i></a></td>
-			<td align="center"><a class="btn btn-danger" href="/references/delete/id/<?php echo $reference->id ?>"><i class="icon-trash icon-white"></i></a></td>
-		</tr>
-		
+
+<div class="page-header">
+<h3>Valores de Refrencia</h3>
+</div>
+<form class="well form-search"><input type="text"
+	class="input-medium search-query" placeholder="Nombre de prueba">
+<button type="submit" class="btn btn-info"><i
+	class="icon-search icon-white"></i> Buscar</button>
+<a class="btn btn-success" href="/references/add/"><i
+	class="icon-plus-sign icon-white"></i> Agregar</a></form>
+<table class="table table-striped">
+	<tr>
+		<th>Id</th>
+		<th>Valor de referencia</th>
+		<th>Unidad</th>
+		<th>Genero</th>
+		<th>Prueba</th>
+		<th>Tipo de Prueba</th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+	</tr>
+
+	<?php if( count( $this->paginator )) :?>
+
+	<?php foreach( $this->paginator as $reference) :?>
+
+	<tr>
+		<td><?php echo $reference->id;?></td>
+		<td><?php echo $reference->value;?></td>
+		<td><?php echo $reference->unit;?></td>
+		<td><?php echo $reference->gender;?></td>
+		<td><?php echo $reference->cname;?></td>
+		<td><?php echo $reference->type;?></td>
+
+		<td align="center"><a class="btn btn-success"
+			href="/references/update/id/<?php echo $reference->id ?>"><i
+			class="icon-pencil icon-white"></i></a></td>
+		<td align="center"><a class="btn btn-danger"
+			href="/references/delete/id/<?php echo $reference->id ?>"><i
+			class="icon-trash icon-white"></i></a></td>
+	</tr>
+
+
+	<?php endforeach;?>
+	<?php else : ?>
+	<tr>
+		<td colspan="5">No hay datos</td>
+	</tr>
+
+	<?php endif;?>
 	
-		<?php endforeach;?>
-		<?php else : ?>
-		<tr>
-			<td colspan="5">No hay datos</td>
-		</tr>
-		
-		<?php endif;?>
-		
-		
-		<?php if( count( $this->paginator )):?>
-		    <?php echo $this->paginator;?>
-		<?php endif;?>
-	</table>
-     	 
-      
+</table>
+<?php if( count( $this->paginator )):?>
+	<?php echo $this->paginator;?>
+	<?php endif;?>

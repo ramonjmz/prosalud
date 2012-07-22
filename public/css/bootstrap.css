@@ -161,7 +161,9 @@ body {
   font-size: 13px;
   line-height: 18px;
   color: #333333;
-  background-color: #ffffff;
+  background-color: #e4ebf0;
+/* background-image:url('/img/gradient.png');*/
+  
 }
 
 a {

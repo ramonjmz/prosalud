@@ -1,48 +1,63 @@
-<a href="/contact/add/"> Agregar </a> 
-     		  <div class="page-header">
-    <h2>Listado de contactos </h2>
-  </div>
+<div class="page-header">
+<h3>Listado de Contactos</h3>
+</div>
+<form class="well form-search">
+<input type="text" 	class="input-medium search-query" placeholder="Nombre"> 
+<select id="select01">
+	<option></option>
+	<option>Contacto</option>
+	<option>Medico</option>
+	<option>Paciente</option>
+</select>
+<button type="submit" class="btn btn-info"><i class="icon-search icon-white"></i> Buscar</button>
+ <a class="btn btn-success" href="/contact/add/"><i class="icon-plus-sign icon-white"></i> Agregar</a>
 
-	<table class="table table-striped">
-		<tr>
-			<th>Id</th>
-			<th>Nombre</th>
-			<th>Apellidos</th>
-			<th>Telefono</th>
-			<th>eMail</th>
-			<th>Fecha de Creación</th>
-			<th>tipo</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-		</tr>
-		
-		<?php if( count( $this->paginator )) :?>
-		
-		<?php foreach( $this->paginator as $person) :?>
-		
-		<tr>
-			<td><?php echo $person->id;?></td>
-			<td><?php echo $person->first_name;?></td>
-			<td><?php echo $person->last_name;?></td>
-			<td><?php echo $person->phone_home;?></td>
-			<td><?php echo $person->email;?></td>
-			<td><?php echo $person->date_entered;?></td>
-			<td><?php echo $person->title;?></td>
-			<td align="center"><a class="btn btn-success" href="/contact/update/id/<?php echo $person->id ?>"><i class="icon-pencil icon-white"></i></a></td>
-			<td align="center"><a class="btn btn-danger" href="/contact/delete/id/<?php echo $person->id ?>"><i class="icon-trash icon-white"></i></a></td>
-		</tr>
-		
+</form>
+<table class="table table-striped">
+	<tr>
+		<th>Id</th>
+		<th>Nombre</th>
+		<th>Apellidos</th>
+		<th>Telefono</th>
+		<th>eMail</th>
+		<th>Fecha de Creación</th>
+		<th>tipo</th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+	</tr>
+
+	<?php if( count( $this->paginator )) :?>
+
+	<?php foreach( $this->paginator as $person) :?>
+
+	<tr>
+		<td><?php echo $person->id;?></td>
+		<td><?php echo $person->first_name;?></td>
+		<td><?php echo $person->last_name;?></td>
+		<td><?php echo $person->phone_home;?></td>
+		<td><?php echo $person->email;?></td>
+		<td><?php echo $person->date_entered;?></td>
+		<td><?php echo $person->title;?></td>
+		<td align="center"><a class="btn btn-success"
+			href="/contact/update/id/<?php echo $person->id ?>"><i
+			class="icon-pencil icon-white"></i></a></td>
+		<td align="center"><a class="btn btn-danger"
+			href="/contact/delete/id/<?php echo $person->id ?>"><i
+			class="icon-trash icon-white"></i></a></td>
+	</tr>
+
+
+	<?php endforeach;?>
+	<?php else : ?>
+	<tr>
+		<td colspan="5">No hay datos</td>
+	</tr>
+
+	<?php endif;?>
+
+
 	
-		<?php endforeach;?>
-		<?php else : ?>
-		<tr>
-			<td colspan="5">No hay datos</td>
-		</tr>
-		
-		<?php endif;?>
-		
-		
-		<?php if( count( $this->paginator )):?>
-		    <?php echo $this->paginator;?>
-		<?php endif;?>
-	</table> 
+</table>
+<?php if( count( $this->paginator )):?>
+	<?php echo $this->paginator;?>
+	<?php endif;?>

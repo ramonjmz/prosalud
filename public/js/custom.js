@@ -1,12 +1,14 @@
 $(function() {
-	
-	    $('.dropdown-toggle').dropdown()
 
-		$('.carousel').carousel()
-		
-		$('.typeahead').typeahead()
+$('.datepicker').datepicker()
+    
+$('.dropdown-toggle').dropdown()
 
-		window.customInitFunctions  && $.map(window.customInitFunctions, function(item, index){
-			item();
-		});
+$('.carousel').carousel()
+
+$('.typeahead').typeahead()
+
+window.customInitFunctions && $.map(window.customInitFunctions, function(item, index){
+item();
+});
 });

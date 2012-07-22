@@ -2,38 +2,38 @@
 class ContactController extends Zend_Controller_Action
 {
 
-	public function init(){
-		
-		$options = array( 'layout'   => 'interno');
-		Zend_Layout::startMvc($options);
-		 
-	 
-	}
+public function init(){
 
-	public function addAction() {
-		
-	
-		$options = array( 'layout'   => 'layout');
-		Zend_Layout::startMvc($options);
-		 
-
-		$form = new Application_Form_Person();
-
-		if ($this->getRequest()->isPost()) {
-
-			if ($form->isValid($this->_getAllParams())) {
-				$model = new Application_Model_Contacts();
-				$model->save($form->getValues());
-				return $this->_redirect('/contact/index/page/1');
-			}
-		}
+$options = array( 'layout' => 'interno');
+Zend_Layout::startMvc($options);
 
 
-		$this->view->form = $form;
-	}
+}
+
+public function addAction() {
 
 
-	    public function deleteAction() {
+$options = array( 'layout' => 'layout');
+Zend_Layout::startMvc($options);
+
+
+$form = new Application_Form_Person();
+
+if ($this->getRequest()->isPost()) {
+
+if ($form->isValid($this->_getAllParams())) {
+$model = new Application_Model_Contacts();
+$model->save($form->getValues());
+return $this->_redirect('/contact/index/page/1');
+}
+}
+
+
+$this->view->form = $form;
+}
+
+
+public function deleteAction() {
 
         if (!$this->_hasParam('id')) {
             return $this->_redirect('/contact/index/page/1');
@@ -93,8 +93,8 @@ class ContactController extends Zend_Controller_Action
     }
 
     public function indexAction() {
-		
-    	$auth = Zend_Auth::getInstance();
+
+     $auth = Zend_Auth::getInstance();
         if (! $auth->hasIdentity()) {
             return $this->_redirect('/auth/login');
         }
@@ -129,9 +129,9 @@ class ContactController extends Zend_Controller_Action
             if(count($campoComparacion) === 3){
                 if($campoComparacion[2] === "or")
                     $orWheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
-            }else{ 
+            }else{
                 $wheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
-            }  
+            }
         }
         //echo print_r($wheres, true);
         $contacts = $contacsModel->getBy($wheres, $orWheres);
@@ -140,7 +140,7 @@ class ContactController extends Zend_Controller_Action
             ->setHeader('Content-Type', 'application/json')
             ->setBody(json_encode($json));
     }
-	
+
 }
 
 
