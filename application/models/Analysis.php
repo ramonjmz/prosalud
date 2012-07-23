@@ -30,4 +30,16 @@ class Application_Model_Analysis extends Zend_Db_Table_Abstract
 
 	}
 
+	public function save( $bind, $id = null )
+	{
+		if( is_null( $id )){
+			$row = $this->createRow();
+		}else{
+			$row = $this->getRow( $id );
+		}
+
+		$row->setFromArray( $bind );
+		return $row->save();
+	}
+
 }

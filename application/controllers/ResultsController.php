@@ -13,7 +13,8 @@ class ResultsController extends Zend_Controller_Action
         $responseJson = array();
         $resultsModel = new Application_Model_Results();
 		if($this->getRequest()->isPost()){
-			$responseJson["result"] =  $resultsModel->save($_POST["result"], $_POST["result"]["id"]);			
+			$result = $resultsModel->getRow($resultsModel->save($_POST["result"], $_POST["result"]["id"]));
+			$responseJson["result"] =  $result;			
 		}
 		
         $this->getResponse()
