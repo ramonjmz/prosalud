@@ -38,14 +38,29 @@
         resourceUrl:        '/analysis',
         resourceName:       'analysis',
         resourceProperties: ['id', 'applicant_id', 'applicant_name', 'medic_id', 'medic_name', 'deleted'],
-
-
+        
     });
 
     AnalysisSelectedController = Em.Object.create({
         selectedItem : null,
+        source: new Store({
+            url: "/analysis/rest"
+        }),
         select: function(analysis){
             this.set('selectedItem', analysis);
+        },
+        Delete: function(callback){
+            var model = this.get('selectedItem');
+            if(model){
+                model.set("deleted", 1);
+                this.get('source').save(model)
+                    .done(function(data){
+                        callback && callback(data);
+                    })
+                    .fail(function(){
+                        console.log("Error");
+                    })
+            }
         }
     });
 
@@ -64,22 +79,45 @@
             url: "/analysis/rest"
         }),
         CreateNew: function(value, callback){
-            var analysis = Analysis.create(value),
+            var analysis = Analysis.create(value)
+                analysisCreated = null,
                 self = this;
             this.get( "store" ).save(analysis)
-                .done(function(){                    
-                    self.get("content").addObject(analysis);
+                .done(function(data){    
+                    if(data.analysis){
+                        analysisCreated = Analysis.create(data.analysis);
+                        self.get("content").addObject(analysisCreated);    
+                    }                    
                     callback && callback(analysis);                    
                 })
                 .fail(function(){
                     console.log("fail", "ups tenemos problemas huston");
                 });
         },
+        Remove: function(callback){
+            var self = this;
+            self.get( "store" ).delete(model)
+                .done(function(){
+                    callback && callback(model);
+                })
+                .fail(function(){
+                    console.log("fail", "ups tenemos problemas huston");
+                });
+        }
     });
 
     AnalysisCreatedView = Ember.View.extend({
+
         tagName: 'div',
-        contentBinding: 'AnalysisSelectedController.selectedItem',        
+
+        contentBinding: 'AnalysisSelectedController.selectedItem',   
+
+        Delete: function(){            
+            AnalysisSelectedController.Delete(function(){
+                window.location = "/analysis/add";
+            });
+        },          
+
         didInsertElement: function(){
             var cache = {},
             lastXhr;
@@ -151,8 +189,10 @@
             AnalysisController.CreateNew({
                 applicant_id: paciente.get( "id" ),
                 medic_id: medico.get( "id" )
-            }, function(analysis){
-                AnalysisSelectedController.set( "selectedItem", analysis );
+            }, function(analysisNew){
+                analysisNew.set("applicant_name", paciente.get("first_name") + " " + paciente.get("last_name"));
+                analysisNew.set("medic_name", medico.get("first_name") + " " + medico.get("last_name"));                
+                AnalysisSelectedController.set( "selectedItem", analysisNew );
             });            
         },
         didInsertElement: function(){
@@ -168,7 +208,7 @@
                   response( cacheApplicant[ term ] );
                   return;
                 }
-                console.log(request);
+                
                 lastXhr = $.getJSON( "/contact/list-json", {    
                   title: "Paciente",
                   first_name__like : "%"+term + "%",
@@ -176,7 +216,13 @@
                 }, function( data, status, xhr ) {
                   cacheApplicant[ term ] = data;
                   if ( xhr === lastXhr ) {
-                    response( data.result );
+                    if(data.result && data.result.length){
+                        response( data.result );    
+                    }
+                    else{
+                        response( data.result );   
+                    }
+                    
                   }
                 });
               },
@@ -269,29 +315,39 @@
         SelectedItem: function() {
             var prueba = this.get('prueba'),
                 pacientes = PacientesController.get( "content" ),
+                analysisCollection = AnalysisController.get( "content" ),
+                analysis = analysisCollection[0],
                 paciente = null,
                 reference = null;
+
             if(pacientes.length){
                 paciente = pacientes[0];
                 // Busqueda de los valores de referencia para la prueba
                 // con el genero del paciente
-                ReferencesController.Search({
-                    item_id: prueba.get( "id" ),
-                    gender: paciente.get( "gender" )
+                ReferencesController.Search({            
+                    gender__in: [paciente.get( "gender" ),"A"],
+                    item_id: prueba.get( "id" )
                 }, function(references){
                     if(references.length === 1){
                         reference = references[0];
                         //Registro de prueba
                         ResultsController.CreateNew({
-                            analysis_id: null ,
+                            analysis_id: analysis.get( "id" ) ,
                             item_id: prueba.get( "id"),
                             item_name: prueba.get( "name") ,
                             ref_val_id: reference.get( "id" ),
                             ref_val_value: reference.get( "value" ),
                             ref_val_unit: reference.get( "unit" )
+                        }, function(resultNew){
+                            resultNew.set("item_name", prueba.get("name"));
+                            resultNew.set("ref_val_value", reference.get("value"));
+                            resultNew.set("ref_val_unit", reference.get("unit"));
+                            ResultsController.get("content").addObject(resultNew);
                         });
                     }else if(!references.length){
                         alert("No existe parámetros de referencia para la prueba");
+                    }else{
+                        alert("Existe mas de una valor de referencia.");
                     }        
                 });
             }
@@ -328,13 +384,16 @@
             name: "result_store",
             url: "/results/rest"
         }) ,
-        CreateNew: function(value){
-            var result = Result.create(value),
+        CreateNew: function(value, callback){
+            var result = Result.create(value)
+                resultNew = null,
                 self = this;
             this.get( "store" ).save(result)
-                .done(function(){
-                    console.log("done", arguments);
-                    self.get("content").addObject(result);
+                .done(function(data){
+                    if(data.result){
+                        resultNew = Result.create(data.result);                        
+                        callback && callback(resultNew);
+                    }                    
                 })
                 .fail(function(){
                     console.log("fail", "ups tenemos problemas huston");
