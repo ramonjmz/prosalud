@@ -127,6 +127,43 @@ class ReferencesController extends Zend_Controller_Action
         $this->view->paginator = $paginator;
 
     }
+
+    public function listJsonAction()
+    {
+        $this->_helper->viewRenderer->setNoRender();
+        $this->_helper->layout->disableLayout();
+
+        $referencesModel = new Application_Model_References();
+        $wheres = array();
+        $orWheres = array();
+        $params = $this->_request->getParams();
+        unset($params['controller']);
+        unset($params['action']);
+        unset($params['module']);
+        //echo print_r($params) ;
+        foreach ($params as $key => $value) {
+            
+            $campoComparacion = explode("__", $key);
+            if($campoComparacion[1] === "or"){
+                $orWheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
+            }else{
+                $comparacion = count($campoComparacion) > 1 ? $campoComparacion[1] : "=";
+                if(count($campoComparacion) === 3){
+                    if($campoComparacion[2] === "or")
+                        $orWheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
+                }else{                     
+
+                    $wheres[$campoComparacion[0] . " ". $comparacion . (is_array($value)?" (?)": " ?")] = $value;
+                }
+            }
+        }
+        //echo print_r($wheres, true);
+        $reference = $referencesModel->getBy($wheres, $orWheres);
+        $json = array("references" => $reference->toArray());
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($json));
+    }
 	
 }
 
