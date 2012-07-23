@@ -1,11 +1,11 @@
-    Store = function(options){
+  Store = function(options){
         this.name = options.name || "";
         this.data = {};
         this.url = options.url || "";
         this.save = function( model ){
             var self = this,
                 jxhr = null;
-            jxhr = $.ajax(self.url, {                
+            jxhr = $.ajax(self.url, {
                 type: "POST",
                 data: model.serialize()
             });
@@ -16,7 +16,7 @@
             var jxhr = null,
                 self = this;
 
-            jxhr = $.ajax(self.url, {                
+            jxhr = $.ajax(self.url, {
                 type: "POST",
                 data: model.serialize()
             });
@@ -35,8 +35,8 @@
     };
 
     Analysis = Ember.Resource.extend({
-        resourceUrl:        '/analysis',
-        resourceName:       'analysis',
+        resourceUrl: '/analysis',
+        resourceName: 'analysis',
         resourceProperties: ['id', 'applicant_id', 'applicant_name', 'medic_id', 'medic_name', 'deleted'],
         
     });
@@ -67,7 +67,7 @@
     var miAnalisis = Analysis.create({
         id: 1,
         applicant_name: "tu",
-        medic_name: "yo",        
+        medic_name: "yo",
     });
 
     
@@ -83,12 +83,12 @@
                 analysisCreated = null,
                 self = this;
             this.get( "store" ).save(analysis)
-                .done(function(data){    
+                .done(function(data){
                     if(data.analysis){
                         analysisCreated = Analysis.create(data.analysis);
-                        self.get("content").addObject(analysisCreated);    
-                    }                    
-                    callback && callback(analysis);                    
+                        self.get("content").addObject(analysisCreated);
+                    }
+                    callback && callback(analysis);
                 })
                 .fail(function(){
                     console.log("fail", "ups tenemos problemas huston");
@@ -110,13 +110,13 @@
 
         tagName: 'div',
 
-        contentBinding: 'AnalysisSelectedController.selectedItem',   
+        contentBinding: 'AnalysisSelectedController.selectedItem',
 
-        Delete: function(){            
+        Delete: function(){
             AnalysisSelectedController.Delete(function(){
                 window.location = "/analysis/add";
             });
-        },          
+        },
 
         didInsertElement: function(){
             var cache = {},
@@ -162,8 +162,8 @@
             };
         }
         /*printCustomJavascript: function(){
-            return this.customJavascript;
-        }*/
+return this.customJavascript;
+}*/
     });
 
     AnalysisNewView = Ember.View.extend({
@@ -191,9 +191,9 @@
                 medic_id: medico.get( "id" )
             }, function(analysisNew){
                 analysisNew.set("applicant_name", paciente.get("first_name") + " " + paciente.get("last_name"));
-                analysisNew.set("medic_name", medico.get("first_name") + " " + medico.get("last_name"));                
+                analysisNew.set("medic_name", medico.get("first_name") + " " + medico.get("last_name"));
                 AnalysisSelectedController.set( "selectedItem", analysisNew );
-            });            
+            });
         },
         didInsertElement: function(){
             var cacheApplicant = {},
@@ -209,7 +209,7 @@
                   return;
                 }
                 
-                lastXhr = $.getJSON( "/contact/list-json", {    
+                lastXhr = $.getJSON( "/contact/list-json", {
                   title: "Paciente",
                   first_name__like : "%"+term + "%",
                   last_name__like__or : "%"+term + "%"
@@ -217,10 +217,10 @@
                   cacheApplicant[ term ] = data;
                   if ( xhr === lastXhr ) {
                     if(data.result && data.result.length){
-                        response( data.result );    
+                        response( data.result );
                     }
                     else{
-                        response( data.result );   
+                        response( data.result );
                     }
                     
                   }
@@ -256,8 +256,8 @@
                   if ( term in cacheMedico ) {
                     response( cacheMedico[ term ] );
                     return;
-                  }                      
-                  lastXhr = $.getJSON( "/contact/list-json", {    
+                  }
+                  lastXhr = $.getJSON( "/contact/list-json", {
                     title: "Medico",
                     first_name__like : "%"+term + "%",
                     last_name__like__or : "%"+term + "%"
@@ -288,7 +288,7 @@
         }
     })
 
-    //AnalysisSelectedController.select(miAnalisis);
+    AnalysisSelectedController.select(miAnalisis);
 
     AppAnalysis = Ember.Application.create();
 
@@ -324,7 +324,7 @@
                 paciente = pacientes[0];
                 // Busqueda de los valores de referencia para la prueba
                 // con el genero del paciente
-                ReferencesController.Search({            
+                ReferencesController.Search({
                     gender__in: [paciente.get( "gender" ),"A"],
                     item_id: prueba.get( "id" )
                 }, function(references){
@@ -348,7 +348,7 @@
                         alert("No existe parámetros de referencia para la prueba");
                     }else{
                         alert("Existe mas de una valor de referencia.");
-                    }        
+                    }
                 });
             }
             else{
@@ -360,22 +360,22 @@
     });
 
     Result = Ember.Resource.extend({
-        resourceUrl:        '/contacts',
-        resourceName:       'result',
+        resourceUrl: '/contacts',
+        resourceName: 'result',
         resourceProperties: ['id', 'analysis_id', 'item_id', 'item_name', 'ref_val_id', 'ref_val_value', 'ref_val_unit', 'result', 'deleted']
     });
     /*Result = Ember.Object.extend({
-        id: false,
-        analysis_id: null,
-        item_id: null,
-        item_name: null,
-        ref_val_id: null,
-        ref_val_value: null, 
-        ref_val_unit: "",
+id: false,
+analysis_id: null,
+item_id: null,
+item_name: null,
+ref_val_id: null,
+ref_val_value: null,
+ref_val_unit: "",
 
-        store : null
+store : null
 
-    });*/
+});*/
     
 
     ResultsController = Ember.ArrayProxy.create({
@@ -391,9 +391,9 @@
             this.get( "store" ).save(result)
                 .done(function(data){
                     if(data.result){
-                        resultNew = Result.create(data.result);                        
+                        resultNew = Result.create(data.result);
                         callback && callback(resultNew);
-                    }                    
+                    }
                 })
                 .fail(function(){
                     console.log("fail", "ups tenemos problemas huston");
@@ -426,31 +426,31 @@
 
 
 
-    /*ResultsController.CreateNew(        
-        {
-            item_name: "prueba 1",
-            ref_val_value: "value 1",
-            ref_val_unit: "lt/x",
-            analysis_id: 23,
-            item_id: 27,
-            ref_val_id: 6            
-        }
-    );*/
+    /*ResultsController.CreateNew(
+{
+item_name: "prueba 1",
+ref_val_value: "value 1",
+ref_val_unit: "lt/x",
+analysis_id: 23,
+item_id: 27,
+ref_val_id: 6
+}
+);*/
 
     /*ResultsController.addObject(Result.create({
-        item_name: "prueba 2",
-        ref_val_value: "value 2",
-        ref_val_unit: "lt/x"
-    }));*/
+item_name: "prueba 2",
+ref_val_value: "value 2",
+ref_val_unit: "lt/x"
+}));*/
 
     /*AppAnalysis.ResultsController.addObject(AppAnalysis.Result.create({
-        item_name: "prueba 3",
-        ref_val_value: "value 3",
-        ref_val_unit: "lt/x"
-    }));*/
+item_name: "prueba 3",
+ref_val_value: "value 3",
+ref_val_unit: "lt/x"
+}));*/
     Reference = Ember.Resource.extend({
-        resourceUrl:        '/contacts',
-        resourceName:       'reference',
+        resourceUrl: '/contacts',
+        resourceName: 'reference',
         resourceProperties: ['id', 'value', 'unit', 'item_id', 'description', 'gender', 'type']
     });
 
@@ -460,8 +460,8 @@
             name: "reference_store",
             url: "/references/list-json"
         }) ,
-        Search: function(query, callback){    
-            var self = this;        
+        Search: function(query, callback){
+            var self = this;
             this.get( "store" ).search(query)
                 .done(function(data){
                     var reference = null;
@@ -469,10 +469,10 @@
                     if(data.references && data.references.length > 0){
                         $.map(data.references, function(item, index){
                             reference = Reference.create(item);
-                            self.get("content").addObject(reference);    
-                        });                                                
+                            self.get("content").addObject(reference);
+                        });
                     }
-                    callback && callback(self.get("content"));                    
+                    callback && callback(self.get("content"));
                 })
                 .fail(function(){
                     console.log("fail", "ups tenemos problemas huston");
@@ -483,8 +483,8 @@
 
     
     Contact = Ember.Resource.extend({
-        resourceUrl:        '/contacts',
-        resourceName:       'contact',
+        resourceUrl: '/contacts',
+        resourceName: 'contact',
         resourceProperties: ['id', 'first_name', 'last_name', 'gender', 'title']
     });
 
@@ -502,5 +502,3 @@
             name: "contacts_store",
             url: "/contacts/list-json"
         })
-    });
-

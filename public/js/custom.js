@@ -1,7 +1,4 @@
 $(function() {
-
-$('.datepicker').datepicker()
-    
 $('.dropdown-toggle').dropdown()
 
 $('.carousel').carousel()

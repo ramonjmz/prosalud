@@ -171,15 +171,15 @@ class AnalysisController extends Zend_Controller_Action
 		echo $pdf->render();
 	}
 
-    public function restAction(){
+   public function restAction(){
         $this->_helper->viewRenderer->setNoRender();
         $this->_helper->layout->disableLayout();
         $responseJson = array();
         $analysisModel = new Application_Model_Analysis();
         if($this->getRequest()->isPost()){
-            $analysis = $analysisModel->getRow($analysisModel->save($_POST["analysis"], $_POST["analysis"]["id"]));           
+            $analysis = $analysisModel->getRow($analysisModel->save($_POST["analysis"], $_POST["analysis"]["id"]));
 
-            $responseJson["analysis"] = $analysis->toArray();           
+            $responseJson["analysis"] = $analysis->toArray();
         }
         
         $this->getResponse()
