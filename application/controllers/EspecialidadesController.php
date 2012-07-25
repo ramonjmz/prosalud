@@ -26,8 +26,8 @@ class EspecialidadesController extends Zend_Controller_Action
 
         if ($this->_hasParam('page')) {
             $paginator->setCurrentPageNumber($this->_getParam('page'));
-                        $paginator->setItemCountPerPage(5);
-            
+			$paginator->setItemCountPerPage(5);
+                        
         }
 
         $this->view->paginator = $paginator;

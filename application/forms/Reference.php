@@ -3,10 +3,17 @@
 class Application_Form_Reference extends Zend_Form {
 
     public function init() {
+    	
+    	$this->addElement(
+                'text', 'name', array(
+            'label' => 'Nombre',
+            'required' => false
+                )
+        );
 
         $this->addElement(
                 'text', 'value', array(
-            'label' => 'Valor de referencia',
+            'label' => 'Referencia',
             'required' => true
                 )
         );
@@ -26,11 +33,13 @@ class Application_Form_Reference extends Zend_Form {
 		)
 		);
 		
-		       $this->addElement(
-                'text', 'description', array(
-            'label' => 'Descripcion'
+		      		$this->addElement('textarea', 'description', array(
+            'label'      => 'Escriba un comentario:',
+         		'rows' => '5', 
+             'validators' => array(
+                array('validator' => 'StringLength', 'options' => array(0, 100))
                 )
-        );
+        ));
         
           $this->addElement(
                 'text', 'item_id', array(
@@ -40,29 +49,14 @@ class Application_Form_Reference extends Zend_Form {
                 )
         );
         
-               $this->addElement(
-                'text', 'type', array(
-            'label' => 'Tipo de Prueba'            
-                )
-        );
+               	 $this->addElement( 'select', 'type', array(
+		'label' => 'Tipo de prueba',
+		 'required' => true,
+		'multiOptions' => array('R'=> 'Referencia','D' => 'Descripcion')
+		)
+		);
         
-
-        /*
-        $this->addElement( 'select', 'item_id',array(
-            'label' => 'Prueba'
-            
-        )
-                
-        );
-		
-		
-        
-        $especialidad = new Application_Model_Specialties();
-        
-        $this->specialty_id->addMultiOptions( 
-                $especialidad->getAsKeyValue()
-        );
-        */
+ 
         $this->addElement(
                 'submit', 'Guardar', array()
         );

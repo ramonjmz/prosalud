@@ -93,8 +93,15 @@ class ReferencesController extends Zend_Controller_Action
   
         $model = new Application_Model_References();
 
+        if(!$this->_hasParam('id')){
+			$items = $model->getAll();
+		}else{
+			$items =  $model->getAllNewsGroupById($this->_getParam('id'));
+		}
+		
+        
           Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
-        $paginator = Zend_Paginator::factory($model->getAll());
+        $paginator = Zend_Paginator::factory($items);
 
         if ($this->_hasParam('page')) {
             $paginator->setCurrentPageNumber($this->_getParam('page'));
@@ -106,27 +113,7 @@ class ReferencesController extends Zend_Controller_Action
  
     }
     
-	public function listAction()
-    {
-        
-        if( !$this->_hasParam('id')){
-            return $this->_redirect('/references/');
-        }
-        
-        $items = new Application_Model_References();
-        
-        $item = $items->getAllNewsGroupById($this->_getParam('id'));
-        
-        Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
-        $paginator = Zend_Paginator::factory($item);
-
-        if ($this->_hasParam('page')) {
-            $paginator->setCurrentPageNumber($this->_getParam('page'));
-        }
-
-        $this->view->paginator = $paginator;
-
-    }
+	 
 
     public function listJsonAction()
     {

@@ -8,9 +8,10 @@
 	class="icon-search icon-white"></i> Buscar</button>
 <a class="btn btn-success" href="/references/add/"><i
 	class="icon-plus-sign icon-white"></i> Agregar</a></form>
-<table class="table table-striped">
+<table class="table table-striped well">
 	<tr>
 		<th>Id</th>
+		<th>Nombre</th>
 		<th>Valor de referencia</th>
 		<th>Unidad</th>
 		<th>Genero</th>
@@ -26,6 +27,7 @@
 
 	<tr>
 		<td><?php echo $reference->id;?></td>
+		<td><?php echo $reference->name;?></td>
 		<td><?php echo $reference->value;?></td>
 		<td><?php echo $reference->unit;?></td>
 		<td><?php echo $reference->gender;?></td>

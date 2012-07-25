@@ -30,6 +30,15 @@ class Application_Form_Person extends Zend_Form {
             'required' => true
 				)
 		);
+		
+		$this->addElement('textarea', 'description', array(
+            'label'      => 'Escriba un comentario:',
+         		'rows' => '5', 
+             'validators' => array(
+                array('validator' => 'StringLength', 'options' => array(0, 100))
+                )
+        ));
+        
 		$this->addElement(
 		'submit','Guardar',array()
 		);

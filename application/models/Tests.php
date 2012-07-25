@@ -39,7 +39,7 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
 	{
 		return $this->fetchAll(
 			$this->select()
-			->order('name DESC')
+			->order('id DESC')
 			->limit(5)
 		);
 	}	
@@ -71,6 +71,8 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
                 ->join(array( 'c' =>'specialties'), 'c.id = p.specialty_id', 
                         array('cname' => 'name' ) )
                 ->where('c.id = ?' , $id )
+                			->order('id ASC')
+                
                 ->setIntegrityCheck(false);
         
         

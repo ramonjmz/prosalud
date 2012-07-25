@@ -29,6 +29,13 @@ class Application_Form_Analysis extends Zend_Form {
             'required' => true
 				)
 		); 
+		
+		$this->addElement( 'select', 'status', array(
+		'label' => 'Status',
+		 'required' => true,
+		'multiOptions' => array('Pendiente'=>'Pendiente','Firmado'=> 'Firmado','Completado'=> 'Completado','Entregado'=> 'Entregado')
+		)
+		);
  
 			 
 		$this->addElement(

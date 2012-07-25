@@ -31,19 +31,19 @@ class Application_Form_Contact extends Zend_Form {
 		);
 		
 		        // Add the comment element
-        $this->addElement('textarea', 'description', array(
-            'label'      => 'Escriba un comentario:',
-         		'rows' => '5', 
-             'validators' => array(
-                array('validator' => 'StringLength', 'options' => array(0, 100))
-                )
-        ));
         
 		 $this->addElement( 'select', 'title', array(
 		'label' => 'Tipo',
 		 'required' => true,
 		'multiOptions' => array(''=>'','Contacto' => 'Contacto', 'Paciente'
-		=> 'Paciente','Medico'=> 'Medico','Usuario'=>'Usuario')
+		=> 'Paciente','Medico'=> 'Medico')
+		)
+		);
+		
+		$this->addElement( 'select', 'gender', array(
+		'label' => 'Seleccion el Genero',
+		 'required' => true,
+		'multiOptions' => array('A'=>'','M'=>'Masculino','F' => 'Femenino')
 		)
 		);
 			 

@@ -7,12 +7,12 @@
 {{#if AnalysisSelectedController.selectedItem}}
   {{#view AnalysisCreatedView}}
     <div class="control-group">
-      <label class="control-label" >Nombre de Solicitante:</label>
-      <label class="control-label" >{{content.applicant_name}}}</label>
+      <label class="control-label" >Solicitante:</label>
+      <span class="input-xlarge uneditable-input">{{content.applicant_name}}}</span>
     </div>
     <div class="control-group">
-      <label class="control-label" >Nombre de medico</label>
-      <label class="control-label" >{{content.medic_name}}}</label>
+      <label class="control-label" >Medico:</label>
+       <span class="input-xlarge uneditable-input">{{content.medic_name}}}</span>
     </div>
     <div class="control-group ">
       <label class="control-label" for="selectError">Seleccione el especialidad</label>
@@ -38,13 +38,13 @@
 {{else}}
   {{#view AnalysisNewView}}
     <div class="control-group">
-      <label class="control-label" for="contact_name">Nombre de Solicitante</label>
+      <label class="control-label" for="contact_name">Solicitante:</label>
       <div class="controls">
         <input class="input-xlarge focused" id="contact_name" value="" type="text">
       </div>
     </div>
     <div class="control-group">
-      <label class="control-label" for="medico_name">Nombre de medico</label>
+      <label class="control-label" for="medico_name">Medico:</label>
       <div class="controls">
         <input class="input-xlarge" id="medico_name" type="text">
       </div>

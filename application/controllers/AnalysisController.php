@@ -35,19 +35,27 @@ class AnalysisController extends Zend_Controller_Action
 	}
 
 	public function addAction(){
-        $form =new Application_Form_Analysis();
-        $especialidad = new Application_Model_Specialties();
-        $especialidades = $especialidad->getAll();
-        $this->view->form =$form;
-        $this->view->headScript()->appendFile("/js/libs/ember-0.9.5.min.js");
-        $this->view->headScript()->appendFile("/js/libs/ember-rest.js");
-        $this->view->headScript()->appendFile("/js/models/Prueba.js");
-        $this->view->especialidades = $especialidades;
-		
+		$form =new Application_Form_Analysis();
+		$especialidad = new Application_Model_Specialties();
+		$especialidades = $especialidad->getAll();
+		$this->view->form =$form;
+		$this->view->headScript()->appendFile("/js/libs/ember-0.9.5.min.js");
+		$this->view->headScript()->appendFile("/js/libs/ember-rest.js");
+		$this->view->headScript()->appendFile("/js/models/Prueba.js");
+		$this->view->especialidades = $especialidades;
+
 	}
 
-	public function save(){
+	public function save( $bind, $id = null )
+	{
+		if( is_null( $id )){
+			$row = $this->createRow();
+		}else{
+			$row = $this->getRow( $id );
+		}
 
+		$row->setFromArray( $bind );
+		return $row->save();
 	}
 
 	public function deleteAction() {
@@ -78,13 +86,12 @@ class AnalysisController extends Zend_Controller_Action
 		if ($this->getRequest()->isPost()) {
 
 			if ($form->isValid($this->_getAllParams())) {
-				$model = new Application_Model_Analysis();
-				$model->save($form->getValues(), $this->_getParam('id'));
+ 				$datos->save($form->getValues(), $this->_getParam('id'));
 				return $this->_redirect('/analysis/index/page/1');
 			}
 		} else {
 
-			$row = $datos->getRow($this->_getParam('id'));
+			$row = $datos->getRowc($this->_getParam('id'));
 			if ($row) {
 				$form->populate($row->toArray());
 			}
@@ -93,6 +100,16 @@ class AnalysisController extends Zend_Controller_Action
 		$estudio = new Application_Model_Tests();
 		$estudios = $estudio->getAll();
 
+		Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
+		///$paginator = Zend_Paginator::factory($datos->BySpecialties($this->_getParam('id')));
+
+	/*	if ($this->_hasParam('page')) {
+			$paginator->setCurrentPageNumber($this->_getParam('page'));
+			$paginator->setItemCountPerPage(5);
+		}
+
+		$this->view->paginator = $paginator;
+*/
 		$this->view->estudios = $estudios;
 			
 		$this->view->form = $form;
@@ -171,20 +188,20 @@ class AnalysisController extends Zend_Controller_Action
 		echo $pdf->render();
 	}
 
-   public function restAction(){
-        $this->_helper->viewRenderer->setNoRender();
-        $this->_helper->layout->disableLayout();
-        $responseJson = array();
-        $analysisModel = new Application_Model_Analysis();
-        if($this->getRequest()->isPost()){
-            $analysis = $analysisModel->getRow($analysisModel->save($_POST["analysis"], $_POST["analysis"]["id"]));
+	public function restAction(){
+		$this->_helper->viewRenderer->setNoRender();
+		$this->_helper->layout->disableLayout();
+		$responseJson = array();
+		$analysisModel = new Application_Model_Analysis();
+		if($this->getRequest()->isPost()){
+			$analysis = $analysisModel->getRow($analysisModel->save($_POST["analysis"], $_POST["analysis"]["id"]));
 
-            $responseJson["analysis"] = $analysis->toArray();
-        }
-        
-        $this->getResponse()
-            ->setHeader('Content-Type', 'application/json')
-            ->setBody(json_encode($responseJson));
-    }
+			$responseJson["analysis"] = $analysis->toArray();
+		}
+
+		$this->getResponse()
+		->setHeader('Content-Type', 'application/json')
+		->setBody(json_encode($responseJson));
+	}
 
 }
