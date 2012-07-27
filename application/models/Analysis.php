@@ -70,6 +70,7 @@ class Application_Model_Analysis extends Zend_Db_Table_Abstract
 	{
 		if( is_null( $id )){
 			$row = $this->createRow();
+			$row->date_entered        = new Zend_Db_Expr('NOW()');
 		}else{
 			$row = $this->getRow( $id );
 		}

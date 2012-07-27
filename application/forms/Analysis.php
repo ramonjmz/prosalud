@@ -10,12 +10,8 @@ class Application_Form_Analysis extends Zend_Form {
 				)
 		);
 		
-				$this->addElement(
-		'text','date_entered',array(
-		'label'=>'Fecha',
-            'required' => true
-				)
-		);
+	 				 
+		
 		$this->addElement(
 		'text','applicant_id',array(
 				'label'=>'Solicitante',

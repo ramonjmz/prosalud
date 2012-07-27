@@ -18,10 +18,10 @@
 <table class="well table table-striped">
 	<tr>
 		<th>No</th>
-		<th>Fecha de solicitud</th>
+		<th>Creado</th>
 		<th>Solicitante</th>
 		<th>Medico</th>
-		<th>Status</th>
+		<th>Modificado</th>
  		<th>&nbsp;</th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
@@ -36,7 +36,7 @@
 		<td><?php echo $data->date_entered;?></td>
 		<td><?php echo $data->pfname.' '.$data->plname;?></td>
 		<td><?php echo $data->mfname.' '.$data->mlname;?></td>
-		<td><?php echo $data->status;?></td>
+		<td><?php echo $data->date_modified;?></td>
 		<td align="center"><a class="btn btn-success"
 			href="/analysis/update/id/<?php echo $data->id ?>"><i
 			class="icon-pencil icon-white"></i></a></td>
