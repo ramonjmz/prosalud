@@ -1,62 +1,64 @@
 <?php
 class Application_Model_Contacts extends Zend_Db_Table_Abstract
 {
-protected $_name = 'contacts';
-protected $_primary = 'id';
+	protected $_name = 'contacts';
+	protected $_primary = 'id';
 
-public function getAll()
-{
-return $this->fetchAll($this->select()
-->order('title ASC')
-);
-}
+	public function getAll()
+	{
+		return $this->fetchAll($this->select()
+		->order('title ASC')
+		);
+	}
 
-public function getAllNew()
-{
-return $this->fetchAll(
-$this->select()
-->order('date_entered DESC')
-->limit(5)
-);
-}
+	public function getAllNew()
+	{
+		return $this->fetchAll(
+		$this->select()
+		->order('date_entered DESC')
+		->limit(5)
+		);
+	}
 
-public function save( $bind, $id = null )
-{
-if( is_null( $id )){
-$row = $this->createRow();
-}else{
-$row = $this->getRow( $id );
-}
+	public function save( $bind, $id = null )
+	{
+		if( is_null( $id )){
+			$row = $this->createRow();
+			$row->date_entered        = new Zend_Db_Expr('NOW()');
 
-$row->setFromArray( $bind );
-return $row->save();
-}
+		}else{
+			$row = $this->getRow( $id );
+		}
 
-public function getRow( $id )
-{
+		$row->setFromArray( $bind );
+		return $row->save();
+	}
 
-$id = (int) $id;
-$row = $this->find( $id )->current();
-return $row;
-}
+	public function getRow( $id )
+	{
 
-public function getBy($wheres = array(), $orWheres = array())
-    {
-     $query = $this->select();
+		$id = (int) $id;
+		$row = $this->find( $id )->current();
+		return $row;
+	}
 
-     if(count($wheres)){
-     foreach ($wheres as $key => $value) {
-     $query->where($key, $value);
-     }
-    
-     }
-     if(count($orWheres)){
-     foreach ($orWheres as $key => $value) {
-     $query->orWhere($key, $value);
-     }
-    
-     }
-     //echo print_r($query->__toString(), true);
-     return $this->fetchAll($query);
-    }
+	public function getBy($wheres = array(), $orWheres = array())
+	{
+		$query = $this->select();
+
+		if(count($wheres)){
+			foreach ($wheres as $key => $value) {
+				$query->where($key, $value);
+			}
+
+		}
+		if(count($orWheres)){
+			foreach ($orWheres as $key => $value) {
+				$query->orWhere($key, $value);
+			}
+
+		}
+		//echo print_r($query->__toString(), true);
+		return $this->fetchAll($query);
+	}
 }
