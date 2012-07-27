@@ -22,7 +22,7 @@ class EspecialidadesController extends Zend_Controller_Action
         
         
         Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
-        $paginator = Zend_Paginator::factory($specialtiesModel->getAll());
+        $paginator = Zend_Paginator::factory($specialtiesModel->fetchAll(null, array('name')));
 
         if ($this->_hasParam('page')) {
             $paginator->setCurrentPageNumber($this->_getParam('page'));

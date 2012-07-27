@@ -113,9 +113,11 @@
         contentBinding: 'AnalysisSelectedController.selectedItem',   
 
         Delete: function(){            
-            AnalysisSelectedController.Delete(function(){
-                window.location = "/analysis/add";
-            });
+            if(confirm("¿Esta seguro de eliminar el análisis?")){
+                AnalysisSelectedController.Delete(function(){
+                    window.location = "/analysis/add";
+                });
+            }
         },          
 
         didInsertElement: function(){
@@ -416,10 +418,12 @@
     ResultsListView = Ember.View.extend({
         tagName: 'tr',
         Remove: function() {
-            var result = this.get('result');
-            result.set("deleted", 1);
-            ResultsController.Remove(result);
-            console.log(result, "removiendo");
+            if(confirm("¿Esta seguro de eliminar el registro?")){
+                var result = this.get('result');
+                result.set("deleted", 1);
+                ResultsController.Remove(result);
+                console.log(result, "removiendo");
+            }
         }
     });
 

@@ -16,7 +16,7 @@
 	class="icon-plus-sign icon-white"></i> Agregar</a>
 </form>
 
-<table class="table table-striped well">
+<table class="table table-striped well" id="main-list">
 	<tr>
 		<td>Id</td>
 		<td>Descripcion</td>
@@ -62,3 +62,15 @@
 	<?php echo $this->paginator;?>
 	<?php endif;?>
 
+<script type="text/javascript">
+window.customInitFunctions = window.customInitFunctions || [];
+window.customInitFunctions.push(function(){
+	$('#main-list').on('click', 'a.btn-danger', function(e){
+		e.preventDefault();
+		if(confirm("¿Esta seguro de eliminar el estudio?")){
+			window.location = $(this).attr('href');
+		};
+	});
+})
+
+</script>
