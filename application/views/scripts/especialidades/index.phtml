@@ -8,7 +8,7 @@
 	class="icon-search icon-white"></i> Buscar</button>
 <a class="btn btn-success" href="/especialidades/add"><i
 	class="icon-plus-sign icon-white"></i> Agregar</a></form>
-<table class="table table-striped well">
+<table class="table table-striped well" id="main-list">
 	<tr>
 		<td>Id</td>
 		<td>Descripcion</td>
@@ -48,3 +48,14 @@
 	<?php echo $this->paginator;?>
 	<?php endif;?>
 
+<script type="text/javascript">
+window.customInitFunctions = window.customInitFunctions || [];
+window.customInitFunctions.push(function(){
+	$('#main-list').on('click', 'a.btn-danger', function(e){
+		e.preventDefault();
+		if(confirm("¿Esta seguro de eliminar la especialidad?")){
+			window.location = $(this).attr('href');
+		};
+	});
+})
+</script>

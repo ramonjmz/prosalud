@@ -20,7 +20,7 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
         
     }
 	
-	public function getAll()
+	public function getAll($where = array(), $order = array())
 	{
 		
         $query = $this->select()
@@ -29,7 +29,17 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
                         array('cname' => 'name' ) )
                 
                 ->setIntegrityCheck(false);
-        
+                
+        if(count($wheres)){
+    		foreach ($wheres as $key => $value) {
+    			$query->where($key, $value);
+    		}
+    		
+    	}
+
+    	if(count($order)){
+    		$query->order($order);
+    	}
         
         return $this->fetchAll( $query );
         
@@ -79,7 +89,7 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
         return $this->fetchAll( $query );
     }
 
-    public function getBy($wheres = array())
+    public function getBy($wheres = array(), $order = array())
     {
     	$query = $this->select();
 
@@ -90,6 +100,10 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
     		
     	}
 
+    	if(count($order)){
+    		$query->order($order);
+    	}
+    	//echo print_r($query->__toString());
     	return $this->fetchAll($query);
     }
  
