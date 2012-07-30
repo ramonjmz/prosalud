@@ -70,45 +70,40 @@
 </div>
 <div class="row">
 <div class="span12 well"><legend>Pruebas</legend>
-<table class="table table-striped">
-	<tbody>
-		<tr>
-			<td>Id</td>
-			<td>Descripcion</td>
-			<td>Resultado</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>17</td>
-			<td>COLOR</td>
-			<td><input type="text" class="input-small"></td>
-		</tr>
-		<tr>
-			<td>16</td>
-			<td>VOLUMEN</td>
-			<td><input type="text" class="input-small"></td>
-		</tr>
-		<tr>
-			<td>18</td>
-			<td>ASPECTO</td>
-			<td><input type="text" class="input-small"></td>
+	<script type="text/x-handlebars">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Resultado</th>					
+				</tr>
+			</thead>
+			<tbody>
+				{{#each Prosalud.controllers.results.collectionController}}
+										
+					{{#view Prosalud.views.results.ListView resultBinding="this"}}
+						<td>{{result.item_name}}</td>
+						<td>{{result.result}}</td>
+					{{/view}}
+				
+				{{/each}}
+			</tbody>
+		</table>
+	</script>
+<script type="text/javascript">
+window.customInitFunctions = window.customInitFunctions || [];
+window.customInitFunctions.push(function(){
+	var analysis = Prosalud.models.Analysis.create({
+		id: <?php echo $this->analysis["id"]; ?>, 		
+	}),
+		query = {
+			analysis_id: analysis.get( "id" )
+		};
+	
+	Prosalud.controllers.results.collectionController.get( "store" ).url = "/results/list-json";
 
-		</tr>
-		<tr>
-			<td>19</td>
-			<td>DENSIDAD</td>
-			<td><input type="text" class="input-small"></td>
-		</tr>
-		<tr>
-			<td>21</td>
-			<td>SEDIMENTO</td>
-			<td><input type="text" class="input-small"></td>
-		</tr>
-	</tbody>
-</table>
-<div class="form-actions">
-<button type="submit" class="btn btn-primary">Actualizar</button>
-</div>
-</div>
-</div>
-</div>
+	Prosalud.controllers.results.collectionController.search(query, function(itemCollection){
+		//console.log(itemCollection);
+	});
+});
+</script>

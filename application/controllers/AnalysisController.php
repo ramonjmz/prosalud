@@ -82,7 +82,7 @@ class AnalysisController extends Zend_Controller_Action
 
 		$form = new Application_Form_Analysis();
 		$datos = new Application_Model_Analysis();
-
+		$row = null;
 		if ($this->getRequest()->isPost()) {
 
 			if ($form->isValid($this->_getAllParams())) {
@@ -94,6 +94,17 @@ class AnalysisController extends Zend_Controller_Action
 			$row = $datos->getRowc($this->_getParam('id'));
 			if ($row) {
 				$form->populate($row->toArray());
+				$this->view->headScript()->appendFile("/js/libs/ember-0.9.5.min.js");
+				$this->view->headScript()->appendFile("/js/libs/ember-rest.js");
+				$this->view->headScript()->appendFile("/js/Store.js");
+				$this->view->headScript()->appendFile("/js/Prosalud.js");
+				$this->view->headScript()->appendFile("/js/models/ResultModel.js");
+				$this->view->headScript()->appendFile("/js/models/AnalysisModel.js");
+				$this->view->headScript()->appendFile("/js/controllers/ResultsController.js");		
+				$this->view->headScript()->appendFile("/js/views/Result/ListView.js");
+				$this->view->headScript()->appendFile("/js/views/Result/EditListView.js");
+
+				$this->view->analysis = $row;
 			}
 		}
 
@@ -110,6 +121,7 @@ class AnalysisController extends Zend_Controller_Action
 
 		$this->view->paginator = $paginator;
 */
+		
 		$this->view->estudios = $estudios;
 			
 		$this->view->form = $form;
