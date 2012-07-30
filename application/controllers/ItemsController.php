@@ -47,7 +47,7 @@ class ItemsController extends Zend_Controller_Action {
 		}
 
 
-		$form = new Application_Form_Item();
+		
 		$items = new Application_Model_Items();
 
 		if ($this->getRequest()->isPost()) {
@@ -59,13 +59,22 @@ class ItemsController extends Zend_Controller_Action {
 			}
 		} else {
 
-			$row = $items->getRow($this->_getParam('id'));
-			if ($row) {
-				$form->populate($row->toArray());
-			}
-		}
+			$row = $items->getRow($this->_getParam('id'));			
 
-		$this->view->form = $form;
+			$this->view->headScript()->appendFile("/js/libs/ember-0.9.5.min.js");
+			$this->view->headScript()->appendFile("/js/libs/ember-rest.js");
+			$this->view->headScript()->appendFile("/js/Store.js");
+			$this->view->headScript()->appendFile("/js/Prosalud.js");
+			$this->view->headScript()->appendFile("/js/models/ItemModel.js");
+			$this->view->headScript()->appendFile("/js/models/TestModel.js");
+			$this->view->headScript()->appendFile("/js/controllers/ItemsController.js");
+			$this->view->headScript()->appendFile("/js/controllers/TestsController.js");
+			$this->view->headScript()->appendFile("/js/views/Items/EditView.js");
+
+			$this->view->item = $row;
+		}
+				
+		
 	}
 
 	public function indexAction() {
