@@ -27,8 +27,8 @@ class ContactController extends Zend_Controller_Action
 				return $this->_redirect('/contact/index/page/1');
 			}
 		}
-
-
+		
+		
 		$this->view->form = $form;
 	}
 
@@ -40,7 +40,7 @@ class ContactController extends Zend_Controller_Action
 
 
 		$form = new Application_Form_Contact();
-		
+
 		if ($this->getRequest()->isPost()) {
 
 			if ($form->isValid($this->_getAllParams())) {
@@ -162,6 +162,8 @@ class ContactController extends Zend_Controller_Action
 		->setHeader('Content-Type', 'application/json')
 		->setBody(json_encode($json));
 	}
+	
+	
 
 }
 
