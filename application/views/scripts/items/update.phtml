@@ -2,61 +2,6 @@
 
     <a href="/posts/listar">Listado</a>
     
-<script type="text/x-handlebars">
-{{#if Prosalud.controllers.items.selectedItemController.selectedItem}}
-  {{#view Prosalud.views.items.EditView contentBinding="Prosalud.controllers.items.selectedItemController.selectedItem"}}
-  	<div class="control-group">
-      <label class="control-label" for="">Nombre</label>
-      <div class="controls">        
-        {{view Ember.TextField valueBinding="content.name"}}        
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="">Descripción</label>
-      <div class="controls">
-        {{view Ember.TextField valueBinding="content.description"}}        
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="">Especialidad</label>
-      <div class="controls">
-        {{view Ember.TextField valueBinding="content.test_name" class="input-xlarge"}}        
-      </div>
-    </div>
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Guardar</button>
-      <button class="btn">Cancel</button>
-    </div>
-  {{/view}}
-{{/if}}
-	
-</script>
+    <?php echo $this->form ?>
 
 </div>
-<script type="text/javascript">
-window.customInitFunctions = window.customInitFunctions || [];
-window.customInitFunctions.push(function(){
-  Prosalud.controllers.tests.testsData.get("store").url = "/tests/list-json";
-  var item = Prosalud.Item.create({
-    id: <?php echo $this->item->id; ?>,
-    name:"<?php echo $this->item->name; ?>",
-    description: "<?php echo $this->item->description; ?>",
-    test_id: <?php echo $this->item->id; ?>,
-    test_name: ""
-  });
-  //buscar los datos del test
-  var query = {
-    id : item.get("test_id")
-  };
-  Prosalud.controllers.tests.testsData.search(query,function(tests){
-    if(tests && tests.length === 1){
-      item.set( "test_name", tests[0].get("name") );
-      Prosalud.controllers.items.selectedItemController.select(item);
-    }
-    else{
-      alert("Tenemos dificultades tecnicas, por favor refresque la pagina");
-    }
-  });
-  
-});
-</script>
