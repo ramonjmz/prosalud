@@ -98,6 +98,7 @@ class AnalysisController extends Zend_Controller_Action
 				$this->view->headScript()->appendFile("/js/libs/ember-rest.js");
 				$this->view->headScript()->appendFile("/js/Store.js");
 				$this->view->headScript()->appendFile("/js/Prosalud.js");
+				$this->view->headScript()->appendFile("/js/fields/TextField.js");
 				$this->view->headScript()->appendFile("/js/models/ResultModel.js");
 				$this->view->headScript()->appendFile("/js/models/AnalysisModel.js");
 				$this->view->headScript()->appendFile("/js/controllers/ResultsController.js");		
