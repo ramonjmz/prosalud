@@ -79,16 +79,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				{{#each Prosalud.controllers.results.collectionController}}					
+				{{#each Prosalud.controllers.results.collectionController}}
+										
 					{{#view Prosalud.views.results.ListView resultBinding="this"}}
 						<td>{{result.item_name}}</td>
-						<td>
-						{{#if editing}}
-							{{view Prosalud.TextField name="result" placeholder="Introduzca el valor correspondiente" valueBinding="result.result"}}
-						{{else}}
-							<a  {{action "select"}}>{{#if result.result}}{{result.result}}{{else}}Sin valor{{/if}}</a>
-						{{/if}}
-						</td>
+						<td>{{result.result}}</td>
 					{{/view}}
 				
 				{{/each}}
