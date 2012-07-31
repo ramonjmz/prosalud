@@ -35,7 +35,11 @@ class Application_Model_Results extends Zend_Db_Table_Abstract
 
 	public function getBy($wheres = array(), $orWheres = array())
 	{
-		$query = $this->select();
+		$query = $this->select()
+			->from( array( 'r'=>'results' ), array('*'))
+			->join(array( 'i' =>'items'), 'r.item_id = i.id',
+				array('item_name' => 'name' ))
+			->setIntegrityCheck(false);
 
 		if(count($wheres)){
 			foreach ($wheres as $key => $value) {

@@ -163,7 +163,7 @@ class TestsController extends Zend_Controller_Action {
 		$this->getResponse()
 		->setHeader('Content-Type', 'application/json')
 		->setBody(json_encode($json));
-		error_log(print_r( $json,1));
+		//error_log(print_r( $json,1));
 
 	}
 
