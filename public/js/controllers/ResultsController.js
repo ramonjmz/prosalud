@@ -37,4 +37,3 @@ Prosalud.controllers.results.selectedController = Em.Object.create({
 	}
 
 });
-
