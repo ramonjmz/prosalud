@@ -101,9 +101,12 @@ class AnalysisController extends Zend_Controller_Action
 				$this->view->headScript()->appendFile("/js/fields/TextField.js");
 				$this->view->headScript()->appendFile("/js/models/ResultModel.js");
 				$this->view->headScript()->appendFile("/js/models/AnalysisModel.js");
+				$this->view->headScript()->appendFile("/js/models/TestModel.js");
 				$this->view->headScript()->appendFile("/js/controllers/ResultsController.js");		
 				$this->view->headScript()->appendFile("/js/views/Result/ListView.js");
 				$this->view->headScript()->appendFile("/js/views/Result/EditListView.js");
+				$this->view->headScript()->appendFile("/js/controllers/TestsController.js");		
+				$this->view->headScript()->appendFile("/js/views/Tests/ListFilterResultView.js");
 
 				$this->view->analysis = $row;
 			}

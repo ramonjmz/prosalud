@@ -109,4 +109,26 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
 		return $this->fetchAll($query);
 	}
 
+	public function getByResult($wheres = array(), $order = array())
+	{
+		$query = $this->select()
+			->distinct()
+			->from( array( 't'=>'tests' ), array('*'))
+			->join(array( 'i' =>'items'), 't.id = i.test_id', array())
+			->join(array( 'r' =>'results'), 'i.id = r.item_id', array())
+			->setIntegrityCheck(false);
+
+		if(count($wheres)){
+			foreach ($wheres as $key => $value) {
+				$query->where($key, $value);
+			}
+		}
+
+		if(count($order)){
+			$query->order($order);
+		}
+
+		//echo print_r($query->__toString());
+		return $this->fetchAll($query);
+	}
 }
