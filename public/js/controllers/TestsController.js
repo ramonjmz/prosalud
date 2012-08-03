@@ -1,10 +1,10 @@
 Prosalud.controllers.tests = Prosalud.controllers.tests || {};
 
-Prosalud.controllers.tests.testsData = Em.ArrayController.create({
+Prosalud.controllers.tests.collectionController = Em.ArrayController.create({
 	content: [],
     store : new Store({
-        name: "analysis_store",
-        url: "/test/rest"
+        name: "tests_store",
+        url: "/tests/rest"
     }),
     search: function(query, callback){
     	var self = this,
@@ -16,7 +16,7 @@ Prosalud.controllers.tests.testsData = Em.ArrayController.create({
     			if(data.result && data.result.length > 0){
     				$.map(data.result, function(item, index){
     					testCollection.push(Prosalud.models.Test.create(item));
-    				}).get();
+    				});
     			}
     			self.set( "content", testCollection ) ;
     			callback && callback(testCollection);
@@ -25,8 +25,30 @@ Prosalud.controllers.tests.testsData = Em.ArrayController.create({
     			callback && callback();	
     			console.log("Tenemos problemas houston", arguments);
     		});
-    }
+    },
 
+    searchByResult: function(query, callback){
+        var self = this,
+            jqxhr = null,
+            store = self.get("store");
+            store.url = "/tests/list-by-result-json";
+        jqxhr = store.search(query);
+        jqxhr
+            .done(function(data){
+                var testCollection = [];
+                if(data.result && data.result.length > 0){
+                    $.map(data.result, function(item, index){
+                        testCollection.push(Prosalud.models.Test.create(item));
+                    });
+                }
+                self.set( "content", testCollection );
+                callback && callback( testCollection );
+            })
+            .fail(function(){
+                callback && callback();
+                console.log("Tenemos problemas houston", arguments);
+            });
+    }
 });
 
 Prosalud.controllers.tests.selectedTest = Em.Object.create({
