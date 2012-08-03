@@ -167,4 +167,26 @@ class TestsController extends Zend_Controller_Action {
 
 	}
 
+	public function listByResultJsonAction()
+	{
+		$this->_helper->viewRenderer->setNoRender();
+		$this->_helper->layout->disableLayout();
+
+		$testsModel = new Application_Model_Tests();
+		$wheres = array();
+		foreach ($_GET as $key => $value) {
+			$campoComparacion = explode("__", $key);
+			$comparacion = count($campoComparacion) == 2 ? $campoComparacion[1] : "=";
+			$wheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
+		}
+
+		$tests = $testsModel->getByResult($wheres);
+		$json = array("result" => $tests->toArray());
+		$this->getResponse()
+		->setHeader('Content-Type', 'application/json')
+		->setBody(json_encode($json));
+		//error_log(print_r( $json,1));
+
+	}
+
 }

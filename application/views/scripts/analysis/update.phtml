@@ -6,65 +6,27 @@
              <?php echo $this->form ?>
 </div>
 <div class="span6 well"><legend>Estudios</legend>
-<!--
-<table class="table table-striped">
-		<tr>
-			<th>Id</th>
-			<th>Estudio</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-		</tr>
-		
-		<?php if( count( $this->paginator )) :?>
 
-		<?php foreach( $this->paginator as $estudio) :?>
-
-		<tr>
-			<td><?php echo $estudio->id;?></td>
-			<td><?php echo $estudio->name;?></td>
-			<td><a class="btn btn-info" href="#"><i class="icon-align-justify icon-white"></i> Desplegar</a></td></tr>
-		
-	
-		<?php endforeach;?>
-		<?php else : ?>
-		<tr>
-			<td colspan="5">No hay datos</td>
-		</tr>
-		
-		<?php endif;?>
-		
-		
-		<?php if( count( $this->paginator )):?>
-		    <?php echo $this->paginator;?>
-		<?php endif;?>
-	</table> 
-
--->
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Nombre</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Citología cervicovaginal</td>
-			<td><a class="btn btn-info" href="#"><i
-				class="icon-align-justify icon-white"></i> Desplegar</a></td>
-		</tr>
-		<tr>
-			<td>Examen general de orina</td>
-			<td><a class="btn btn-info" href="#"><i
-				class="icon-align-justify icon-white"></i> Desplegar</a></td>
-		</tr>
-		<tr>
-			<td>Cristalización de moco cervical</td>
-			<td><a class="btn btn-info" href="#"><i
-				class="icon-align-justify icon-white"></i> Desplegar</a></td>
-		</tr>
-	</tbody>
-</table>
+<script type="text/x-handlebars">
+	<table class="table table-striped">
+		<thead>
+			{{#view Prosalud.views.tests.ListFilterResultView}}
+				<th>Nombre</th>
+				<th><a class="btn btn-info" href="#" {{action "showAll"}}><i class="icon-align-justify icon-white"></i>Todos</a></th>					
+			{{/view}}
+		</thead>
+		<tbody>
+			{{#each Prosalud.controllers.tests.collectionController}}					
+				{{#view Prosalud.views.tests.ListFilterResultView testBinding="this"}}
+					<td>{{test.name}}</td>
+					<td>
+						<a class="btn btn-info" href="#" {{action "filterResult"}}><i class="icon-align-justify icon-white"></i> Filtrar</a>						
+					</td>
+				{{/view}}
+			{{/each}}
+		</tbody>
+	</table>
+</script>
 
 </div>
 </div>
@@ -75,6 +37,8 @@
 			<thead>
 				<tr>
 					<th>Nombre</th>
+					<th>Referencia</th>					
+					<th>Unidad</th>					
 					<th>Resultado</th>					
 				</tr>
 			</thead>
@@ -82,6 +46,8 @@
 				{{#each Prosalud.controllers.results.collectionController}}					
 					{{#view Prosalud.views.results.ListView resultBinding="this"}}
 						<td>{{result.item_name}}</td>
+						<td>{{result.ref_val_value}}</td>
+						<td>{{result.ref_val_unit}}</td>
 						<td>
 						{{#if editing}}
 							{{view Prosalud.TextField name="result" placeholder="Introduzca el valor correspondiente" valueBinding="result.result"}}
@@ -105,10 +71,14 @@ window.customInitFunctions.push(function(){
 			analysis_id: analysis.get( "id" )
 		};
 
-	Prosalud.controllers.results.collectionController.get( "store" ).url = "/results/list-json";
-
-	Prosalud.controllers.results.collectionController.search(query, function(itemCollection){
-		//console.log(itemCollection);
+	
+	Prosalud.controllers.tests.dataController.searchByResult(query, function(testCollection){
+		Prosalud.controllers.tests.collectionController.set( "content", testCollection );
 	});
+
+	Prosalud.controllers.results.dataController.search(query, function(itemCollection){
+		Prosalud.controllers.results.collectionController.set( "content", itemCollection);
+	});
+
 });
 </script>
