@@ -10,10 +10,10 @@
 <script type="text/x-handlebars">
 	<table class="table table-striped">
 		<thead>
-			<tr>
+			{{#view Prosalud.views.tests.ListFilterResultView}}
 				<th>Nombre</th>
-				<th></th>					
-			</tr>
+				<th><a class="btn btn-info" href="#" {{action "showAll"}}><i class="icon-align-justify icon-white"></i>Todos</a></th>					
+			{{/view}}
 		</thead>
 		<tbody>
 			{{#each Prosalud.controllers.tests.collectionController}}					
@@ -37,6 +37,8 @@
 			<thead>
 				<tr>
 					<th>Nombre</th>
+					<th>Referencia</th>					
+					<th>Unidad</th>					
 					<th>Resultado</th>					
 				</tr>
 			</thead>
@@ -44,6 +46,8 @@
 				{{#each Prosalud.controllers.results.collectionController}}					
 					{{#view Prosalud.views.results.ListView resultBinding="this"}}
 						<td>{{result.item_name}}</td>
+						<td>{{result.ref_val_value}}</td>
+						<td>{{result.ref_val_unit}}</td>
 						<td>
 						{{#if editing}}
 							{{view Prosalud.TextField name="result" placeholder="Introduzca el valor correspondiente" valueBinding="result.result"}}
@@ -68,14 +72,12 @@ window.customInitFunctions.push(function(){
 		};
 
 	
-	Prosalud.controllers.tests.collectionController.searchByResult(query, function(testCollection){
-		console.log(resultCollection);
+	Prosalud.controllers.tests.dataController.searchByResult(query, function(testCollection){
+		Prosalud.controllers.tests.collectionController.set( "content", testCollection );
 	});
 
-	Prosalud.controllers.results.collectionController.get( "store" ).url = "/results/list-json";
-
-	Prosalud.controllers.results.collectionController.search(query, function(itemCollection){
-		//console.log(itemCollection);
+	Prosalud.controllers.results.dataController.search(query, function(itemCollection){
+		Prosalud.controllers.results.collectionController.set( "content", itemCollection);
 	});
 
 });
