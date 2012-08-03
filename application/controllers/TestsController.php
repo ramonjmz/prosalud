@@ -94,10 +94,15 @@ class TestsController extends Zend_Controller_Action {
 		if (! $auth->hasIdentity()) {
 			return $this->_redirect('/Auth/login');
 		}
+		
+		$model = new Application_Model_Tests();
+
 		$wheres = array();
 		if($this->getRequest()->isPost()){
-			
+			echo "entro";
 			foreach ($_GET as $key => $value) {
+				
+				echo $key . "-- " . $value;
 				$comparacion = count($campoComparacion) > 1 ? $campoComparacion[1] : "=";
 				if(count($campoComparacion) === 3){
 					if($campoComparacion[2] === "or")
@@ -107,10 +112,10 @@ class TestsController extends Zend_Controller_Action {
 				}
 			}
 		}
-		$model = new Application_Model_Tests();
+		
+		print_r($wheres);
 		$tests = $model->getAll($wheres, array("name"));
-		//echo print_r($tests, true);
-		//exit();
+		 
 		Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
 		$paginator = Zend_Paginator::factory($tests);
 

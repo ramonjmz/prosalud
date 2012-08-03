@@ -161,9 +161,10 @@ body {
   font-size: 13px;
   line-height: 18px;
   color: #333333;
-  background-color: #e5e5e5;
-/* background-image:url('/img/gradient.png');*/
-  
+  background-color: #FFFFF;
+ /* background-color: #6a869e;
+   background-image:url('/img/gradient.png');
+ */ 
 }
 
 a {

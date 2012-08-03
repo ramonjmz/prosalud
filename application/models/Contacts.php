@@ -42,6 +42,24 @@ class Application_Model_Contacts extends Zend_Db_Table_Abstract
 		return $row;
 	}
 
+	
+		public function getAsKeyValue()
+	{
+
+		$rowset = $this->fetchAll();
+
+		$data = array();
+
+		foreach( $rowset as $row ){
+			$data[$row->id] = $row->first_name . ' ' . $row->last_name;
+		}
+
+
+		return $data;
+
+	}
+	
+	
 	public function getBy($wheres = array(), $orWheres = array())
 	{
 		$query = $this->select();

@@ -2,9 +2,10 @@
 <div class="page-header">
 <h3>Listado de Estudios</h3>
 </div>
-<form class="well form-search" enctype="application/x-www-form-urlencoded" action="/tests/index/" method="post">
-<input type="text"class="input-medium search-query" id="name" placeholder="Nombre"> 
-      <select id="specialty_id">
+<form class="well form-search" enctype="application/x-www-form-urlencoded" action="/tests/index/page/1/ " method="GET">
+ <input type="text"class="input-xlarge" id="name" > 
+ 
+      <select id="specialty_id" name="specialty_id">
                 <option></option>
                 <?php foreach($this->especialidades as $especialidad){ ?>
                   <option value="<?php echo $especialidad->id; ?>"><?php echo $especialidad->name; ?></option>

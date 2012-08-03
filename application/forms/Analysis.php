@@ -10,21 +10,34 @@ class Application_Form_Analysis extends Zend_Form {
 				)
 		);
 		
-	 				 
-		
-		$this->addElement(
-		'text','applicant_id',array(
-				'label'=>'Solicitante',
-            'required' => true
-				)
-		); 
+	 	  $this->addElement( 'select', 'applicant_id',array(
+            'label' => 'Solicitante'
+            
+        )
+                
+        );
         
-				$this->addElement(
-		'text','medic_id',array(
-				'label'=>'Medico',
-            'required' => true
-				)
-		); 
+        $solicitante = new Application_Model_Contacts();
+        
+        $this->applicant_id->addMultiOptions( 
+                $solicitante->getAsKeyValue()
+        );			 
+		
+		  
+          $this->addElement( 'select', 'medic_id',array(
+            'label' => 'Medico'
+            
+        )
+                
+        );
+        
+        $medico = new Application_Model_Contacts();
+        
+        $this->medic_id->addMultiOptions( 
+                $medico->getAsKeyValue()
+        );			 
+		
+    
 		
 		$this->addElement( 'select', 'status', array(
 		'label' => 'Status',

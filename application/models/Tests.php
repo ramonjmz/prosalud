@@ -20,7 +20,7 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
 
 	}
 
-	public function getAll($where = array(), $order = array())
+	public function getAll($wheres = array(), $order = array())
 	{
 
 		$query = $this->select()
