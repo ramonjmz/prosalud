@@ -10,10 +10,10 @@ class Application_Model_Analysis extends Zend_Db_Table_Abstract
 		->from( array( 'a'=>'analysis' ), array('*'))
 		->join(array( 'p' =>'contacts'), 'p.id = a.applicant_id',
 		array('pfname' => 'first_name','plname' => 'last_name' ) )
-		->join(array( 'm' =>'contacts'), 'm.id = a.applicant_id',
+		->join(array( 'm' =>'contacts'), 'm.id = a.medic_id',
 		array('mfname' => 'first_name','mlname' => 'last_name' ) )
 
-		->order('id ASC')
+		->order('id desc')
 
 		->setIntegrityCheck(false);
 

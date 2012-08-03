@@ -1,7 +1,7 @@
 Prosalud.views.results = Prosalud.views.results || {};
 
 Prosalud.views.results.ListView = Ember.View.extend({	
-	
+
 	tagName: "tr",
 
 	dataIni: null,
@@ -49,6 +49,6 @@ Prosalud.views.results.ListView = Ember.View.extend({
 		Prosalud.controllers.results.selectedController.set( "selectedResult", null );
 	}
 
-	
-	
+
+
 });
