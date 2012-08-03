@@ -1,6 +1,17 @@
 Prosalud.controllers.tests = Prosalud.controllers.tests || {};
 
 Prosalud.controllers.tests.collectionController = Em.ArrayController.create({
+
+    content: [],    
+
+    filterBy: function(key, value) {
+        this.set('content', Prosalud.controllers.tests.dataController.filterProperty(key, value));
+    }
+    
+});
+
+
+Prosalud.controllers.tests.dataController= Em.ArrayController.create({
 	content: [],
     store : new Store({
         name: "tests_store",
@@ -50,6 +61,8 @@ Prosalud.controllers.tests.collectionController = Em.ArrayController.create({
             });
     }
 });
+
+
 
 Prosalud.controllers.tests.selectedTest = Em.Object.create({
 	selectedTest : null,
