@@ -23,8 +23,8 @@ Prosalud.views.results.ListView = Ember.View.extend({
 		if(event.keyCode === 13){
 			var result = Prosalud.controllers.results.selectedController.get( "selectedResult" );			
 			//result.set("result", $(event.target).val());
-			Prosalud.controllers.results.collectionController.get( "store" ).url = "/results/rest";
-			Prosalud.controllers.results.collectionController.get( "store" ).save( result )
+			Prosalud.controllers.results.dataController.get( "store" ).url = "/results/rest";
+			Prosalud.controllers.results.dataController.get( "store" ).save( result )
 				.done(function(data){
 					console.log("result guardado", data);
 					self.clean();
