@@ -145,6 +145,9 @@ class ContactController extends Zend_Controller_Action
 		$wheres = array();
 		$orWheres = array();
 		foreach ($_GET as $key => $value) {
+			if($key === 'url'){
+				continue;
+			}
 			$campoComparacion = explode("__", $key);
 
 			$comparacion = count($campoComparacion) > 1 ? $campoComparacion[1] : "=";
