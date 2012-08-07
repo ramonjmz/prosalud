@@ -129,7 +129,9 @@ class ReferencesController extends Zend_Controller_Action
         unset($params['module']);
         //echo print_r($params) ;
         foreach ($params as $key => $value) {
-            
+            if($key === 'url'){
+                continue;
+            }
             $campoComparacion = explode("__", $key);
             if($campoComparacion[1] === "or"){
                 $orWheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
