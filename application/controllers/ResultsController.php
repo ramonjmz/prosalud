@@ -30,6 +30,9 @@ class ResultsController extends Zend_Controller_Action
 		$resultModel = new Application_Model_Results();
 		$wheres = array();
 		foreach ($_GET as $key => $value) {
+			if($key === 'url'){
+				continue;
+			}
 			$campoComparacion = explode("__", $key);
 			$comparacion = count($campoComparacion) == 2 ? $campoComparacion[1] : "=";
 			$wheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
