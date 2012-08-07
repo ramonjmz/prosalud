@@ -120,6 +120,9 @@ class ItemsController extends Zend_Controller_Action {
 		$itemModel = new Application_Model_Items();
 		$wheres = array();
 		foreach ($_GET as $key => $value) {
+			if($key === 'url'){
+				continue;
+			}
 			$campoComparacion = explode("__", $key);
 			$comparacion = count($campoComparacion) == 2 ? $campoComparacion[1] : "=";
 			$wheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;

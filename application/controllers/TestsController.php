@@ -153,6 +153,9 @@ class TestsController extends Zend_Controller_Action {
 		$testsModel = new Application_Model_Tests();
 		$wheres = array();
 		foreach ($_GET as $key => $value) {
+			if($key === 'url'){
+				continue;
+			}
 			$campoComparacion = explode("__", $key);
 			$comparacion = count($campoComparacion) == 2 ? $campoComparacion[1] : "=";
 			$wheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
