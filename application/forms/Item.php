@@ -17,7 +17,7 @@ class Application_Form_Item extends Zend_Form {
                  )
         );        
         $this->addElement( 'select', 'test_id',array(
-            'label' => 'Especialidad'
+            'label' => 'Examen'
             
         )
                 
