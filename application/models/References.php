@@ -39,9 +39,8 @@ class  Application_Model_References extends Zend_Db_Table_Abstract
 
 		$query = $this->select()
 		->from( array( 'p'=>'ref_val' ), array('*'))
-		->join(array( 'c' =>'items'), 'c.id = p.item_id',
-		array('cname' => 'name' ) )
-		->where('c.id = ?' , $id )
+	 
+		->where('P.id = ?' , $id )
 		->setIntegrityCheck(false);
 		 
 		return $this->fetchAll( $query );
