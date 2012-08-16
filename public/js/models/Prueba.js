@@ -297,7 +297,8 @@
     AppAnalysis.Prueba = Ember.Object.extend({
         id: false,
         name: "",
-        description: ""
+        description: "",
+        reference_id: null
     });
 
     AppAnalysis.pruebasController = Ember.ArrayProxy.create({
@@ -327,8 +328,7 @@
                 // Busqueda de los valores de referencia para la prueba
                 // con el genero del paciente
                 ReferencesController.Search({            
-                    gender__in: [paciente.get( "gender" ),"A"],
-                    item_id: prueba.get( "id" )
+                    id: prueba.get( "reference_id" )
                 }, function(references){
                     if(references.length === 1){
                         reference = references[0];

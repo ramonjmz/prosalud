@@ -39,7 +39,7 @@ class Application_Model_Results extends Zend_Db_Table_Abstract
 			->from( array( 'r'=>'results' ), array('*'))
 			->join(array( 'i' =>'items'), 'r.item_id = i.id',
 				array('item_name' => 'name', 'test_id' => 'test_id'))
-			->join(array( 'rv' =>'ref_val'), 'rv.item_id = i.id',
+			->join(array( 'rv' =>'ref_val'), 'rv.id = r.ref_val_id',
 				array('ref_val_value' => 'value', 'ref_val_unit' => 'unit'))
 			->setIntegrityCheck(false);
 
