@@ -29,6 +29,14 @@ class Application_Form_Item extends Zend_Form {
                 $especialidad->getAsKeyValue()
         );
         
+          $this->addElement(
+                'text', 'reference_id', array(
+            'label' => 'ID de referencia',
+            		 'required' => true,
+            
+                )
+        );
+        
         $this->addElement(
                 'submit', 'Guardar', array()
         );
