@@ -5,7 +5,7 @@ class TestsController extends Zend_Controller_Action {
 	public function init(){
 		$options = array( 'layout'   => 'interno');
 		Zend_Layout::startMvc($options);
-			
+		
 	}
 
 	public function deleteAction() {
@@ -106,7 +106,7 @@ class TestsController extends Zend_Controller_Action {
 				$comparacion = count($campoComparacion) > 1 ? $campoComparacion[1] : "=";
 				if(count($campoComparacion) === 3){
 					if($campoComparacion[2] === "or")
-					$orWheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
+						$orWheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
 				}else{
 					$wheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
 				}
@@ -115,7 +115,7 @@ class TestsController extends Zend_Controller_Action {
 		
 		print_r($wheres);
 		$tests = $model->getAll($wheres, array("name"));
-		 
+		
 		Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
 		$paginator = Zend_Paginator::factory($tests);
 
@@ -183,6 +183,9 @@ class TestsController extends Zend_Controller_Action {
 		$testsModel = new Application_Model_Tests();
 		$wheres = array();
 		foreach ($_GET as $key => $value) {
+			if($key === 'url'){
+				continue;
+			}
 			$campoComparacion = explode("__", $key);
 			$comparacion = count($campoComparacion) == 2 ? $campoComparacion[1] : "=";
 			$wheres[$campoComparacion[0] . " ". $comparacion . " ?"] = $value;
