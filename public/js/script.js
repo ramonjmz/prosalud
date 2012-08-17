@@ -1,8 +1,6 @@
 (function($) { 
 	$(document).ready(function() {			
-            alert('sa');
- 
-            
+             
 	$("#contact-form").validate({
 	    rules: {
 	      first_name: {
