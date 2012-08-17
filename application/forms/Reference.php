@@ -41,18 +41,12 @@ class Application_Form_Reference extends Zend_Form {
                 )
         ));
         
-          $this->addElement(
-                'text', 'item_id', array(
-            'label' => 'id de prueba',
-            		 'required' => true,
-            
-                )
-        );
+        
         
                	 $this->addElement( 'select', 'type', array(
 		'label' => 'Tipo de prueba',
 		 'required' => true,
-		'multiOptions' => array('R'=> 'Referencia','D' => 'Descripcion')
+		'multiOptions' => array('A'=> 'Valor Absoluto','R'=> 'Referencia','D' => 'Descripcion')
 		)
 		);
         

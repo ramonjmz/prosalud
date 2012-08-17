@@ -7,16 +7,9 @@ class  Application_Model_References extends Zend_Db_Table_Abstract
 	public function getAll()
 	{
 
-		$query = $this->select()
-		->from( array( 'p'=>'ref_val' ), array('*'))
-		->join(array( 'c' =>'items'), 'c.id = item_id',
-		array('cname' => 'name' ) )
-
-		->setIntegrityCheck(false);
-
-
-		return $this->fetchAll( $query );
-			
+			return $this->fetchAll($this->select()
+		->order('name ASC')
+		);
 	}
 
 
@@ -46,9 +39,8 @@ class  Application_Model_References extends Zend_Db_Table_Abstract
 
 		$query = $this->select()
 		->from( array( 'p'=>'ref_val' ), array('*'))
-		->join(array( 'c' =>'items'), 'c.id = p.item_id',
-		array('cname' => 'name' ) )
-		->where('c.id = ?' , $id )
+	 
+		->where('P.id = ?' , $id )
 		->setIntegrityCheck(false);
 		 
 		return $this->fetchAll( $query );
