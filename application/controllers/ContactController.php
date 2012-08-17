@@ -24,6 +24,7 @@ class ContactController extends Zend_Controller_Action
 			if ($form->isValid($this->_getAllParams())) {
 				$model = new Application_Model_Contacts();
 				$model->save($form->getValues());
+				
 				return $this->_redirect('/contact/index/page/1');
 			}
 		}

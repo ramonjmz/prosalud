@@ -31,6 +31,26 @@ class Application_Model_Contacts extends Zend_Db_Table_Abstract
 		}
 
 		$row->setFromArray( $bind );
+/*
+		$config = array(
+						'auth' => 'login',
+						'username' => 'promossalud@gmail.com',
+						'password' => 'aries1304',
+						'ssl' => 'ssl',
+						'port' => 465);	
+			
+		$transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com',$config);
+		$mail = new Zend_Mail();
+		$mail->setBodyText("Hola te envio este mail");
+		$mail->setFrom('promossalud@gmail.com', 'promossalud');
+		$mail->addTo('ramonjmz@hotmail.com.com');
+		$mail->setSubject('Probando envío');
+		//$at = $mail->createAttachment(file_get_contents("prueba.txt"));
+		//$at->filename = "archivo_adjunto.txt";
+		$mail->send($transport);
+
+		$this->_helper->getHelper('FlashMessenger')	->addMessage('Thank you. Your message was successfully sent.');
+*/
 		return $row->save();
 	}
 
@@ -42,8 +62,8 @@ class Application_Model_Contacts extends Zend_Db_Table_Abstract
 		return $row;
 	}
 
-	
-		public function getAsKeyValue()
+
+	public function getAsKeyValue()
 	{
 
 		$rowset = $this->fetchAll();
@@ -58,8 +78,8 @@ class Application_Model_Contacts extends Zend_Db_Table_Abstract
 		return $data;
 
 	}
-	
-	
+
+
 	public function getBy($wheres = array(), $orWheres = array())
 	{
 		$query = $this->select();

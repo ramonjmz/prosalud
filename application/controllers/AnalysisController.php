@@ -86,7 +86,7 @@ class AnalysisController extends Zend_Controller_Action
 		if ($this->getRequest()->isPost()) {
 
 			if ($form->isValid($this->_getAllParams())) {
- 				$datos->save($form->getValues(), $this->_getParam('id'));
+				$datos->save($form->getValues(), $this->_getParam('id'));
 				return $this->_redirect('/analysis/index/page/1');
 			}
 		} else {
@@ -102,10 +102,10 @@ class AnalysisController extends Zend_Controller_Action
 				$this->view->headScript()->appendFile("/js/models/ResultModel.js");
 				$this->view->headScript()->appendFile("/js/models/AnalysisModel.js");
 				$this->view->headScript()->appendFile("/js/models/TestModel.js");
-				$this->view->headScript()->appendFile("/js/controllers/ResultsController.js");		
+				$this->view->headScript()->appendFile("/js/controllers/ResultsController.js");
 				$this->view->headScript()->appendFile("/js/views/Result/ListView.js");
 				$this->view->headScript()->appendFile("/js/views/Result/EditListView.js");
-				$this->view->headScript()->appendFile("/js/controllers/TestsController.js");		
+				$this->view->headScript()->appendFile("/js/controllers/TestsController.js");
 				$this->view->headScript()->appendFile("/js/views/Tests/ListFilterResultView.js");
 
 				$this->view->analysis = $row;
@@ -118,14 +118,14 @@ class AnalysisController extends Zend_Controller_Action
 		Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
 		///$paginator = Zend_Paginator::factory($datos->BySpecialties($this->_getParam('id')));
 
-	/*	if ($this->_hasParam('page')) {
+		/*	if ($this->_hasParam('page')) {
 			$paginator->setCurrentPageNumber($this->_getParam('page'));
 			$paginator->setItemCountPerPage(5);
-		}
+			}
 
-		$this->view->paginator = $paginator;
-*/
-		
+			$this->view->paginator = $paginator;
+			*/
+
 		$this->view->estudios = $estudios;
 			
 		$this->view->form = $form;
@@ -202,6 +202,8 @@ class AnalysisController extends Zend_Controller_Action
 		->setHeader('Content-type', 'application/x-pdf');
 
 		echo $pdf->render();
+
+
 	}
 
 	public function restAction(){
