@@ -5,8 +5,9 @@ class Application_Form_Login extends Zend_Form
 
     public function init() 
     {
-
-        $this->addElement(
+    	 $this->setAttrib('id', 'login');
+    	        
+         $this->addElement(
             'text', 'username', array(
                 'label' => 'Usuario:',
                 'required' => true
