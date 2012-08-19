@@ -3,6 +3,9 @@ class Application_Form_Contact extends Zend_Form {
 
 	public function init(){
 		
+		$this->setAttrib('id', 'contact-form');
+		
+		
 		$this->addElement(
 		'text','first_name',array(
 		'label'=>'Nombre',

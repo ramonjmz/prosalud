@@ -4,6 +4,9 @@ class Application_Form_Reference extends Zend_Form {
 
     public function init() {
     	
+    	$this->setAttrib('id', 'references-form');
+    	
+    	
     	$this->addElement(
                 'text', 'name', array(
             'label' => 'Nombre',

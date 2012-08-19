@@ -3,6 +3,9 @@
 class Application_Form_Test extends Zend_Form {
 
     public function init() {
+    	
+    	    	$this->setAttrib('id', 'test-form');
+    	
 
         $this->addElement(
                 'text', 'name', array(

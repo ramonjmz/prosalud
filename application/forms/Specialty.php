@@ -4,6 +4,8 @@ class Application_Form_Specialty extends Zend_Form {
 
     public function init() {
 
+    	$this->setAttrib('id', 'specialty-form');
+    	
         $this->addElement(
                 'text', 'name', array(
             'label' => 'Nombre',

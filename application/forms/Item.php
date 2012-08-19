@@ -4,6 +4,9 @@ class Application_Form_Item extends Zend_Form {
 
     public function init() {
 
+    	$this->setAttrib('id', 'item-form');
+    	
+    			
         $this->addElement(
                 'text', 'name', array(
             'label' => 'Nombre',
