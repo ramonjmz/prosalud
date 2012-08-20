@@ -4,6 +4,17 @@ class Application_Model_Analysis extends Zend_Db_Table_Abstract
 	protected $_name = 'analysis';
 	protected $_primary = 'id';
 
+	protected $_colsCustom = array(
+		'applicant_full_name' => array(
+			'name' => 'applicant_full_name',
+			'find' => 'concat_ws(' ',p.first_name,p.last_name)',
+		),
+		'medic_full_name' => array(
+			'name' => 'medic_full_name',
+			'find' => 'concat_ws(' ',m.first_name,m.last_name)',
+		)
+	);
+
 	public function getAll()
 	{
 		$query = $this->select()

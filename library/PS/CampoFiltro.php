@@ -13,7 +13,9 @@ class PS_CampoFiltro{
 
 	public $_operator = "";
 
-	private $_fieldsModel = array();
+	private $_colsModel = array();
+
+	private $_colsCustomModel = array();
 
 	public function getKey(){
 		return $this->_key;
@@ -26,13 +28,15 @@ class PS_CampoFiltro{
 	public function __construct($modelo, $filtro, $value){
 		$this->_model = $modelo;
 		$this->_value = $value;
-		$this->_fieldsModel = $this->_model->info(Zend_Db_Table_Abstract::COLS);
+		$this->_colsModel = $this->_model->info(Zend_Db_Table_Abstract::COLS);
+		$this->_colsCustomModel = $this->_model->getColsCustom();
 		$this->getProperties($filtro);
 	}
 
 	private function getProperties($cadena){
 		$tokens = $this->obtenTokens($cadena);
-		if(in_array($tokens[0], $this->_fieldsModel)){
+
+		if(in_array($tokens[0], $this->_colsModel) || in_array($tokens[0], $this->_model->getColsCustom())){
 			$this->_fieldName = $tokens[0];
 			switch (count($tokens)) {
 				case 1:
@@ -47,9 +51,14 @@ class PS_CampoFiltro{
 				# code...
 				break;
 			}
-
-			$this->getType();
-			$this->_key = $this->_fieldName . ' ' . $this->_operator;
+			$this->getType();			
+			if(in_array($this->_fieldName, $this->_model->getColsCustom()){
+				$this->_key = ; 
+			}
+			else{
+				$this->_key = $this->_fieldName;
+			}
+			$this->_key .= ' ' . $this->_operator;
 		}
 	}
 
@@ -88,7 +97,7 @@ class PS_CampoFiltro{
 
 	public function inModel(){
 		//return true;
-		return in_array($this->_fieldName, $this->_fieldsModel);
+		return in_array($this->_fieldName, $this->_colsModel) || in_array($this->_fieldName, $this->_colsModel);
 	}
 
 
