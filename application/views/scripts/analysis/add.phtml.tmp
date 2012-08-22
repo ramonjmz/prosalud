@@ -1,0 +1,113 @@
+<div class="container-fluid solicitud-analisis">
+<div class="row">
+<div class="span6 well">
+ 
+<legend>Solicitud de analisis</legend>
+<script type="text/x-handlebars">
+{{#if AnalysisSelectedController.selectedItem}}
+  {{#view AnalysisCreatedView}}
+    <div class="control-group">
+      <label class="control-label" >Solicitante:</label>
+      <span class="input-xlarge uneditable-input">{{content.applicant_name}}}</span>
+    </div>
+    <div class="control-group">
+      <label class="control-label" >Medico:</label>
+       <span class="input-xlarge uneditable-input">{{content.medic_name}}}</span>
+    </div>
+    <div class="control-group ">
+      <label class="control-label" for="selectError">Seleccione el especialidad</label>
+      <div class="controls">
+        <select id="especialidad">
+          <option></option>
+          <?php foreach($this->especialidades as $especialidad){ ?>
+            <option value="<?php echo $especialidad->id; ?>"><?php echo $especialidad->name; ?></option>         
+          <?php } ?>
+        </select>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="selectError">Seleccione el estudio</label>
+      <div class="controls">
+        <input class="input-xlarge"  id="estudio_name" value="" type="text" >
+      </div>
+    </div>  
+    <div class="form-actions">
+      <button type="submit" class="btn btn-danger" {{action Delete}} ><i class="icon-trash icon-white"></i>Eliminar</button>      
+    </div>
+  {{/view}}
+{{else}}
+  {{#view AnalysisNewView}}
+
+<div class="control-group">
+            <label class="control-label" for="contact_name">Append with button</label>
+            <div class="controls">
+              <div class="input-append">
+                <input class="input-xlarge focused" id="contact_name" size="16" type="text">
+				<button id ="myModal" class="btn btn-success" type="button">Agregar</button>
+              </div>
+            </div>
+          </div>
+    <div class="control-group">
+      <label class="control-label" for="medico_name">Medico:</label>
+      <div class="controls">
+        <input class="input-xlarge" id="medico_name" type="text">
+      </div>
+    </div>  
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" {{action CreateNew}} >Guardar</button>      
+    </div>
+  {{/view}}
+{{/if}}
+</script>​
+</div>
+<div class="span6 well content-catalogo-prueba"><legend>Catalogo de pruebas</legend>
+<script type="text/x-handlebars">
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Nombre</th>
+    <th>Descripcion</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+    {{#each AppAnalysis.pruebasController}}
+        {{#view AppAnalysis.PruebaListView pruebaBinding="this"}}
+            <td>{{prueba.name}}</td>
+            <td >{{prueba.description}}
+            <td><button class="btn btn-success" {{action SelectedItem}} ><i class="icon-plus-sign icon-white"></i></button></td>
+        {{/view}}
+    {{/each}}
+  </tbody>
+</table>
+</script>​
+</div>
+</div>
+<div class="row">
+<div class="span12 well"><legend>Pruebas a realizar</legend>
+
+<script type="text/x-handlebars">
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Nombre</th>
+    <th>Val. Referencia</th>
+    <th>Unidad</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+    {{#each ResultsController}}
+        {{#view ResultsListView resultBinding="this"}}
+            <td>{{result.item_name}}</td>
+            <td >{{result.ref_val_value}}</td>
+            <td >{{result.ref_val_unit}}</td>
+            <td><button class="btn btn-danger" {{action Remove}} ><i class="icon-trash icon-white"></i></button></td>
+        {{/view}}
+    {{/each}}
+  </tbody>
+</table>
+</script>
+</div>
+</div>
+</div>
