@@ -2,7 +2,7 @@
 class AnalysisController extends Zend_Controller_Action
 {
 	public function init(){
-
+		Zend_Loader_Autoloader::getInstance()->suppressNotFoundWarnings(false);
 		$options = array( 'layout' => 'interno');
 		Zend_Layout::startMvc($options);
 
@@ -11,6 +11,7 @@ class AnalysisController extends Zend_Controller_Action
 	public function indexAction()
 	{
 
+		//display_errors("1");
 		$auth = Zend_Auth::getInstance();
 		if (! $auth->hasIdentity()) {
 			return $this->_redirect('/auth/login');
@@ -18,8 +19,12 @@ class AnalysisController extends Zend_Controller_Action
 
 		$model = new Application_Model_Analysis();
 
+		//echo print_r($this->_getAllParams());
+		$filtrador = new PS_Filtrador($model, $this->_getAllParams());
+		$wheres = $filtrador->getFiltros();
+
 		Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
-		$paginator = Zend_Paginator::factory($model->getAll());
+		$paginator = Zend_Paginator::factory($model->getBy($wheres));
 
 		if ($this->_hasParam('page')) {
 			$paginator->setCurrentPageNumber($this->_getParam('page'));

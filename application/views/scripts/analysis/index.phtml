@@ -3,13 +3,12 @@
 <h3>Listado de Analisis</h3>
 
 </div>
-<form class="well form-search"><input type="text"
-	class="input-medium search-query" placeholder="Nombre Solicitante"> <input
-	type="text" class="input-medium search-query"
-	placeholder="Nombre de medico"> <select id="select01">
+<form class="well form-search">
+	<input type="text"	class="input-medium search-query" name="applicant_full_name" placeholder="Nombre Solicitante"> 
+	<input	type="text" class="input-medium search-query" name="medic_full_name" placeholder="Nombre de medico"> <select id="select01" name="status__in[]">
 	<option></option>
-	<option>Pendiente</option>
-	<option>Procesado</option>
+	<option value="0">Pendiente</option>
+	<option value="1">Procesado</option>
 </select>
 <button type="submit" class="btn btn-info"><i
 	class="icon-search icon-white"></i> Buscar</button>
