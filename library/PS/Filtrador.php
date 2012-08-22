@@ -31,7 +31,7 @@ class PS_Filtrador{
 				$where[$campoFiltro->getKey()] = $campoFiltro->getValue();
 			}
 		}
-		echo nl2br(print_r($where, true));
+		//echo nl2br(print_r($where, true));
 		return $where;
 	}
 

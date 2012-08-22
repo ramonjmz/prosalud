@@ -77,7 +77,7 @@ class PS_CampoFiltro{
 		switch ($operatorToken) {
 			case 'contains':
 			$operator = "LIKE ?";
-			$this->_value = '%'.$this->_value.'%';
+			$this->_value = $this->_value;
 				# code...
 			break;
 			case 'in':

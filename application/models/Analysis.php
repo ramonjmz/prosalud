@@ -47,7 +47,7 @@ class Application_Model_Analysis extends Zend_Db_Table_Abstract
 	public function getBy($wheres = array())
 	{
 		$query = $this->select()
-			->from( array( 'a'=>'analysis' ), array('*'))
+			->from( array( $this->_aliasDB=>'analysis' ), array('*'))
 			->join(array( 'p' =>'contacts'), 'p.id = a.applicant_id',
 				array('pfname' => 'first_name','plname' => 'last_name' ) )
 			->join(array( 'm' =>'contacts'), 'm.id = a.medic_id',
@@ -61,7 +61,7 @@ class Application_Model_Analysis extends Zend_Db_Table_Abstract
 			}
 
 		}
-		echo print_r($query->__toString(), true);
+		//echo print_r($query->__toString(), true);
 		return $this->fetchAll( $query );
 
 	}
