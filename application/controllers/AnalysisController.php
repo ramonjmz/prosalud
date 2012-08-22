@@ -21,10 +21,10 @@ class AnalysisController extends Zend_Controller_Action
 
 		//echo print_r($this->_getAllParams());
 		$filtrador = new PS_Filtrador($model, $this->_getAllParams());
-		$filtrador->getFiltros();
+		$wheres = $filtrador->getFiltros();
 
 		Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
-		$paginator = Zend_Paginator::factory($model->getAll());
+		$paginator = Zend_Paginator::factory($model->getBy($wheres));
 
 		if ($this->_hasParam('page')) {
 			$paginator->setCurrentPageNumber($this->_getParam('page'));

@@ -36,7 +36,7 @@ class PS_CampoFiltro{
 	private function getProperties($cadena){
 		$tokens = $this->obtenTokens($cadena);
 
-		if(in_array($tokens[0], $this->_colsModel) || in_array($tokens[0], $this->_model->getColsCustom())){
+		if(in_array($tokens[0], $this->_colsModel) || in_array($tokens[0], array_keys($this->_colsCustomModel))){
 			$this->_fieldName = $tokens[0];
 			switch (count($tokens)) {
 				case 1:
@@ -52,13 +52,14 @@ class PS_CampoFiltro{
 				break;
 			}
 			$this->getType();			
-			if(in_array($this->_fieldName, $this->_model->getColsCustom()){
-				$this->_key = ; 
+			if(in_array($this->_fieldName, array_keys($this->_colsCustomModel))){
+				$this->_key = $this->_colsCustomModel[$this->_fieldName]['where']; 
+				//$this->_key .= ' ' . $this->_operator;
 			}
 			else{
-				$this->_key = $this->_fieldName;
+				$this->_key = $this->_model->getAliasDB().'.'.$this->_fieldName;
+				$this->_key .= ' ' . $this->_operator;
 			}
-			$this->_key .= ' ' . $this->_operator;
 		}
 	}
 
@@ -91,13 +92,21 @@ class PS_CampoFiltro{
 
 	private function getType()
 	{
+		$type = "string";
 		$metadata = $this->_model->info('metadata');
-		$typeDB = $metadata[$this->_fieldName]['DATA_TYPE'];
+		if(isset($metadata[$this->_fieldName])){
+			$typeDB = $metadata[$this->_fieldName]['DATA_TYPE'];
+		}
+		else{
+			$type = $this->_colsCustomModel[$this->_fieldName]['type'];
+		}
+		return $type;
+
 	}
 
 	public function inModel(){
 		//return true;
-		return in_array($this->_fieldName, $this->_colsModel) || in_array($this->_fieldName, $this->_colsModel);
+		return in_array($this->_fieldName, $this->_colsModel) || in_array($this->_fieldName, array_keys($this->_colsCustomModel));
 	}
 
 
