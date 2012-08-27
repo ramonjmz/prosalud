@@ -35,7 +35,7 @@ body {
 <div class="container"><?php $auth = Zend_Auth::getInstance();?> <a
 	class="brand" href="/index">Pros Salud</a>
 <div class="btn-group pull-right"><a class="btn dropdown-toggle"
-	data-toggle="dropdown" href="#"> <i class="icon-user"></i> <?php echo $auth->getIdentity() ?>
+	data-toggle="dropdown" href="#"> <i class="icon-user"></i> <?php echo $auth->getIdentity()->username; ?>
 <span class="caret"></span> </a>
 <ul class="dropdown-menu">
 	<li><a href="/dashboard">Cuadro de mando</a></li>

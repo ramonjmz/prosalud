@@ -3,8 +3,8 @@ class AnalysisController extends Zend_Controller_Action
 {
 	public function init(){
 		Zend_Loader_Autoloader::getInstance()->suppressNotFoundWarnings(false);
-		$options = array( 'layout' => 'interno');
-		Zend_Layout::startMvc($options);
+		//$options = array( 'layout' => 'interno');
+		//Zend_Layout::startMvc($options);
 
 	}
 
@@ -21,7 +21,11 @@ class AnalysisController extends Zend_Controller_Action
 
 		//echo print_r($this->_getAllParams());
 		$filtrador = new PS_Filtrador($model, $this->_getAllParams());
+
 		$wheres = $filtrador->getFiltros();
+		if($auth->getIdentity()->role === 'Medico'){
+			$wheres['medic_id = ?'] = $auth->getIdentity()->contact_id;
+		}
 
 		Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
 		$paginator = Zend_Paginator::factory($model->getBy($wheres));
