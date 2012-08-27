@@ -92,16 +92,16 @@ class Application_Model_Analysis extends Zend_Db_Table_Abstract
 
 		 $query = $this->select()
 		 ->from( array( 'r'=>'results' ), array('*'))
-		 ->join(array( 'a' =>'analysis'), 'i.id = r.analysis_id',
-		 	array('aanalysis_id' => 'analysis_id') )
+		 ->join(array( 'a' =>'analysis'), 'a.id = r.analysis_id',
+		 	array('aanalysis_id' => 'id') )
 		 ->join(array( 'i' =>'items'), 'i.id = r.item_id',
 		 	array('itest_id' => 'test_id' ) )
 		 ->join(array( 't' =>'tests'), 't.id = i.test_id',
 		 	array('tname' => 'name' ) )
-		 ->where('r.id = ?' , $id )
-
-		 ->group('itest_id')
-
+		 ->where('analysis_id = ?' , $id )
+			 ->group('itest_id')
+		 
+ 
 		 ->setIntegrityCheck(false);
 
 		 error_log($query);

@@ -45,7 +45,7 @@ class Application_Model_Results extends Zend_Db_Table_Abstract
 
 		if(count($wheres)){
 			foreach ($wheres as $key => $value) {
-				$query->where($key, $value);
+				$query->where($key, $value);  
 			}
 
 		}
