@@ -139,75 +139,96 @@ class AnalysisController extends Zend_Controller_Action
 	public function pdfAction()
 	{
 		require_once '/Zend/Pdf.php';
-
-		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender();
-
-		$pdf = new Zend_Pdf();
-
-		// Add new page to the document
-		$page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
-		$pdf->pages[] = $page;
-
-		// Set font
-
-		// Draw text
-		/*	$page->setFillColor(Zend_Pdf_Color_Html::color('#990000'))
-		 ->drawText('Hello world (in red)!', 60, 700);*/
-
-		$fontT = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_TIMES);
-		$page->setFont($fontT, 16)
-		->drawText('PROMOSERVICIOS DE SALUD S.A. DE C.V.', 145, 780);
-		$page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 12);
-		$page->drawText('Q.F.B. MICHAIA ELIAN RAMIREZ SANCHEZ', 180, 765);
-		$page->drawText('CED. PROF. 4060358',240,750);
-
-		$page->drawText('Calle Sur 15 No. 489',60,715);
-		$page->drawText('Orizaba, Ver',60,700);
-		$page->drawText('01 272 72 5 42 69',400,715);
-		$page->drawText('prosalud2012@hotmail.com',400,700);
-			
-		$page->setLineWidth(0.5);
-		$page->drawLine(60, 688, 550, 688);
-		$page->setLineWidth(0.5);
-		$page->drawLine(60, 690, 550, 690);
-
-		$page->drawText('Nombre:',60,640);
-		$page->drawText('Fecha: '.date("d M Y"),400,640);
-
-		$page->drawText('Edad:',60,625);
-		$page->drawText('Sexo:',400,625);
-
-		$page->drawText('Domicilio:',60,610);
-		$page->drawText('Medico:',60,595);
-
-		$page->drawText('Diagnostico:',60,565);
-
-		$page->setLineWidth(0.5);
-		$page->drawLine(60, 550, 550, 550);
-
-		$page->drawText('EXAMENES REALIZADOS:',60,535);
-
-		$page->setLineWidth(0.5);
-		$page->drawLine(60, 530, 550, 530);
+		require_once '/PS/utils.php';
 
 
-		$page->drawText('Prueba:',60,475);
-		$page->drawText('Resultado:',250,475);
-		$page->drawText('Valores de Referencia:',400,475);
+		if (!$this->_hasParam('id')) {
+			return $this->_redirect('/analysis/index/page/1');
+		}
 
-		$page->drawText('ATENTAMENTE',255,120);
-		$page->setLineWidth(0.5);
-		$page->drawLine(180, 65, 425, 65);
-		$page->drawText('Q.F.B. MICHAIA ELIAN RAMIREZ SANCHEZ', 180, 50);
+		$datos = new Application_Model_Analysis();
+
+		$row = $datos->getRow($this->_getParam('id'));
+		if($row){
+
+			$data =$row->toArray();
+		
+			$contact = new Application_Model_Contacts();
+
+			$customer = $contact->getRow($data['applicant_id'])->toArray();
+			$medico = $contact->getRow($data['medic_id'])->toArray();
+				
+
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$pdf = new Zend_Pdf();
+
+			$page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
+			$pdf->pages[] = $page;
 
 
-		$this->getResponse()
-		->setHeader('Content-Disposition', 'attachment; filename=result.pdf')
-		->setHeader('Content-type', 'application/x-pdf');
+			$fontT = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_TIMES);
+			$page->setFont($fontT, 16)
+			->drawText('PROMOSERVICIOS DE SALUD S.A. DE C.V.', 145, 780);
+			$page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 12);
+			$page->drawText('Q.F.B. MICHAIA ELIAN RAMIREZ SANCHEZ', 180, 765);
+			$page->drawText('CED. PROF. 4060358',240,750);
 
-		echo $pdf->render();
+			$page->drawText('Calle Sur 15 No. 489',60,715);
+			$page->drawText('Orizaba, Ver',60,700);
+			$page->drawText('01 272 72 5 42 69',400,715);
+			$page->drawText('prosalud2012@hotmail.com',400,700);
 
+			$page->setLineWidth(0.5);
+			$page->drawLine(60, 688, 550, 688);
+			$page->setLineWidth(0.5);
+			$page->drawLine(60, 690, 550, 690);
+
+			$page->drawText('RESULTADOS DE LABORATORIO',200,670);
+
+
+			$page->drawText('Nombre:',60,640);
+			$page->drawText($customer['first_name'].' '.$customer['last_name'],110,640);
+			$page->drawText('Fecha: '.date("d M Y"),400,640);
+
+			$page->drawText('Edad:',60,625);
+			$page->drawText(birthday($customer['birthdate']),100,625);
+
+			$page->drawText('Genero:',400,625);
+			$page->drawText($customer['gender'],450,625);
+
+			$page->drawText('Medico:',60,610);
+			$page->drawText($medico['first_name'].' '.$medico['last_name'],110,610);
+
+			$page->drawText('Diagnostico:',60,590);
+
+			$page->setLineWidth(0.5);
+			$page->drawLine(60, 550, 550, 550);
+
+			$page->drawText('Prueba',60,535);
+			$page->drawText('Resultado',250,535);
+			$page->drawText('U.M.',350,535);
+			$page->drawText('Valores de Referencia',420,535);
+
+
+			$page->setLineWidth(0.5);
+			$page->drawLine(60, 530, 550, 530);
+
+
+
+			$page->drawText('ATENTAMENTE',255,120);
+			$page->setLineWidth(0.5);
+			$page->drawLine(180, 65, 425, 65);
+			$page->drawText('Q.F.B. MICHAIA ELIAN RAMIREZ SANCHEZ', 180, 50);
+
+
+			$this->getResponse()
+			->setHeader('Content-Disposition', 'attachment; filename=result.pdf')
+			->setHeader('Content-type', 'application/x-pdf');
+
+			echo $pdf->render();
+		}
 
 	}
 

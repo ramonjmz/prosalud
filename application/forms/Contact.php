@@ -33,12 +33,18 @@ class Application_Form_Contact extends Zend_Form {
 				)
 		);
 		
+			$this->addElement(
+		'text','birthdate',array(
+				'label'=>'Fecha de Nacimiento'
+								)
+		);
+		
 		        // Add the comment element
         
 		 $this->addElement( 'select', 'title', array(
 		'label' => 'Tipo',
 		 'required' => true,
-		'multiOptions' => array(''=>'','Contacto' => 'Contacto', 'Paciente'
+		'multiOptions' => array(''=>'','Administrador' => 'Administrador', 'Paciente'
 		=> 'Paciente','Medico'=> 'Medico')
 		)
 		);

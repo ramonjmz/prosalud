@@ -23,8 +23,7 @@
 		<th>Modificado</th>
  		<th>&nbsp;</th>
 		<th>&nbsp;</th>
-		<th>&nbsp;</th>
-	</tr>
+ 	</tr>
 
 	<?php if( count( $this->paginator )) :?>
 
@@ -40,11 +39,9 @@
 			href="/analysis/update/id/<?php echo $data->id ?>"><i
 			class="icon-pencil icon-white"></i></a></td>
 		<td align="center"><a class=" btn btn-info "
-			href="/analysis/pdf"><i
+			href="/analysis/pdf/id/<?php echo $data->id ?>"><i
 			class="icon-print icon-white"></i></a></td>
-		<td align="center"><a class=" btn btn-info "
-			href="/analysis/pdf"><i
-			class="icon-download-alt icon-white"></i></a></td>
+		 
 	</tr>
 
 

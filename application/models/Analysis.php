@@ -67,7 +67,6 @@ class Application_Model_Analysis extends Zend_Db_Table_Abstract
 	}
 	public function getRow( $id )
 	{
-
 		$id = (int) $id;
 		$row = $this->find( $id )->current();
 		return $row;
