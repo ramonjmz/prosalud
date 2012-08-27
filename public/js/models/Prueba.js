@@ -168,7 +168,7 @@
         }*/
     });
 
-    AnalysisNewView = Ember.View.extend({
+    AnalysisNewView = Ember.View.extend({        
         tagName: 'div',
         CreateNew: function(){
             var pacientes = PacientesController.get( "content" ),

@@ -31,6 +31,13 @@ class AuthController extends Zend_Controller_Action
                 $result = $auth->authenticate($authAdapter);
                 
                 if(  $result->isValid() ){
+                    $storage = $auth->getStorage();
+                    $dataUser = $authAdapter->getResultRowObject(array(
+                        'id', 'username', 'realname', 'contact_id', 'role'
+                        ));
+                    $storage->write($dataUser);
+
+
                     return $this->_redirect('/dashboard');
                 }else{
                     $form->username->addErrorMessage('Datos Incorrectos');
