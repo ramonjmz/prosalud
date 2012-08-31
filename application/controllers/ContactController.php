@@ -125,7 +125,16 @@ class ContactController extends Zend_Controller_Action
 		$model = new Application_Model_Contacts();
 
 		Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
-		$paginator = Zend_Paginator::factory($model->getAll());
+		
+		$filtrador = new PS_Filtrador($model, $this->_getAllParams());
+
+		$wheres = $filtrador->getFiltros();
+
+		if($auth->getIdentity()->role === 'Medico'){
+			//$wheres['reports_to_id = ?'] = $auth->getIdentity()->contact_id;
+		}
+
+		$paginator = Zend_Paginator::factory($model->getBy($wheres));
 
 		if ($this->_hasParam('page')) {
 			$paginator->setCurrentPageNumber($this->_getParam('page'));
@@ -134,6 +143,7 @@ class ContactController extends Zend_Controller_Action
 
 		$this->view->paginator = $paginator;
 
+		$this->view->params = $this->_getAllParams();
 
 	}
 

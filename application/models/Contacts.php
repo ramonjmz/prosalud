@@ -4,6 +4,24 @@ class Application_Model_Contacts extends Zend_Db_Table_Abstract
 	protected $_name = 'contacts';
 	protected $_primary = 'id';
 
+	protected $_aliasDB = 'c';
+
+	protected $_colsCustom = array(
+		'contact_full_name' => array(
+			'name' => 'applicant_full_name',
+			'where' => "concat_ws(' ',first_name,last_name) LIKE (?)",
+			'type' => 'string'
+		)
+	);
+
+	public function getAliasDB(){
+		return $this->_aliasDB;
+	}
+
+	public function getColsCustom(){
+		return $this->_colsCustom;
+	}
+
 	public function getAll()
 	{
 		return $this->fetchAll($this->select()
@@ -82,7 +100,7 @@ class Application_Model_Contacts extends Zend_Db_Table_Abstract
 
 	public function getBy($wheres = array(), $orWheres = array())
 	{
-		$query = $this->select();
+		$query = $this->select();			
 
 		if(count($wheres)){
 			foreach ($wheres as $key => $value) {

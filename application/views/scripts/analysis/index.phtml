@@ -4,9 +4,14 @@
 
 </div>
 <form class="well form-search">
-	<input type="text"	class="input-medium search-query" name="applicant_full_name" placeholder="Nombre Solicitante"> 
-	<?php if($auth->getIdentity()->role !== 'Medico'): ?>
-	<input	type="text" class="input-medium search-query" name="medic_full_name" placeholder="Nombre de medico"> 
+	<?php if($auth->getIdentity()->role === 'Administrador' || $auth->getIdentity()->role === 'Medico'): ?>
+	<input type="text"	class="input-medium search-query" name="applicant_full_name" value="<?php 
+	echo ($this->params && isset($this->params['applicant_full_name']) ? $this->params['applicant_full_name'] : "");
+	?>" placeholder="Nombre Solicitante"> 
+	<?php endif; ?>
+	<?php if($auth->getIdentity()->role === 'Administrador'): ?>
+	<input	type="text" class="input-medium search-query" name="medic_full_name" value="<?php 
+	echo ($this->params && isset($this->params['medic_full_name']) ? $this->params['medic_full_name'] : "") ;?>" placeholder="Nombre de medico"> 
 	<?php endif;?>
 	<select id="select01" name="status__in[]">
 	<option></option>

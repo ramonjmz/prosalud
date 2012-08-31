@@ -1,14 +1,18 @@
+<?php $auth = Zend_Auth::getInstance(); 
+?>
 <div class="page-header">
 <h3>Listado de Contactos</h3>
 </div>
 <form class="well form-search">
-<input type="text" 	class="input-medium search-query" placeholder="Nombre"> 
+<input type="text" 	class="input-medium search-query" name="contact_full_name" value="<?php echo $this->params['contact_full_name'];?>"placeholder="Nombre"> 
+<?php if($auth->getIdentity()->role !== 'Medico'): ?>
 <select id="select01">
 	<option></option>
 	<option>Contacto</option>
 	<option>Medico</option>
 	<option>Paciente</option>
 </select>
+<?php endif; ?>
 <button type="submit" class="btn btn-info"><i class="icon-search icon-white"></i> Buscar</button>
  <a class="btn btn-success" href="/contact/new/"><i class="icon-plus-sign icon-white"></i> Agregar</a>
 
