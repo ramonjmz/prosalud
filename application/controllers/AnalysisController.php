@@ -219,7 +219,7 @@ class AnalysisController extends Zend_Controller_Action
 			foreach($exa as $key) {
 		 
 				$page->setFont($fontT, 10);
-				$page->drawText($key['tname'], 80, $posY);
+				$page->drawText($key['name'], 80, $posY);
 				$res = $results->getBy(
 				array(
 				'analysis_id =?'=>$key['analysis_id'],

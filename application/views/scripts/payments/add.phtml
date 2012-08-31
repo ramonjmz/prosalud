@@ -1,0 +1,74 @@
+
+<div class="span">
+<div class="page-header">
+<h1>Proceso de pago<br>
+<small>Estudios a Pagar</small></h1>
+
+</div>
+
+<table class="well table table-striped">
+	<tbody>
+		<tr>
+			<th>Cant.</th>
+			<th>Nombre de Examen</th>
+			<th>Unidad</th>
+			
+			<th>P. Unit.</th>
+			<!--<th>Descripci&oacute;n</th>
+			 <th>Descuento</th> -->
+			<th>Importe</th>
+
+		</tr>
+<?php $i =1;?>
+		<?php foreach( $this->paginator as $test) :?>
+
+		<tr>
+			<td><?php echo $i++;?></td>
+			<td><?php echo $test->name;?></td>
+			<td>No Aplica</td>
+			<!--<td>GASOMETRIA</td>
+			<td>$1000</td>
+			<td>10%</td> -->
+			<td><?php echo number_format($test->amount,2);?></td>
+			<td><?php echo number_format($test->amount,2);?></td>
+		</tr>
+
+		<?php endforeach;?>
+
+	</tbody>
+</table>
+<table class="table table-bordered table-condensed">
+
+	<tbody>
+		<tr>
+			<td rowspan="3" colspan="7">Importe con letra:</td>
+
+			<td>Sub total</td>
+			<td>$ <?php echo number_format($this->monto,2);  ?></td>
+		</tr>
+		<tr>
+
+			<td>% Descuento</td>
+			<td><?php echo number_format(0,2);  ?> %</td>
+		</tr>
+		<!-- 
+		<tr>
+
+
+			<td>IVA</td>
+			<td>0%</td>
+		</tr>
+		 -->
+		<tr>
+
+
+			<td>Total</td>
+			<td>$ <?php echo number_format($this->monto,2);  ?></td>
+		</tr>
+	</tbody>
+</table>
+<p><a class="btn btn-danger" href="/analysis/update/id/30"><i
+	class="icon-remove icon-white"></i> Eliminar</a> <a
+	class="btn btn-success" href="/payments/detail/"><i
+	class="icon-print  icon-white"></i> Imprimir</a></p>
+</div>
