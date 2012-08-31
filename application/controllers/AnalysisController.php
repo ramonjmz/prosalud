@@ -26,6 +26,10 @@ class AnalysisController extends Zend_Controller_Action
 		if($auth->getIdentity()->role === 'Medico'){
 			$wheres['medic_id = ?'] = $auth->getIdentity()->contact_id;
 		}
+		else if ($auth->getIdentity()->role === 'Paciente'){
+			$wheres['applicant_id = ?'] = $auth->getIdentity()->contact_id;
+		}
+
 
 		Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
 		$paginator = Zend_Paginator::factory($model->getBy($wheres));
@@ -37,6 +41,7 @@ class AnalysisController extends Zend_Controller_Action
 
 		$this->view->paginator = $paginator;
 
+		$this->view->params = $this->_getAllParams();
 	}
 
 	public function testsbyanalysis(){
@@ -83,6 +88,8 @@ class AnalysisController extends Zend_Controller_Action
 	}
 
 	public function updateAction() {
+
+		$auth = Zend_Auth::getInstance();
 
 		if (!$this->_hasParam('id')) {
 			return $this->_redirect('/analysis/index/page/1');
@@ -136,7 +143,15 @@ class AnalysisController extends Zend_Controller_Action
 			*/
 
 		$this->view->estudios = $estudios;
-			
+		
+		if ($auth->getIdentity()->role === 'Paciente'){
+			$form->setAction('');
+			$form->removeElement('applicant_id');
+			$form->getElement('status')->setAttrib('disabled', 'disabled');
+			$form->getElement('medic_id')->setAttrib('disabled', 'disabled');
+			$form->removeElement('Guardar');
+		}
+
 		$this->view->form = $form;
 	}
 

@@ -1,9 +1,11 @@
+<?php $auth = Zend_Auth::getInstance(); ?>
 <div class="container-fluid">
 <div class="row">
 <div class="span6 well"><legend>Analisis</legend> 
-            <div class="input-append customfile">
-              </div>
-             <?php echo $this->form ?>
+	 <div class="input-append customfile">
+    </div>
+    <?php echo $this->form 
+    ?>
 </div>
 <div class="span6 well"><legend>Estudios</legend>
 
@@ -49,10 +51,14 @@
 						<td>{{result.ref_val_value}}</td>
 						<td>{{result.ref_val_unit}}</td>
 						<td>
-						{{#if editing}}
-							{{view Prosalud.TextField name="result" placeholder="Introduzca el valor correspondiente" valueBinding="result.result"}}
-						{{else}}
+						{{#if Prosalud.controllers.results.collectionController.viewing}}
+							{{#if editing}}
+								{{view Prosalud.TextField name="result" placeholder="Introduzca el valor correspondiente" valueBinding="result.result"}}
+							{{else}}
 							<a  {{action "select"}}>{{#if result.result}}{{result.result}}{{else}}Sin valor{{/if}}</a>
+							{{/if}}
+						{{else}}
+							{{result.result}}	
 						{{/if}}
 						</td>
 					{{/view}}
@@ -70,7 +76,7 @@ window.customInitFunctions.push(function(){
 		query = {
 			analysis_id: analysis.get( "id" )
 		};
-
+	Prosalud.controllers.results.collectionController.set( "updating", <?php echo ($auth->getIdentity()->role === 'Paciente' ? 'false' : 'true'); ?>)
 	
 	Prosalud.controllers.tests.dataController.searchByResult(query, function(testCollection){
 		Prosalud.controllers.tests.collectionController.set( "content", testCollection );

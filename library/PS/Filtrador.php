@@ -44,7 +44,6 @@ class PS_Filtrador{
 				$result = $value;
 				break;
 			case 'array':
-				echo "es array";
 				$result = count( array_filter($value));
 			default:
 				# code...

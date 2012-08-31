@@ -35,6 +35,8 @@ Prosalud.controllers.results.dataController = Em.ArrayController.create({
 Prosalud.controllers.results.collectionController = Em.ArrayController.create({
     content: [],
 
+    updating: true,
+
     filterBy: function(key, value) {
         this.set('content', Prosalud.controllers.results.dataController.filterProperty(key, value));
     }
