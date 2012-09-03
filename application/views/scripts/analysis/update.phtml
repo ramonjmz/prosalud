@@ -41,10 +41,10 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>Nombre</th>
-					<th>Referencia</th>					
-					<th>Unidad</th>					
-					<th>Resultado</th>					
+					<th style="width: 25%;">Nombre</th>
+					<th style="width: 25%;">Referencia</th>					
+					<th style="width: 20%;">Unidad</th>					
+					<th style="width: 30%;">Resultado</th>					
 				</tr>
 			</thead>
 			<tbody>
@@ -54,7 +54,7 @@
 						<td>{{result.ref_val_value}}</td>
 						<td>{{result.ref_val_unit}}</td>
 						<td>
-						{{#if Prosalud.controllers.results.collectionController.viewing}}
+						{{#if Prosalud.controllers.results.collectionController.updating}}
 							{{#if editing}}
 								{{view Prosalud.TextField name="result" placeholder="Introduzca el valor correspondiente" valueBinding="result.result"}}
 							{{else}}
