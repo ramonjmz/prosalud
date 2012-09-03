@@ -90,14 +90,14 @@ class Application_Model_Analysis extends Zend_Db_Table_Abstract
 		 where analysis_id = 23 group by t;
 		 */
 
-		 $query = $this->select()
+		  $query = $this->select()
 		 ->from( array( 'r'=>'results' ), array('*'))
 		 ->join(array( 'a' =>'analysis'), 'a.id = r.analysis_id',
 		 	array('aanalysis_id' => 'id') )
 		 ->join(array( 'i' =>'items'), 'i.id = r.item_id',
 		 	array('itest_id' => 'test_id' ) )
 		 ->join(array( 't' =>'tests'), 't.id = i.test_id',
-		 	array('tname' => 'name' ) )
+		 	array('*') )
 		 ->where('analysis_id = ?' , $id )
 			 ->group('itest_id')
 		 
