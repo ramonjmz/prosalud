@@ -1,25 +1,53 @@
-
-<div class="span">
+<div class="span" id="nota_remision">
 <div class="page-header">
-<h1>Proceso de pago<br>
-<small>Estudios a Pagar</small></h1>
+<h3 style="text-align:center">PROMOSERVICIOS DE SALUD S.A. DE C.V.<br>
+<small>
+<address>
 
+        <strong>Botica San Juan
+        Calle Sur 15 No. 489
+        Orizaba, Ver</strong> <br>
+        Tel:  (272)72 5 42 69     
+</address>
+</small></h3>
 </div>
 
-<table class="well table table-striped">
+<table class="table table-condensed">
+	<thead>
+		<tr>
+			<td></td>
+			<td></td>
+			<td>FECHA:</td>
+			<td>2012-07-27</td>
+
+		</tr>
+		<tr>
+			<td>Nombre:</td>
+			<td>Ramon Jimenez Morales</td>
+			<td>FOLIO:</td>
+			<td>227</td>
+
+		</tr>
+
+
+	</thead>
+
+</table>
+
+<table class="table table-striped">
 	<tbody>
 		<tr>
 			<th>Cant.</th>
 			<th>Nombre de Examen</th>
 			<th>Unidad</th>
-			
+
 			<th>P. Unit.</th>
 			<!--<th>Descripci&oacute;n</th>
 			 <th>Descuento</th> -->
 			<th>Importe</th>
 
 		</tr>
-<?php $i =1;?>
+		<?php $i =1;?>
 		<?php foreach( $this->paginator as $test) :?>
 
 		<tr>
@@ -37,11 +65,11 @@
 
 	</tbody>
 </table>
-<table class="table table-bordered table-condensed">
+<table class="table table-condensed">
 
 	<tbody>
 		<tr>
-			<td rowspan="3" colspan="7">Importe con letra:</td>
+			<td rowspan="3" colspan="7">Importe con letra: <?php echo $this->letras;?></td>
 
 			<td>Sub total</td>
 			<td>$ <?php echo number_format($this->monto,2);  ?></td>
@@ -67,8 +95,15 @@
 		</tr>
 	</tbody>
 </table>
-<p><a class="btn btn-danger" href="/analysis/update/id/30"><i
-	class="icon-remove icon-white"></i> Eliminar</a> <a
-	class="btn btn-success" href="/payments/detail/"><i
-	class="icon-print  icon-white"></i> Imprimir</a></p>
+
+<div class="" style="text-align:center">
+<p>
+http://prossalud.com.mx
+</p>
 </div>
+
+</div>
+
+<p><a class="btn btn-success"
+	href="javascript:imprSelec('nota_remision')"><i
+	class="icon-print  icon-white"></i> Imprimir</a></p>

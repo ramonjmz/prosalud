@@ -25,6 +25,8 @@ class PaymentsController extends Zend_Controller_Action
 			
 		}
 
+		$convert = new Application_Model_Letras();
+		
 		$model = new Application_Model_Payments();
 				
 		$datos = new Application_Model_Analysis();
@@ -44,7 +46,10 @@ class PaymentsController extends Zend_Controller_Action
 			
 
 			$this->view->paginator = $exa;
+
+			$this->view->letras =$convert->num2letras($monto) ;
 			$this->view->monto = $monto;
+			
 
 		}
 		 
