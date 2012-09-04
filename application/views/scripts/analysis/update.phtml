@@ -1,17 +1,12 @@
 <?php $auth = Zend_Auth::getInstance(); ?>
 <div class="container-fluid">
 <div class="row">
-<div class="span6 well"><legend>Analisis</legend> 
-	 <div class="input-append customfile">
-    
-    </div>
-    <?php echo $this->form 
-    ?>
-    
-</div>
-<div class="span6 well"><legend>Estudios</legend>
-
-<script type="text/x-handlebars">
+<div class="span6 well"><legend>Analisis</legend>
+<div class="input-append customfile"></div>
+<?php echo $this->form
+?></div>
+<div class="span6 well"><legend>Estudios</legend> <script
+	type="text/x-handlebars">
 	<table class="table table-striped">
 		<thead>
 			{{#view Prosalud.views.tests.ListFilterResultView}}
@@ -30,14 +25,15 @@
 			{{/each}}
 		</tbody>
 	</table>
-</script>
-     		<a class="btn btn-success" style="aling-left;" href="/payments/add/id/<?php echo $this->analysis["id"]; ?>"><i class="icon-ok icon-white"></i> Registrar Pago</a>      
-
-</div>
+</script> <a class="btn btn-success" style=""
+	href="/payments/add/id/<?php echo $this->analysis["id"]; ?>"><i
+	class="icon-ok icon-white"></i> Registrar Pago</a> <a
+	class=" btn btn-info " href="/analysis/pdf/id/<?php echo $this->analysis["id"]; ?>"><i
+	class="icon-print icon-white"></i></a></div>
 </div>
 <div class="row">
-<div class="span12 well"><legend>Pruebas</legend>
-	<script type="text/x-handlebars">
+<div class="span12 well"><legend>Pruebas</legend> <script
+	type="text/x-handlebars">
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -69,8 +65,7 @@
 				{{/each}}
 			</tbody>
 		</table>
-	</script>
-<script type="text/javascript">
+	</script> <script type="text/javascript">
 window.customInitFunctions = window.customInitFunctions || [];
 window.customInitFunctions.push(function(){
 	var analysis = Prosalud.models.Analysis.create({
@@ -90,7 +85,6 @@ window.customInitFunctions.push(function(){
 	});
 
 });
-</script>
-</div>
+</script></div>
 </div>
 </div>

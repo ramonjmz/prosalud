@@ -103,8 +103,21 @@ class AnalysisController extends Zend_Controller_Action
 
 			if ($form->isValid($this->_getAllParams())) {
 				$datos->save($form->getValues(), $this->_getParam('id'));
+				$upload = $form->pdf->getTransferAdapter();
+
+				// Lo ideal es que el path lo trajeramos de un archivo de configuracion.
+				$upload->addFilter('Rename', array(
+                        'target' => APPLICATION_PATH . '/../public/files/analysis'.$this->_getParam('id').'.pdf',
+                        'overwrite' => true
+				));
+				var_dump( $upload->receive() );
+
 				return $this->_redirect('/analysis/index/page/1');
 			}
+
+			// Traemos el adapter de Zend_File_Transfer
+
+
 		} else {
 
 			$row = $datos->getRowc($this->_getParam('id'));
@@ -143,7 +156,7 @@ class AnalysisController extends Zend_Controller_Action
 			*/
 
 		$this->view->estudios = $estudios;
-		
+
 		if ($auth->getIdentity()->role === 'Paciente'){
 			$form->setAction('');
 			$form->removeElement('applicant_id');
@@ -215,9 +228,9 @@ class AnalysisController extends Zend_Controller_Action
 			$page->drawText($medico['first_name'].' '.$medico['last_name'],135,549);
 
 			$posY = 465;
-			
+
 			foreach($exa as $key) {
-		 
+					
 				$page->setFont($fontT, 10);
 				$page->drawText($key['name'], 80, $posY);
 				$res = $results->getBy(
@@ -229,7 +242,7 @@ class AnalysisController extends Zend_Controller_Action
 				$posY -= 14.2;
 					
 				foreach ($res as $keyd){
-						
+
 					$page->drawText($keyd['item_name'], 90, $posY);
 					$page->drawText($keyd['result'],280,$posY);
 					$page->drawText($keyd['ref_val_unit'],350,$posY);
@@ -239,14 +252,14 @@ class AnalysisController extends Zend_Controller_Action
 
 			}
 
-/*			if($posY){
+			/*			if($posY){
 				$page2 = new Zend_Pdf_Page($page);
 				$page2->setFont($fontT, 12);
 				$posY = 465;
 				$page2->drawText('Another text...', 90, $posY);
 				$pdf->pages[] = $page2;
-			}
-*/
+				}
+				*/
 			$this->getResponse()
 			->setHeader('Content-Disposition', 'attachment; filename=result.pdf')
 			->setHeader('Content-type', 'application/x-pdf');
@@ -271,5 +284,23 @@ class AnalysisController extends Zend_Controller_Action
 		->setHeader('Content-Type', 'application/json')
 		->setBody(json_encode($responseJson));
 	}
+
+	public function downloadAction()
+	{
+	 
+		if (!$this->_hasParam('id')) {
+			return $this->_redirect('/analysis/index/page/1');
+		}
+
+		$ids= $this->_hasParam('id');
+		header('Content-type', 'application/x-pdf');
+		header('Content-Disposition: attachment; filename="analysis'.$ids.'.pdf"');
+		readfile('data/upload/analysis.pdf');
+	  
+	   
+		$this->view->layout()->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
+	}
+
 
 }
