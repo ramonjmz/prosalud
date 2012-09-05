@@ -18,6 +18,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 	public function _initPlugins()
 	{
+		//include_once('PS/Plugin/Layout.php');
 		$front = Zend_Controller_Front::getInstance();
 		$front->registerPlugin(new PS_Plugin_Layout());
 	}

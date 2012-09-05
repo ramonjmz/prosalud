@@ -8,6 +8,8 @@ class PS_Filtrador{
 
 	public function __construct($model, $filtros)
 	{
+		//include_once('PS/CampoFiltro.php');
+		
 		$this->_model = $model;
 		$this->_filtros = $filtros;
 	}

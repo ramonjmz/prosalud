@@ -10,6 +10,7 @@ class AnalysisController extends Zend_Controller_Action
 
 	public function indexAction()
 	{
+		 //include_once('PS/Filtrador.php');
 
 		//display_errors("1");
 		$auth = Zend_Auth::getInstance();
