@@ -21,8 +21,20 @@ class Application_Form_Test extends Zend_Form {
         );
         
          $this->addElement(
+                'text', 'sample', array(
+            'label' => 'Tipo de Muestra'
+                )
+        );
+        
+         $this->addElement(
                 'text', 'process_time', array(
             'label' => 'Tempo de Proceso'
+                )
+        );
+
+            $this->addElement(
+                'text', 'method', array(
+            'label' => 'Metodo de Proceso'
                 )
         );
         

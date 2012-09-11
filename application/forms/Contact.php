@@ -6,9 +6,7 @@ class Application_Form_Contact extends Zend_Form {
                 
 		$this->setAttrib('id', 'contact-form');
 
-/*		$reports_to_id = $this->createElement('hidden', 'reports_to_id');
-		$this->addElement($reports_to_id );
-*/
+
 		$this->addElement(
 		'text','first_name',array(
 		'label'=>'Nombre',
@@ -24,16 +22,13 @@ class Application_Form_Contact extends Zend_Form {
 		);
 		$this->addElement(
 		'text','email',array(
-				'label'=>'email',
-            'required' => true
-		)
+				'label'=>'email'
+						)
 		);
 
 		$this->addElement(
 		'text','phone_home',array(
-				'label'=>'Telefono de casa',
-            'required' => true
-		)
+				'label'=>'Telefono de casa'		)
 		);
 
 		$this->addElement(
@@ -56,11 +51,26 @@ class Application_Form_Contact extends Zend_Form {
 		$this->addElement( 'select', 'gender', array(
 		'label' => 'Seleccion el Genero',
 		 'required' => true,
-		'multiOptions' => array('A'=>'','M'=>'Masculino','F' => 'Femenino')
+		'multiOptions' => array('M'=>'Masculino','F' => 'Femenino')
 		)
 		);
- 
-
+         
+		  
+        $this->addElement( 'select', 'reports_to_id',array(
+            'label' => 'Asignado a'
+            
+        )
+                
+        );
+                $asignado = new Application_Model_Contacts();
+        
+		
+        
+        $this->reports_to_id->addMultiOptions( 
+                $asignado->getAsKeyValue()
+        );
+        
+    
 		$this->addElement(
 		'submit','Guardar',array()
 		);

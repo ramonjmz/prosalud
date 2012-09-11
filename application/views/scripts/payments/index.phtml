@@ -1,15 +1,70 @@
-
+<?php $auth = Zend_Auth::getInstance(); ?>
 <div class="page-header">
 <h3>Listado de Analisis</h3>
 
 </div>
-<form class="well form-search"><input type="text"
-	class="input-medium search-query" placeholder="No Folio"> <input
-	class="input-medium" value="02-16-2012" id="dp1"  readonly="readonly" type="text"> <span
-	class="add-on"><i class="icon-th"></i></span> <input
-	class="input-medium" size="16" value="12-02-2012" readonly="readonly"
-	type="text"> <span class="add-on"><i class="icon-th"></i></span>
+<form class="well form-search"><?php if($auth->getIdentity()->role === 'Administrador' || $auth->getIdentity()->role === 'Medico'): ?>
+<input type="text" class="input-medium search-query"
+	name="applicant_full_name"
+	value="<?php 
+	echo ($this->params && isset($this->params['applicant_full_name']) ? $this->params['applicant_full_name'] : "");
+	?>"
+	placeholder="Nombre Solicitante"> <?php endif; ?> <?php if($auth->getIdentity()->role === 'Administrador'): ?>
+<input type="text" class="input-medium search-query"
+	name="medic_full_name"
+	value="<?php 
+	echo ($this->params && isset($this->params['medic_full_name']) ? $this->params['medic_full_name'] : "") ;?>"
+	placeholder="Nombre de medico"> <?php endif;?> <select id="select01"
+	name="status__in[]">
+	<option></option>
+	<option value="0">Pendiente</option>
+	<option value="1">Liberado</option>
+</select>
 <button type="submit" class="btn btn-info"><i
 	class="icon-search icon-white"></i> Buscar</button>
-<!-- <a class="btn btn-success" href="/payments/add/"><i
-	class="icon-plus-sign icon-white"></i> Agregar</a> --></form>
+<a class="btn btn-success" href="/analysis/add/"><i
+	class="icon-plus-sign icon-white"></i> Agregar</a></form>
+<table class="well table table-striped">
+	<tr>
+		<th>No</th>
+		<th>Creado</th>
+		<th>Solicitante</th>
+		<th>Medico</th>
+		
+ 		<th>Monto</th>
+		<th>&nbsp;</th>
+
+	</tr>
+
+	<?php if( count( $this->paginator )) :?>
+
+	<?php foreach( $this->paginator as $data) :?>
+
+	<tr>
+		<td><?php echo $data->id;?></td>
+		<td><?php echo date('Y-m-d',strtotime ($data['date_entered']));?></td>
+		<td><?php echo $data->pfname.' '.$data->plname;?></td>
+		<td><?php echo $data->mfname.' '.$data->mlname;?></td>
+		
+ 		<td>$ <?php echo $data->total;?></td>
+		
+
+		<td align="center"><a class="btn btn-success"
+			href="/payments/add/id/<?php echo $data->id ?>"><i
+			class="icon-th-list icon-white"></i></a></td>
+
+
+	</tr>
+
+
+	<?php endforeach;?>
+	<?php else : ?>
+	<tr>
+		<td colspan="8">No hay datos</td>
+	</tr>
+
+	<?php endif;?>
+</table>
+	<?php if( count( $this->paginator )):?>
+	<?php echo $this->paginator;?>
+	<?php endif;?>

@@ -10,7 +10,7 @@
 									required : true
 								},
 								email : {
-									required : true,
+									required : false,
 									email : true
 								},
 								last_name : {
@@ -18,8 +18,12 @@
 									required : true
 								},
 								phone_home : {
-									minlength : 2,
-									required : true
+									minlength : 10,
+									required : false
+								},
+								birthdate : {
+									required : false,
+									dateISO : true
 								},
 								description : {
 									minlength : 2,
@@ -91,7 +95,7 @@
 									required : true
 								},
 								process_time : {
-									minlength : 2,
+									minlength : 1,
 									required : true
 								}
 							},
@@ -148,7 +152,7 @@
 									required : true
 								},
 								reference_id : {
-									minlength : 2,
+									minlength : 1,
 									required : true
 								} 
 							},

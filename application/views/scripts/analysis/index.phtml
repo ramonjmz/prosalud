@@ -16,7 +16,7 @@
 	<select id="select01" name="status__in[]">
 	<option></option>
 	<option value="0">Pendiente</option>
-	<option value="1">Procesado</option>
+	<option value="1">Liberado</option>
 </select>
 <button type="submit" class="btn btn-info"><i
 	class="icon-search icon-white"></i> Buscar</button>
@@ -25,10 +25,10 @@
 <table class="well table table-striped">
 	<tr>
 		<th>No</th>
-		<th>Creado</th>
-		<th>Solicitante</th>
+ 		<th>Solicitante</th>
 		<th>Medico</th>
-		<th>Modificado</th>
+		<th>Creado</th>
+		<th>Status</th>
  		<th>&nbsp;</th>
 		<th>&nbsp;</th>
  	</tr>
@@ -39,16 +39,26 @@
 
 	<tr>
 		<td><?php echo $data->id;?></td>
-		<td><?php echo $data->date_entered;?></td>
-		<td><?php echo $data->pfname.' '.$data->plname;?></td>
+ 		<td><?php echo $data->pfname.' '.$data->plname;?></td>
 		<td><?php echo $data->mfname.' '.$data->mlname;?></td>
-		<td><?php echo $data->date_modified;?></td>
+		<td><?php echo date('Y-m-d',strtotime ($data['date_entered']));?></td>
+		<td><?php echo $data->status;?></td>
 		<td align="center"><a class="btn btn-success"
 			href="/analysis/update/id/<?php echo $data->id ?>"><i
 			class="icon-pencil icon-white"></i></a></td>
-		<td align="center"><a class=" btn btn-info "
-			href="/analysis/download/id/<?php echo $data->id ?>"><i
-			class="icon-print icon-white"></i></a></td>
+		<td align="center">
+		<?php if($data->status=='Liberado'):?>
+		<a class=" btn btn-info "
+			href="/analysis/pdf/id/<?php echo $data->id ?>"><i
+			class="icon-print icon-white"></i></a>
+		<?php else:?>
+		<a class=" btn  "
+			href=""><i
+			class="icon-print icon-white"></i></a>
+		
+		<?php endif;?>
+			
+		</td>
 		 
 	</tr>
 

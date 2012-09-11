@@ -6,12 +6,47 @@ class PaymentsController extends Zend_Controller_Action
 
 	public function init(){
 
+				Zend_Loader_Autoloader::getInstance()->suppressNotFoundWarnings(false);
+		//$options = array( 'layout' => 'interno');
+		//Zend_Layout::startMvc($options);
 
 	}
 
 	public function indexAction()
 	{
-		/* Initialize action controller here */
+	//include_once('PS/Filtrador.php');
+
+		//display_errors("1");
+		$auth = Zend_Auth::getInstance();
+		if (! $auth->hasIdentity()) {
+			return $this->_redirect('/auth/login');
+		}
+
+		$model = new Application_Model_Analysis();
+
+		//echo print_r($this->_getAllParams());
+		$filtrador = new PS_Filtrador($model, $this->_getAllParams());
+
+		$wheres = $filtrador->getFiltros();
+		if($auth->getIdentity()->role === 'Medico'){
+			$wheres['medic_id = ?'] = $auth->getIdentity()->contact_id;
+		}
+		else if ($auth->getIdentity()->role === 'Paciente'){
+			$wheres['applicant_id = ?'] = $auth->getIdentity()->contact_id;
+		}
+
+
+		Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
+		$paginator = Zend_Paginator::factory($model->getBy($wheres));
+
+		if ($this->_hasParam('page')) {
+			$paginator->setCurrentPageNumber($this->_getParam('page'));
+			$paginator->setItemCountPerPage(5);
+		}
+
+		$this->view->paginator = $paginator;
+
+		$this->view->params = $this->_getAllParams();
 	}
 
 	public function detailAction(){

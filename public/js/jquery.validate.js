@@ -258,8 +258,8 @@ $.extend($.validator, {
 		remote: "<br><span class='msjForm'>Por favor corrija este campo.</span>",
 		email: "<br><span class='msjForm'>Ingrese una dirección de correo valida.</span>",
 		url: "<br><span class='msjForm'>Ingrese una URL valida.</span>",
-		date: "Please enter a valid date.",
-		dateISO: "Please enter a valid date (ISO).",
+		date: "Ingrese una fecha valida. (AAAA-MM-DD)",
+		dateISO: "Ingrese una fecha valida. (AAAA-MM-DD)",
 		number: "<br><span class='msjForm'>Ingrese un número valido.</span>",
 		digits: "<br><span class='msjForm'>Ingrese solo digitos.</span>",
 		creditcard: "Please enter a valid credit card number.",
@@ -1055,7 +1055,7 @@ $.extend($.validator, {
 	
 		// http://docs.jquery.com/Plugins/Validation/Methods/dateISO
 		dateISO: function(value, element) {
-			return this.optional(element) || /^\d{4}[\/-]\d{1,2}[\/-]\d{1,2}$/.test(value);
+			return this.optional(element) || /^\d{4}[\-]\d{1,2}[\-]\d{1,2}$/.test(value);
 		},
 	
 		

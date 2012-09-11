@@ -44,20 +44,29 @@ class Application_Form_Analysis extends Zend_Form {
             $this->addElement( 'select', 'status', array(
 		'label' => 'Status',
 		 'required' => true,
-		'multiOptions' => array('Pendiente'=>'Pendiente','Firmado'=> 'Firmado','Completado'=> 'Completado','Entregado'=> 'Entregado')
+		'multiOptions' => array('Pendiente'=>'Pendiente','Liberado'=> 'Liberado')
             )
             );
 
-            $this->addElement('file', 'pdf', array(
+            
+            		$this->addElement('textarea', 'note', array(
+            'label'      => 'Nota:',
+         		'rows' => '5', 
+             'validators' => array(
+                array('validator' => 'StringLength', 'options' => array(0, 100))
+                )
+        ));
+            $this->addElement('file', 'archivo', array(
             'class' => 'sf'
             ));
-            $this->pdf->addValidator( 'Extension', false, 'pdf' );
-            $this->pdf->addValidator( 'Size', false, '10024000' );
-            $this->pdf
+            $this->archivo->addValidator( 'Extension', false, 'pdf' );
+            $this->archivo->addValidator( 'Size', false, '10024000' );
+            $this->archivo
             ->setDestination( APPLICATION_PATH . '/../public/files/' )
             ->setValueDisabled( true );
             
 
+        
             $this->addElement(
 		'submit','Guardar',array()
             );

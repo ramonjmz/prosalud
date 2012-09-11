@@ -10,7 +10,7 @@ class AnalysisController extends Zend_Controller_Action
 
 	public function indexAction()
 	{
-		 //include_once('PS/Filtrador.php');
+		//include_once('PS/Filtrador.php');
 
 		//display_errors("1");
 		$auth = Zend_Auth::getInstance();
@@ -104,19 +104,16 @@ class AnalysisController extends Zend_Controller_Action
 
 			if ($form->isValid($this->_getAllParams())) {
 				$datos->save($form->getValues(), $this->_getParam('id'));
-				$upload = $form->pdf->getTransferAdapter();
 
-				// Lo ideal es que el path lo trajeramos de un archivo de configuracion.
-				$upload->addFilter('Rename', array(
-                        'target' => APPLICATION_PATH . '/../public/files/analysis'.$this->_getParam('id').'.pdf',
-                        'overwrite' => true
-				));
+				$upload = $form->archivo->getTransferAdapter();
+
+				$upload->addFilter('Rename', array('target' => APPLICATION_PATH . '/../public/files/'.$this->_getParam('id').'.pdf', 'overwrite' => true));
+
 				var_dump( $upload->receive() );
 
 				return $this->_redirect('/analysis/index/page/1');
 			}
 
-			// Traemos el adapter de Zend_File_Transfer
 
 
 		} else {
@@ -223,11 +220,13 @@ class AnalysisController extends Zend_Controller_Action
 			$page->drawLine(80, 668, 530, 668);
 
 			$page->drawText($customer['first_name'].' '.$customer['last_name'],135,577);
-			$page->drawText(date("d M Y"),455,577);
+			$page->drawText(date('Y-m-d',strtotime ($data['date_entered'])),455,577);
 			$page->drawText(birthday($customer['birthdate']),135,562);
 			$page->drawText($customer['gender'],455,562);
 			$page->drawText($medico['first_name'].' '.$medico['last_name'],135,549);
 
+			$page->drawText($data['note'],155,522);
+			
 			$posY = 465;
 
 			foreach($exa as $key) {
@@ -288,17 +287,17 @@ class AnalysisController extends Zend_Controller_Action
 
 	public function downloadAction()
 	{
-	 
+
 		if (!$this->_hasParam('id')) {
 			return $this->_redirect('/analysis/index/page/1');
 		}
 
 		$ids= $this->_hasParam('id');
 		header('Content-type', 'application/x-pdf');
-		header('Content-Disposition: attachment; filename="analysis'.$ids.'.pdf"');
-		readfile('data/upload/analysis.pdf');
-	  
-	   
+		header('Content-Disposition: attachment; filename="/../public/files/analysis'.$ids.'.pdf"');
+		readfile('/../public/files/analysis'.$ids.'.pdf"');
+			
+
 		$this->view->layout()->disableLayout();
 		$this->_helper->viewRenderer->setNoRender(true);
 	}
