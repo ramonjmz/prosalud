@@ -4,6 +4,26 @@ class Application_Model_Tests extends Zend_Db_Table_Abstract
 	protected $_name = 'tests';
 	protected $_primary = 'id';
 
+ 
+
+	protected $_aliasDB = 'tests';
+
+
+	protected $_colsCustom = array(	'like_name' => array(
+			'name' => 'name',
+			'where' => "name LIKE (?)",
+			'type' => 'string'
+		));
+
+	public function getAliasDB(){
+		return $this->_aliasDB;
+	}
+
+	public function getColsCustom(){
+		return $this->_colsCustom;
+	}
+	
+	
 	public function getAsKeyValue()
 	{
 

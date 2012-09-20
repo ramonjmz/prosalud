@@ -197,5 +197,35 @@ class TestsController extends Zend_Controller_Action {
 		//error_log(print_r( $json,1));
 
 	}
+	
+	
+	public function searchAction() {
+
+		$auth = Zend_Auth::getInstance();
+		if (! $auth->hasIdentity()) {
+			return $this->_redirect('/Auth/login');
+		}
+		
+		$model = new Application_Model_Tests();
+		Zend_View_Helper_PaginationControl::setDefaultViewPartial('paginator/items.phtml');
+		
+		$filtrador = new PS_Filtrador($model, $this->_getAllParams());
+		
+		$wheres = $filtrador->getFiltros();
+ 	
+		$paginator = Zend_Paginator::factory( $model->getBy($wheres));
+
+		if ($this->_hasParam('page')) {
+			$paginator->setCurrentPageNumber($this->_getParam('page'));
+			$paginator->setItemCountPerPage(5);
+
+		}
+
+		$especialidad = new Application_Model_Specialties();
+		$especialidades = $especialidad->getAll();
+
+		$this->view->especialidades = $especialidades;
+		$this->view->paginator = $paginator;
+	}
 
 }

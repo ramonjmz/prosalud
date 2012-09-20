@@ -200,7 +200,7 @@ class AnalysisController extends Zend_Controller_Action
 
 
 			//$pdf = new Zend_Pdf();
-			$pdf = Zend_Pdf::load('img/template.pdf');
+			$pdf = Zend_Pdf::load('img/template_02.pdf');
 			$page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
 			//$pdf->pages[] = $page;
 
@@ -212,60 +212,72 @@ class AnalysisController extends Zend_Controller_Action
 			 $page->setFillColor($color);
 			 */
 			$fontT = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_TIMES);
-			$page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 12);
+			$page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 10);
 
-			$page->setLineWidth(0.5);
-			$page->drawLine(80, 670, 530, 670);
-			$page->setLineWidth(0.5);
-			$page->drawLine(80, 668, 530, 668);
+			$page->drawText($customer['first_name'].' '.$customer['last_name'],125,712);
+			$page->drawText(date('Y-m-d',strtotime ($data['date_entered'])),455,712);
+			$page->drawText(birthday($customer['birthdate']),125,700);
+			$page->drawText($customer['gender'],455,700);
+			$page->drawText($medico['first_name'].' '.$medico['last_name'],125,685);
 
-			$page->drawText($customer['first_name'].' '.$customer['last_name'],135,577);
-			$page->drawText(date('Y-m-d',strtotime ($data['date_entered'])),455,577);
-			$page->drawText(birthday($customer['birthdate']),135,562);
-			$page->drawText($customer['gender'],455,562);
-			$page->drawText($medico['first_name'].' '.$medico['last_name'],135,549);
-
-			$page->drawText($data['note'],155,522);
 			
-			$posY = 465;
+			$posY = 670;
 
 			foreach($exa as $key) {
+
+				$posY -= 50;
+
+				$page->setLineWidth(0.5);
+				$page->drawLine(50, $posY+15, 530, $posY+15);
+				$page->setLineWidth(0.5);
+				$page->drawLine(50, $posY-10, 530, $posY-10);
 					
-				$page->setFont($fontT, 10);
-				$page->drawText($key['name'], 80, $posY);
+				$page->drawText('Examen', 50, $posY);
+				$page->drawText('Resultado', 280, $posY);
+				$page->drawText('U.M.', 360, $posY);
+				$page->drawText('Valores de Referencia', 400, $posY);
+
+				$page->drawText($key['name'], 50, $posY - 25);
 				$res = $results->getBy(
 				array(
 				'analysis_id =?'=>$key['analysis_id'],
 				'test_id =?'=>$key['itest_id']
 				))->toArray();
-				//(analysis_id =30 and test_id = 1)
-				$posY -= 14.2;
+
+				$posY -= 38.4;
 					
 				foreach ($res as $keyd){
 
-					$page->drawText($keyd['item_name'], 90, $posY);
+					$page->drawText($keyd['item_name'], 60, $posY);
 					$page->drawText($keyd['result'],280,$posY);
 					$page->drawText($keyd['ref_val_unit'],350,$posY);
 					$page->drawText($keyd['ref_val_value'],420,$posY);
 					$posY -= 14.2;
 				}
-
+				$posY -= 20.2;
+				$page->drawText('MUESTRA:',280,$posY);
+				$page->drawText('METODO DE PROCESO:',280,$posY-14);
 			}
 
-			/*			if($posY){
+
+			if($posY < 400){
 				$page2 = new Zend_Pdf_Page($page);
-				$page2->setFont($fontT, 12);
-				$posY = 465;
-				$page2->drawText('Another text...', 90, $posY);
+ 
+ 	
 				$pdf->pages[] = $page2;
-				}
-				*/
+			}
+
+			$page->drawText('OBSERVACIONES:',50,170);
+			$page->drawText($data['note'],50,155);
+			
+				
 			$this->getResponse()
 			->setHeader('Content-Disposition', 'attachment; filename=result.pdf')
 			->setHeader('Content-type', 'application/x-pdf');
 
 			echo $pdf->render();
 		}
+
 
 	}
 
