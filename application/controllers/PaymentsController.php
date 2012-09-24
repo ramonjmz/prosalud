@@ -84,10 +84,11 @@ class PaymentsController extends Zend_Controller_Action
 					
 				$monto = $monto +$key['amount'];
 			}
-
-			$model->save();
-
-
+ 		
+ 
+					$datos->actualiza_total($this->_getParam('id'),$monto);
+			
+		
 			$this->view->paginator = $exa;
 
 			$this->view->letras =$convert->num2letras($monto) ;

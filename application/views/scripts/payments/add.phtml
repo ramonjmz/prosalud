@@ -72,21 +72,13 @@
 			<td rowspan="3" colspan="7">Importe con letra: <?php echo $this->letras;?></td>
 
 			<td>Sub total</td>
-			<td>$ <?php echo number_format($this->monto,2);  ?></td>
+			<td>$ <?php echo number_format($this->subtotal,2);  ?></td>
 		</tr>
 		<tr>
 
 			<td>% Descuento</td>
-			<td><?php echo number_format(0,2);  ?> %</td>
+			<td><?php echo number_format($this->discount,2);  ?> %</td>
 		</tr>
-		<!-- 
-		<tr>
-
-
-			<td>IVA</td>
-			<td>0%</td>
-		</tr>
-		 -->
 		<tr>
 
 

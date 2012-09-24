@@ -65,7 +65,18 @@ class Application_Form_Analysis extends Zend_Form {
             ->setDestination( APPLICATION_PATH . '/../public/files/' )
             ->setValueDisabled( true );
             
-
+            $this->addElement(
+		'text','discount',array(
+				'label'=>'Descuento',
+			 'required' => false
+		)
+		);
+      
+          $this->addElement( 'checkbox', 'name', array(
+		'label' => 'Pdf sin encabezado',
+		 'required' => false
+            )
+            );
         
             $this->addElement(
 		'submit','Guardar',array()

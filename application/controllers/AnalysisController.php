@@ -200,7 +200,11 @@ class AnalysisController extends Zend_Controller_Action
 
 
 			//$pdf = new Zend_Pdf();
-			$pdf = Zend_Pdf::load('img/template_02.pdf');
+			if($data['name']==1)
+			$pdf = Zend_Pdf::load('img/2.pdf');
+			else
+			$pdf = Zend_Pdf::load('img/1.pdf');
+				
 			$page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
 			//$pdf->pages[] = $page;
 
@@ -220,7 +224,7 @@ class AnalysisController extends Zend_Controller_Action
 			$page->drawText($customer['gender'],455,700);
 			$page->drawText($medico['first_name'].' '.$medico['last_name'],125,685);
 
-			
+				
 			$posY = 670;
 
 			foreach($exa as $key) {
@@ -262,15 +266,15 @@ class AnalysisController extends Zend_Controller_Action
 
 			if($posY < 400){
 				$page2 = new Zend_Pdf_Page($page);
- 
- 	
+
+
 				$pdf->pages[] = $page2;
 			}
 
 			$page->drawText('OBSERVACIONES:',50,170);
 			$page->drawText($data['note'],50,155);
-			
 				
+
 			$this->getResponse()
 			->setHeader('Content-Disposition', 'attachment; filename=result.pdf')
 			->setHeader('Content-type', 'application/x-pdf');

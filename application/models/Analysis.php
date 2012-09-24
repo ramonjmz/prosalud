@@ -121,21 +121,15 @@ class Application_Model_Analysis extends Zend_Db_Table_Abstract
 				return $row->save();
 			}
 
-			public function actualiza_total(array $data){
+			public function actualiza_total($id,$subtotal){
 					
-				if( is_null( $data->id )){
-						
-					return false;
-						
-				}else{
+
+				$row = $this->getRow( $id );
+				$descuento = $row->discount;
+ 				$total =$row->subtotal * ($descuento/100); 
+				$row->total     = $total;
+				return $row->save();
 					
-					$row = $this->getRow( $data->id );
-					$row->subtotal = $data->subtotal;
-					$row->discount = $data->discount;
-					$row->total     = $data->total;
-					//save or update row
-					return $row->save();
-				}
 			}
 
 }

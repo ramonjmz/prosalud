@@ -1,3 +1,0 @@
-hola mundo
-
-otra cosa
